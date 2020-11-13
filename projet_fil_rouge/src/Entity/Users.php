@@ -6,11 +6,13 @@ use App\Repository\UsersRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UsersRepository::class)
  */
-class Users
+class Users implements UserInterface
 {
     /**
      * @ORM\Id
@@ -93,6 +95,24 @@ class Users
      * @ORM\OneToMany(targetEntity=Commentaires::class, mappedBy="user")
      */
     private $commentaires;
+
+
+    /**
+     * @Assert\EqualTo(propertyPath="password", message="Les mots de passe ne sont pas identiques")
+     */
+    private $passwordVerification;
+
+
+    public function getPasswordVerification(): ?string
+    {
+        return $this->passwordVerification;
+    }
+
+    public function setPasswordVerification($passwordVerification): self
+    {
+        $this->passwordVerification = $passwordVerification;
+        return $this;
+    }
 
     public function __construct()
     {
@@ -205,14 +225,21 @@ class Users
         return $this;
     }
 
-    public function getRoles(): ?string
+    public function getRoles()
     {
-        return $this->roles;
+        // TODO: Implement getRoles() method.
+        return [$this->roles];
+
     }
+
 
     public function setRoles(string $roles): self
     {
-        $this->roles = $roles;
+        if ($roles === null) {
+            $this->roles = "ROLE_USER";
+        } else {
+            $this->roles = $roles;
+        }
 
         return $this;
     }
@@ -395,5 +422,20 @@ class Users
         }
 
         return $this;
+    }
+
+    public function getSalt()
+    {
+        // TODO: Implement getSalt() method.
+    }
+
+    public function getUsername()
+    {
+        return $this->mail;
+    }
+
+    public function eraseCredentials()
+    {
+        // TODO: Implement eraseCredentials() method.
     }
 }
