@@ -23,7 +23,6 @@ class RegisterType extends AbstractType
             ->add('passwordVerification', PasswordType::class)
             ->add('description')
             ->add('job')
-            ->add('roles')
         ;
     }
 
