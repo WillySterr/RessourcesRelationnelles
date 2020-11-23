@@ -5,4 +5,57 @@
 {% block body %}
 
 
+    {{ form_start(form) }}
+
+
+    {{ form_row(form.mail, {
+        "attr": {"placeholder" : "Saisissez votre email",
+            "class": "form-control"
+        }
+    }) }}
+    {{ form_row(form.password, {
+        "attr": {"placeholder" : "Saisissez votre mot de passe",
+            "class": "form-control"
+        }
+    }) }}
+    {{ form_row(form.passwordVerification, {
+        "attr": {"placeholder" : "Confirmez votre mot de passe",
+            "class": "form-control"
+        }
+    }) }}
+    {{ form_row(form.lastName, {
+        "attr": {"placeholder" : "Saisissez votre nom",
+            "class": "form-control"
+        }
+    }) }}
+     {{ form_row(form.firstName, {
+        "attr": {"placeholder" : "Saisissez votre prénom",
+            "class": "form-control"
+        }
+    }) }}
+    {{ form_row(form.age, {
+        "attr": {"placeholder" : "Saisissez votre âge",
+            "class": "form-control"
+        }
+    }) }}
+    {{ form_row(form.phone, {
+        "attr": {"placeholder" : "Saisissez votre numéro de téléphone",
+            "class": "form-control"
+        }
+    }) }}
+    {{ form_row(form.description, {
+        "attr": {"placeholder" : "Saisissez votre description",
+            "class": "form-control"
+        }
+    }) }}
+    {{ form_row(form.job, {
+        "attr": {"placeholder" : "Saisissez votre profession",
+            "class": "form-control"
+        }
+    }) }}
+
+
+    <input type="submit" class="btn btn-primary" value="Envoyer"/>
+
+
 {% endblock %}
