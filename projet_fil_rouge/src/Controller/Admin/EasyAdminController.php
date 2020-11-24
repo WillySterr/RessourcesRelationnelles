@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Controller\Adminn;
+namespace App\Controller\Admin;
 
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use EasyCorp\Bundle\EasyAdminBundle\Router\CrudUrlGenerator;
 
 class EasyAdminController extends AbstractDashboardController
 {
@@ -15,7 +16,9 @@ class EasyAdminController extends AbstractDashboardController
      */
     public function index(): Response
     {
-        return parent::index();
+         $routeBuilder = $this->get(CrudUrlGenerator::class)->build();
+
+        return $this->redirect($routeBuilder->setController(UsersCrudController::class)->generateUrl());
     }
 
     public function configureDashboard(): Dashboard

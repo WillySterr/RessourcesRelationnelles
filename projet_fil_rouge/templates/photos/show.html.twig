@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Photos{% endblock %}
+
+{% block body %}
+    <h1>Photos</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ photo.id }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ photo.date ? photo.date|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Heure</th>
+                <td>{{ photo.heure ? photo.heure|date('H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Published</th>
+                <td>{{ photo.published ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Slug</th>
+                <td>{{ photo.slug }}</td>
+            </tr>
+            <tr>
+                <th>Titre</th>
+                <td>{{ photo.titre }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ photo.description }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('photos_index') }}">back to list</a>
+
+    <a href="{{ path('photos_edit', {'id': photo.id}) }}">edit</a>
+
+    {{ include('photos/_delete_form.html.twig') }}
+{% endblock %}

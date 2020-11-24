@@ -1,3 +1,6 @@
+dashboard:
+    path: /admin
+    controller: App\Controller\Admin\EasyAdminController::index
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
