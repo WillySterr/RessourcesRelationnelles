@@ -13,7 +13,6 @@ class RegisterType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        
         $builder
             ->add('lastName')
             ->add('firstName')
@@ -23,8 +22,7 @@ class RegisterType extends AbstractType
             ->add('password', PasswordType::class)
             ->add('passwordVerification', PasswordType::class)
             ->add('description', TextareaType::class)
-            ->add('job')
-        ;
+            ->add('job');
     }
 
     public function configureOptions(OptionsResolver $resolver)
