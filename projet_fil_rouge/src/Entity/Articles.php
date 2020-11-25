@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=ArticlesRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Articles
 {
@@ -56,11 +57,13 @@ class Articles
 
     /**
      * @ORM\Column(type="datetime")
+     * @var DateTime
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @var DateTime
      */
     private $updatedAt;
 
@@ -193,9 +196,14 @@ class Articles
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
+    /**
+    * @ORM\PrePersist
+    */
+    public function setCreatedAt() {
+        try {
+            $this->createdAt = new DateTime('now', new \DateTimeZone("Europe/Paris"));
+        } catch (\Exception $e) {
+        }
 
         return $this;
     }
@@ -205,9 +213,14 @@ class Articles
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
+    /**
+    * @ORM\PreUpdate
+    */
+    public function setUpdatedAt() {
+        try {
+            $this->updatedAt = new DateTime('now', new \DateTimeZone("Europe/Paris"));
+        } catch (\Exception $e) {
+        }
 
         return $this;
     }
