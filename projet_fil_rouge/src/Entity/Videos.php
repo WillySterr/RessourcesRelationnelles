@@ -67,6 +67,11 @@ class Videos
      */
     private $updatedAt;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $video;
+
     public function __construct()
     {
         $this->category = new ArrayCollection();
@@ -223,6 +228,18 @@ class Videos
             $this->updatedAt = new DateTime('now', new \DateTimeZone("Europe/Paris"));
         } catch (\Exception $e) {
         }
+
+        return $this;
+    }
+
+    public function getVideo(): ?string
+    {
+        return $this->video;
+    }
+
+    public function setVideo(string $video): self
+    {
+        $this->video = $video;
 
         return $this;
     }
