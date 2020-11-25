@@ -67,6 +67,11 @@ class Photos
      */
     private $updatedAt;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $image;
+
     public function __construct()
     {
         $this->category = new ArrayCollection();
@@ -222,6 +227,18 @@ class Photos
             $this->updatedAt = new DateTime('now', new \DateTimeZone("Europe/Paris"));
         } catch (\Exception $e) {
         }
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(string $image): self
+    {
+        $this->image = $image;
 
         return $this;
     }
