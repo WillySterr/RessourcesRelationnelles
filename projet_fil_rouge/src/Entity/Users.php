@@ -67,12 +67,12 @@ class Users implements UserInterface
     private $roles;
 
     /**
-     * @ORM\OneToMany(targetEntity=Articles::class, mappedBy="User")
+     * @ORM\OneToMany(targetEntity=Articles::class, mappedBy="user")
      */
     private $articles;
 
     /**
-     * @ORM\OneToMany(targetEntity=Videos::class, mappedBy="User")
+     * @ORM\OneToMany(targetEntity=Videos::class, mappedBy="user")
      */
     private $videos;
 
