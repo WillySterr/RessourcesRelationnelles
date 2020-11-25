@@ -12,12 +12,12 @@
                 <td>{{ evenement.id }}</td>
             </tr>
             <tr>
-                <th>Date</th>
-                <td>{{ evenement.date ? evenement.date|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Heure</th>
-                <td>{{ evenement.heure ? evenement.heure|date('H:i:s') : '' }}</td>
+                <th>Created At</th>
+                <td>{% if evenement.updatedAt != null %}
+                    {{ evenement.updatedAt|date('Y-m-d H:i:s')  }}
+                {% else %}
+                    {{ evenement.createdAt|date('Y-m-d H:i:s')  }}
+                {% endif %}</td>
             </tr>
             <tr>
                 <th>Published</th>
