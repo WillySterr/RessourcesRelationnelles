@@ -16,12 +16,6 @@ class EvenementsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('date', DateType::class, [
-                'widget' => 'single_text'
-            ])
-            ->add('heure', TimeType::class, [
-                'widget' => 'single_text'
-            ])
             //->add('published')
             ->add('slug')
             ->add('titre')

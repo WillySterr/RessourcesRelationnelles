@@ -16,8 +16,7 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Date</th>
-                <th>Heure</th>
+                <th>Created At</th>
                 <th>Published</th>
                 <th>Slug</th>
                 <th>Titre</th>
@@ -33,8 +32,11 @@
         {% for evenement in evenements %}
             <tr>
                 <td>{{ evenement.id }}</td>
-                <td>{{ evenement.date ? evenement.date|date('Y-m-d') : '' }}</td>
-                <td>{{ evenement.heure ? evenement.heure|date('H:i:s') : '' }}</td>
+                <td>{% if evenement.updatedAt != null %}
+                    {{ evenement.updatedAt|date('Y-m-d H:i:s')  }}
+                {% else %}
+                    {{ evenement.createdAt|date('Y-m-d H:i:s')  }}
+                {% endif %}</td>
                 <td>{{ evenement.published ? 'Yes' : 'No' }}</td>
                 <td>{{ evenement.slug }}</td>
                 <td>{{ evenement.titre }}</td>
