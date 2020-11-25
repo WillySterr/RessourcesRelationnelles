@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Evenements index{% endblock %}
+
+
+
+{% block body %}
+{% for message in app.flashes('warning') %}
+            <div class="alert alert-warning">
+                {{ message }}
+            </div>
+{% endfor %}
+    <h1>Evenements index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Date</th>
+                <th>Heure</th>
+                <th>Published</th>
+                <th>Slug</th>
+                <th>Titre</th>
+                <th>Description</th>
+                <th>DateDebut</th>
+                <th>DateFin</th>
+                <th>HeureDebut</th>
+                <th>HeureFin</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for evenement in evenements %}
+            <tr>
+                <td>{{ evenement.id }}</td>
+                <td>{{ evenement.date ? evenement.date|date('Y-m-d') : '' }}</td>
+                <td>{{ evenement.heure ? evenement.heure|date('H:i:s') : '' }}</td>
+                <td>{{ evenement.published ? 'Yes' : 'No' }}</td>
+                <td>{{ evenement.slug }}</td>
+                <td>{{ evenement.titre }}</td>
+                <td>{{ evenement.description }}</td>
+                <td>{{ evenement.dateDebut ? evenement.dateDebut|date('Y-m-d') : '' }}</td>
+                <td>{{ evenement.dateFin ? evenement.dateFin|date('Y-m-d') : '' }}</td>
+                <td>{{ evenement.heureDebut ? evenement.heureDebut|date('H:i:s') : '' }}</td>
+                <td>{{ evenement.heureFin ? evenement.heureFin|date('H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('evenements_show', {'id': evenement.id}) }}">show</a>
+                    <a href="{{ path('evenements_edit', {'id': evenement.id}) }}">edit</a>
+                    <a href="{{ path('evenements_publish', {'id': evenement.id}) }}">Publier</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="12">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('evenements_new') }}">Create new</a>
+{% endblock %}

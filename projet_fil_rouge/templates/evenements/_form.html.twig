@@ -1,0 +1,25 @@
+<section class="my-md-5"
+				 style="background-color: black; background-size: cover; background-position: center center;">
+
+	<div class="rgba-black-strong rounded p-5">
+
+				<!-- Section heading -->
+		<h3 class="text-center font-weight-bold text-white mt-3 mb-5">Créer un évènement</h3>
+		<p class="text-center w-responsive text-white mx-auto mb-5">Veuillez remplir les champs suivants</p>
+			<div class="row m-auto">
+				<div class="col-md-6 mb-4">
+
+					<div class="card-body text-white px-4 center">
+
+						{{ form_start(form) }}
+{# 						{{ form_label(form.dateDebut, 'Débute le ' , { attr:{ class: 'js-datepicker' } }) }}
+ #}						{{ form_row(form.dateDebut, { attr:{ class:'js-datepicker' } }) }}
+						{{ form_row(form.dateFin, { attr:{ class:'js-datepicker' } }) }}
+						    {{ form_widget(form) }}
+						    <button class="btn">{{ button_label|default('Save') }}</button>
+						{{ form_end(form) }}
+					</div>
+				</div>
+			</div>
+	</div>
+</section>
