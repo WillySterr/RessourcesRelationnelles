@@ -23,7 +23,7 @@ class Articles
     /**
      * @ORM\ManyToOne(targetEntity=Users::class, inversedBy="articles")
      */
-    private $User;
+    private $user;
 
     /**
      * @ORM\Column(type="boolean")
@@ -80,12 +80,12 @@ class Articles
 
     public function getUser(): ?Users
     {
-        return $this->User;
+        return $this->user;
     }
 
-    public function setUser(?Users $User): self
+    public function setUser(?Users $user): self
     {
-        $this->User = $User;
+        $this->user = $user;
 
         return $this;
     }
