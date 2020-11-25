@@ -14,11 +14,6 @@ class CategoryType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
-            ->add('articles')
-            ->add('videos')
-            ->add('photos')
-            ->add('evenements')
-            ->add('informations')
         ;
     }
 

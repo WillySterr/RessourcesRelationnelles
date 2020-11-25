@@ -1,17 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Category index{% endblock %}
+{% block title %}Categories{% endblock %}
 
 {% block body %}
-    <h1>Category index</h1>
+    <h1 class="text-center pt-3 pb-3">Catégories</h1>
 
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Name</th>
+                <th>Nom</th>
                 <th>Description</th>
-                <th>actions</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -21,17 +21,17 @@
                 <td>{{ category.name }}</td>
                 <td>{{ category.description }}</td>
                 <td>
-                    <a href="{{ path('category_show', {'id': category.id}) }}">show</a>
-                    <a href="{{ path('category_edit', {'id': category.id}) }}">edit</a>
+                    <a href="{{ path('category_show', {'id': category.id}) }}"><i class="fa fa-eye"></i></a>
+                    <a href="{{ path('category_edit', {'id': category.id}) }}"><i class="fa fa-edit"></i></a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="4">no records found</td>
+                <td colspan="4">Aucune catégorie n'a été créé</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('category_new') }}">Create new</a>
+    <a class="btn btn-primary mt-3 mb-3" href="{{ path('category_new') }}"><i class="fa fa-plus-square"></i> Nouvelle catégorie</a>
 {% endblock %}
