@@ -6,7 +6,6 @@ use App\Repository\InformationsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass=InformationsRepository::class)
@@ -41,8 +40,7 @@ class Informations
     private $published;
 
     /**
-     * @Gedmo\Slug(fields={"titre"})
-     * @ORM\Column(length=128, unique=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $slug;
 
@@ -135,7 +133,12 @@ class Informations
         return $this->slug;
     }
 
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
+        return $this;
+    }
 
     public function getTitre(): ?string
     {
