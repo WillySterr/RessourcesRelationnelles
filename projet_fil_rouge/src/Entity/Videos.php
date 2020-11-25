@@ -25,16 +25,6 @@ class Videos
     private $User;
 
     /**
-     * @ORM\Column(type="date")
-     */
-    private $date;
-
-    /**
-     * @ORM\Column(type="time")
-     */
-    private $heure;
-
-    /**
      * @ORM\Column(type="boolean")
      */
     private $published;
@@ -64,6 +54,16 @@ class Videos
      */
     private $commentaires;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updatedAt;
+
     public function __construct()
     {
         $this->category = new ArrayCollection();
@@ -83,30 +83,6 @@ class Videos
     public function setUser(?Users $User): self
     {
         $this->User = $User;
-
-        return $this;
-    }
-
-    public function getDate(): ?\DateTimeInterface
-    {
-        return $this->date;
-    }
-
-    public function setDate(\DateTimeInterface $date): self
-    {
-        $this->date = $date;
-
-        return $this;
-    }
-
-    public function getHeure(): ?\DateTimeInterface
-    {
-        return $this->heure;
-    }
-
-    public function setHeure(\DateTimeInterface $heure): self
-    {
-        $this->heure = $heure;
 
         return $this;
     }
@@ -209,6 +185,30 @@ class Videos
                 $commentaire->setVideos(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }

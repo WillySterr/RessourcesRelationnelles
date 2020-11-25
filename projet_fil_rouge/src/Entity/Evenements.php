@@ -25,16 +25,6 @@ class Evenements
     private $user;
 
     /**
-     * @ORM\Column(type="date")
-     */
-    private $date;
-
-    /**
-     * @ORM\Column(type="time")
-     */
-    private $heure;
-
-    /**
      * @ORM\Column(type="boolean")
      */
     private $published;
@@ -84,6 +74,16 @@ class Evenements
      */
     private $commentaires;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updatedAt;
+
     public function __construct()
     {
         $this->category = new ArrayCollection();
@@ -103,30 +103,6 @@ class Evenements
     public function setUser(?Users $user): self
     {
         $this->user = $user;
-
-        return $this;
-    }
-
-    public function getDate(): ?\DateTimeInterface
-    {
-        return $this->date;
-    }
-
-    public function setDate(\DateTimeInterface $date): self
-    {
-        $this->date = $date;
-
-        return $this;
-    }
-
-    public function getHeure(): ?\DateTimeInterface
-    {
-        return $this->heure;
-    }
-
-    public function setHeure(\DateTimeInterface $heure): self
-    {
-        $this->heure = $heure;
 
         return $this;
     }
@@ -277,6 +253,30 @@ class Evenements
                 $commentaire->setEvenements(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }
