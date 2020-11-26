@@ -39,6 +39,7 @@ class EvenementsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $entityManager = $this->getDoctrine()->getManager();
             $evenement->setUser($security->getUser());
             $evenement->setPublished(false);

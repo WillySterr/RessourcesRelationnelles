@@ -102,6 +102,11 @@ class Users implements UserInterface
      */
     private $passwordVerification;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Ressources::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $ressources;
+
 
     public function getPasswordVerification(): ?string
     {
@@ -122,6 +127,7 @@ class Users implements UserInterface
         $this->evenements = new ArrayCollection();
         $this->informations = new ArrayCollection();
         $this->commentaires = new ArrayCollection();
+        $this->ressources = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -437,5 +443,35 @@ class Users implements UserInterface
     public function eraseCredentials()
     {
         // TODO: Implement eraseCredentials() method.
+    }
+
+    /**
+     * @return Collection|Ressources[]
+     */
+    public function getRessources(): Collection
+    {
+        return $this->ressources;
+    }
+
+    public function addRessource(Ressources $ressource): self
+    {
+        if (!$this->ressources->contains($ressource)) {
+            $this->ressources[] = $ressource;
+            $ressource->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRessource(Ressources $ressource): self
+    {
+        if ($this->ressources->removeElement($ressource)) {
+            // set the owning side to null (unless already changed)
+            if ($ressource->getUser() === $this) {
+                $ressource->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }
