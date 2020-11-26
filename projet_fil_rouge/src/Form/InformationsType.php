@@ -14,8 +14,6 @@ class InformationsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('date')
-            ->add('heure')
             ->add('published')
             ->add('titre')
             ->add('description')
@@ -23,7 +21,7 @@ class InformationsType extends AbstractType
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 "choice_label" => "name",
-                'multiple'=> true,
+                'multiple' => true,
                 'expanded' => true
             ]);
     }
