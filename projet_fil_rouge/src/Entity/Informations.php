@@ -7,9 +7,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use DateTime;
 
 /**
  * @ORM\Entity(repositoryClass=InformationsRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Informations
 {
@@ -207,21 +209,32 @@ class Informations
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAt()
     {
-        $this->createdAt = $createdAt;
+        try {
+            $this->createdAt = new DateTime('now', new \DateTimeZone("Europe/Paris"));
+        } catch (\Exception $e) {
+        }
 
         return $this;
     }
-
     public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    /**
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAt()
     {
-        $this->updatedAt = $updatedAt;
+        try {
+            $this->updatedAt = new DateTime('now', new \DateTimeZone("Europe/Paris"));
+        } catch (\Exception $e) {
+        }
 
         return $this;
     }
