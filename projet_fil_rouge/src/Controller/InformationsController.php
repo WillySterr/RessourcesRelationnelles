@@ -63,7 +63,7 @@ class InformationsController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="informations_edit", methods={"GET","POST"})
+     * @Route("/{slug}", name="informations_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Informations $information): Response
     {

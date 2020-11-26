@@ -1,26 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Informations{% endblock %}
+{% block title %}Information{% endblock %}
 
 {% block body %}
-    <h1>Informations</h1>
+    <h1>Information</h1>
 
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ information.id }}</td>
-            </tr>
-            <tr>
                 <th>Date</th>
-                <td>{{ information.date ? information.date|date('Y-m-d') : '' }}</td>
+                <td>{% if information.updatedAt != null %}
+                    {{ information.updatedAt|date('d-m-Y')  }}
+                {% else %}
+                    {{ information.createdAt|date('d-m-Y')  }}
+                {% endif %}</td>
             </tr>
             <tr>
-                <th>Heure</th>
-                <td>{{ information.heure ? information.heure|date('H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Published</th>
+                <th>Publié</th>
                 <td>{{ information.published ? 'Yes' : 'No' }}</td>
             </tr>
             <tr>
@@ -42,9 +38,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('informations_index') }}">back to list</a>
+    <a class="btn btn-primary" href="{{ path('informations_index') }}">Retour</a>
 
-    <a href="{{ path('informations_edit', {'id': information.id}) }}">edit</a>
+    <a class="btn btn-primary" href="{{ path('informations_edit', {'id': information.id}) }}">Modifier</a>
 
     {{ include('informations/_delete_form.html.twig') }}
 {% endblock %}
