@@ -25,6 +25,7 @@ class CategoryController extends AbstractController
         ]);
     }
 
+
     /**
      * @Route("/new", name="category_new", methods={"GET","POST"})
      */
