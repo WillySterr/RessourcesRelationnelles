@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle Video{% endblock %}
+
+{% block body %}
+    <h1>Créer une nouvelle vidéo</h1>
+
+    {{ include('videos/_form.html.twig') }}
+
+    <a class="btn mt-2 btn-primary" href="{{ path('videos_index') }}">Retour</a>
+{% endblock %}

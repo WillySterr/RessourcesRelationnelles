@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modification Videos{% endblock %}
+
+{% block body %}
+    <h1>Modifier {{ video.titre }}</h1>
+
+    {{ include('videos/_form.html.twig', {'button_label': 'Modifier'}) }}
+
+
+    {{ include('videos/_delete_form.html.twig') }}
+
+    <a class="btn btn-primary" href="{{ path('videos_index') }}">Retour</a>
+
+{% endblock %}

@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\RessourcesRepository;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use DateTime;
 
@@ -52,12 +53,14 @@ class Ressources
 
     /**
      * @ORM\Column(type="datetime")
+     * @var DateTime
      */
     private $createdAt;
 
     /**
      * @var DateTime
      * @ORM\Column(type="datetime", nullable=true)
+     * @var DateTime
      */
     private $updatedAt;
 

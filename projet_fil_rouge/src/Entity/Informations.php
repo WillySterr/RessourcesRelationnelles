@@ -65,11 +65,13 @@ class Informations
     private $commentaires;
 
     /**
+     * @var DateTime
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
 
     /**
+     * @var DateTime
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $updatedAt;
@@ -221,6 +223,7 @@ class Informations
 
         return $this;
     }
+
     public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
