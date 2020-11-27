@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Articles;
+use App\Entity\Ressources;
 use App\Form\ArticlesType;
 use App\Repository\ArticlesRepository;
+use App\Repository\RessourcesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,10 +38,14 @@ class ArticlesController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $article->setUser($security->getUser());
-            $article->setPublished(false);
+            $ressource = new Ressources();
+            $ressource->setUser($security->getUser())
+                ->setArticle($article)
+                ->setPublished(false);
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($article);
+            $entityManager->persist($ressource);
             $entityManager->flush();
 
             return $this->redirectToRoute('articles_index');
@@ -64,17 +70,18 @@ class ArticlesController extends AbstractController
     /**
      * @Route("/{id}/edit", name="articles_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Articles $article): Response
+    public function edit(Request $request, Articles $article, RessourcesRepository $ressourcesRepository): Response
     {
         $form = $this->createForm(ArticlesType::class, $article);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $ressource = $ressourcesRepository->findOneBy(["article" => $article->getId()]);
+            $ressource->setUpdatedAt();
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('articles_index');
         }
-
         return $this->render('articles/edit.html.twig', [
             'article' => $article,
             'form' => $form->createView(),
@@ -84,11 +91,13 @@ class ArticlesController extends AbstractController
     /**
      * @Route("/{id}", name="articles_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Articles $article): Response
+    public function delete(Request $request, Articles $article, RessourcesRepository $ressourcesRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$article->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
+            $ressource = $ressourcesRepository->findOneBy(["article" => $article->getId()]);
             $entityManager->remove($article);
+            $entityManager->remove($ressource);
             $entityManager->flush();
         }
 
