@@ -38,9 +38,9 @@
         </tbody>
     </table>
 
-    <a class="btn btn-primary" href="{{ path('informations_index') }}">Retour</a>
+    <a class="btn mb-2 btn-primary" href="{{ path('informations_index') }}">Retour</a>
 
-    <a class="btn btn-primary" href="{{ path('informations_edit', {'id': information.id}) }}">Modifier</a>
+    <a class="btn mb-2 btn-primary" href="{{ path('informations_edit', {'id': information.id}) }}">Modifier</a>
 
     {{ include('informations/_delete_form.html.twig') }}
 {% endblock %}
