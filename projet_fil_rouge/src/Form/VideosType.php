@@ -2,37 +2,34 @@
 
 namespace App\Form;
 
-use App\Entity\Articles;
 use App\Entity\Category;
+use App\Entity\Videos;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ArticlesType extends AbstractType
+class VideosType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('slug')
+            ->add('published')
             ->add('titre')
             ->add('description')
             ->add('video')
-            ->add('photo')
-            ->add('category',EntityType::class, [
+            ->add('category', EntityType::class, [
                 'class' => Category::class,
                 "choice_label" => "name",
-                'multiple'=> true,
+                'multiple' => true,
                 'expanded' => true
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Articles::class,
+            'data_class' => Videos::class,
         ]);
     }
 }

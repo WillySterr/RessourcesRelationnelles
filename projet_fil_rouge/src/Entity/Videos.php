@@ -6,6 +6,8 @@ use App\Repository\VideosRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use DateTime;
 
 /**
  * @ORM\Entity(repositoryClass=VideosRepository::class)
@@ -31,6 +33,7 @@ class Videos
     private $published;
 
     /**
+     * @Gedmo\Slug(fields={"titre"})
      * @ORM\Column(type="string", length=255)
      */
     private $slug;
@@ -112,12 +115,6 @@ class Videos
         return $this->slug;
     }
 
-    public function setSlug(string $slug): self
-    {
-        $this->slug = $slug;
-
-        return $this;
-    }
 
     public function getTitre(): ?string
     {

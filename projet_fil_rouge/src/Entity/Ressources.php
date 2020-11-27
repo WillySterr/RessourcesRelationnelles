@@ -3,10 +3,13 @@
 namespace App\Entity;
 
 use App\Repository\RessourcesRepository;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use DateTime;
 
 /**
  * @ORM\Entity(repositoryClass=RessourcesRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Ressources
 {
@@ -50,15 +53,19 @@ class Ressources
 
     /**
      * @ORM\Column(type="datetime")
+     * @var DateTime
      */
     private $createdAt;
 
     /**
+     * @var DateTime
      * @ORM\Column(type="datetime", nullable=true)
+     * @var DateTime
      */
     private $updatedAt;
 
     /**
+     * @var DateTime
      * @ORM\Column(type="boolean")
      */
     private $published;
@@ -145,9 +152,14 @@ class Ressources
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAt() {
+        try {
+            $this->createdAt = new DateTime('now', new \DateTimeZone("Europe/Paris"));
+        } catch (\Exception $e) {
+        }
 
         return $this;
     }
@@ -157,9 +169,14 @@ class Ressources
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
+    /**
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAt() {
+        try {
+            $this->updatedAt = new DateTime('now', new \DateTimeZone("Europe/Paris"));
+        } catch (\Exception $e) {
+        }
 
         return $this;
     }

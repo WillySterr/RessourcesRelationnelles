@@ -12,6 +12,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Users;
 use Symfony\Component\Security\Core\Security;
 use App\Repository\UsersRepository;
+use App\Repository\RessourcesRepository;
+use App\Entity\Ressources;
 
 
 /**
@@ -32,18 +34,22 @@ class EvenementsController extends AbstractController
     /**
      * @Route("/new", name="evenements_new", methods={"GET","POST"})
      */
-    public function new(Request $request, UsersRepository $usersRepository, Security $security): Response
+    public function new(Request $request, UsersRepository $usersRepository, Security $security, RessourcesRepository $ressourcesRepository): Response
     {
         $evenement = new Evenements();
         $form = $this->createForm(EvenementsType::class, $evenement);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
+            $ressource = new Ressources();
+            $ressource->setUser($security->getUser())
+                ->setEvenement($evenement)
+                ->setPublished(false);
             $entityManager = $this->getDoctrine()->getManager();
             $evenement->setUser($security->getUser());
             $evenement->setPublished(false);
             $entityManager->persist($evenement);
+            $entityManager->persist($ressource);
             $entityManager->flush();
 
             return $this->redirectToRoute('evenements_index');
@@ -68,12 +74,14 @@ class EvenementsController extends AbstractController
     /**
      * @Route("/{id}/edit", name="evenements_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Evenements $evenement): Response
+    public function edit(Request $request, Evenements $evenement, RessourcesRepository $ressourcesRepository): Response
     {
         $form = $this->createForm(EvenementsType::class, $evenement);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $ressource = $ressourcesRepository->findOneBy(["evenement" => $evenement->getId()]);
+            $ressource->setUpdatedAt();
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('evenements_index');
@@ -88,11 +96,13 @@ class EvenementsController extends AbstractController
     /**
      * @Route("/{id}", name="evenements_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Evenements $evenement): Response
+    public function delete(Request $request, Evenements $evenement, RessourcesRepository $ressourcesRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$evenement->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
+            $ressource = $ressourcesRepository->findOneBy(["evenement" => $evenement->getId()]);
             $entityManager->remove($evenement);
+            $entityManager->remove($ressource);
             $entityManager->flush();
         }
 

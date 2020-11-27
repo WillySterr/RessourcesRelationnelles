@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Videos index{% endblock %}
+
+{% block body %}
+    <h1>Videos index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Publié</th>
+                <th>Titre</th>
+                <th>Description</th>
+                <th>Crée le</th>
+                <th>Video</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for video in videos %}
+            <tr>
+                <td>{{ video.published ? 'Yes' : 'No' }}</td>
+                <td>{{ video.titre }}</td>
+                <td>{{ video.description }}</td>
+                <td>{% if information.updatedAt != null %}
+                        {{ information.updatedAt|date('d-m-Y')  }}
+                    {% else %}
+                        {{ information.createdAt|date('d-m-Y')  }}
+                    {% endif %}
+                </td>
+                <td>{{ video.video }}</td>
+                <td>
+                    <a class="btn btn-primary" href="{{ path('videos_show', {'slug': video.slug}) }}">Voir</a>
+                    <a class="btn btn-primary" href="{{ path('videos_edit', {'id': video.id}) }}">Modifier</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">Aucun résultats</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="btn btn-success" href="{{ path('videos_new') }}">Ajouter une vidéo</a>
+{% endblock %}
