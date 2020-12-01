@@ -30,8 +30,8 @@
                 <td>{{ article.description }}</td>
                 <td>{{ article.createdAt ? article.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ article.updatedAt ? article.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ article.video }}</td>
-                <td>{{ article.photo }}</td>
+                <td><video controls width="150"><source src="{{ asset('/uploads/'~article.video) }}" type="video/mp4"></video></td>
+                <td><img src="{{ asset('/uploads/'~article.photo) }}" alt="ancienne image" width="150"></td>
                 <td>
                     <a href="{{ path('articles_show', {'id': article.id}) }}">show</a>
                     <a href="{{ path('articles_edit', {'id': article.id}) }}">edit</a>

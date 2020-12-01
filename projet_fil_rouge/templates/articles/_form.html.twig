@@ -1,4 +1,16 @@
 {{ form_start(form) }}
     {{ form_widget(form) }}
+        {% if app.request.attributes.get('_route') == 'articles_edit' %}
+        <h6>Ancienne images</h6>
+        {# {% for photo in photo.image %} #}
+        <div>
+            <img src="{{ asset('/uploads/'~article.photo) }}" alt="ancienne image" width="400">
+        </div>
+            <h6>Ancienne vidéo</h6>
+        <div>
+            <video controls width="150"><source src="{{ asset('/uploads/'~article.video) }}" type="video/mp4"></video>
+        </div>
+        {# {% endfor %} #}
+        {% endif %}
     <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

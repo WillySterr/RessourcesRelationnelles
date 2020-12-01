@@ -44,6 +44,7 @@ class EvenementsController extends AbstractController
             $ressource = new Ressources();
             $ressource->setUser($security->getUser())
                 ->setEvenement($evenement)
+                ->setTitle($evenement->getTitre())
                 ->setPublished(false);
             $entityManager = $this->getDoctrine()->getManager();
             $evenement->setUser($security->getUser());
@@ -82,6 +83,7 @@ class EvenementsController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $ressource = $ressourcesRepository->findOneBy(["evenement" => $evenement->getId()]);
             $ressource->setUpdatedAt();
+            $ressource->setTitle($evenement->getTitre());
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('evenements_index');
