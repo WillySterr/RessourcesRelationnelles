@@ -1,0 +1,13 @@
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+    {# Si la route est "annonces_edit on affiche les images #}
+	{% if app.request.attributes.get('_route') == 'photos_edit' %}
+        <h6>Ancienne images</h6>
+        {# {% for photo in photo.image %} #}
+            <div>
+                <img src="{{ asset('/uploads/'~photo.image) }}" alt="ancienne image" width="400">
+            </div>
+        {# {% endfor %} #}
+    {% endif %}
+    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}
