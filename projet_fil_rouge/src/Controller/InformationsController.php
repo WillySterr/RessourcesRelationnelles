@@ -44,6 +44,7 @@ class InformationsController extends AbstractController
             $ressource = new Ressources();
             $ressource->setUser($security->getUser())
                 ->setInformation($information)
+                ->setTitle($information->getTitre())
                 ->setPublished(false);
 
             $entityManager = $this->getDoctrine()->getManager();
@@ -82,6 +83,7 @@ class InformationsController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $ressource = $ressourcesRepository->findOneby(["information" => $information->getId()]);
             $ressource->setUpdatedAt();
+            $ressource->setTitle($information->getTitre());
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('informations_index');

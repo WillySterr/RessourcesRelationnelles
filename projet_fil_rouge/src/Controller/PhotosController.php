@@ -64,6 +64,7 @@ class PhotosController extends AbstractController
             $ressource = new Ressources();
             $ressource->setUser($security->getUser())
                 ->setPhoto($photo)
+                ->setTitle($photo->getTitre())
                 ->setPublished(false);
             $entityManager = $this->getDoctrine()->getManager();
             $photo->setUser($security->getUser());
@@ -129,6 +130,7 @@ class PhotosController extends AbstractController
 
             $ressource = $ressourcesRepository->findOneBy(["photo" => $photo->getId()]);
             $ressource->setUpdatedAt();
+            $ressource->setTitle($photo->getTitre());
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('photos_index');

@@ -18,8 +18,18 @@ class ArticlesType extends AbstractType
             ->add('slug')
             ->add('titre')
             ->add('description')
-            ->add('video')
-            ->add('photo')
+            ->add('video',FileType::class,[
+                'label' => 'Vidéo',
+                'multiple' => true,
+                'mapped' => false,
+                'required' => false
+            ])
+            ->add('photo',FileType::class,[
+                'label' => 'Image',
+                'multiple' => true,
+                'mapped' => false,
+                'required' => false
+            ])
             ->add('category',EntityType::class, [
                 'class' => Category::class,
                 "choice_label" => "name",
