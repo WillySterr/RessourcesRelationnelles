@@ -101,4 +101,5 @@ class VideosController extends AbstractController
 
         return $this->redirectToRoute('videos_index');
     }
+
 }
