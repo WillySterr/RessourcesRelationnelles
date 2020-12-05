@@ -18,7 +18,7 @@
         </form>
         <div class="navbar-nav ml-auto">
             {% if app.user %}
-                <a href="#" class="nav-item nav-link active"><i class="fa fa-home"></i><span>Accueil</span></a>
+                <a href="{{ path('news_feed') }}" class="nav-item nav-link active"><i class="fa fa-home"></i><span>Accueil</span></a>
                 <a href="{{ path('photos_index') }}" class="nav-item nav-link active"><i class="fa fa-picture-o"></i><span>Photos</span></a>
                 <a href="{{ path('videos_index') }}" class="nav-item nav-link active"><i class="fa fa-video-camera"></i><span>Vidéos</span></a>
                 <a href="{{ path('articles_index') }}" class="nav-item nav-link active"><i class="fa fa-file"></i><span>Articles</span></a>

@@ -14,8 +14,7 @@ class NewsFeedController extends AbstractController
      */
     public function index(RessourcesRepository $ressourcesRepository): Response
     {
-
-        $newsFeed = $ressourcesRepository->findAll();
+        $newsFeed = $ressourcesRepository->getAllNewsFeed();
         return $this->render('news_feed/index.html.twig', [
             'news' => $newsFeed,
         ]);

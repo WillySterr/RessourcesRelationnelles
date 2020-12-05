@@ -19,6 +19,14 @@ class RessourcesRepository extends ServiceEntityRepository
         parent::__construct($registry, Ressources::class);
     }
 
+    public function getAllNewsFeed()
+    {
+        return $this->createQueryBuilder('r')
+            ->addOrderBy('r.createdAt', 'DESC')
+            ->addOrderBy('r.updatedAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
     // /**
     //  * @return Ressources[] Returns an array of Ressources objects
     //  */
