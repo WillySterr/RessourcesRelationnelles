@@ -54,10 +54,6 @@ class Category
      */
     private $informations;
 
-    public function __toString()
-    {
-        return $this->name;
-    }
 
     public function __construct()
     {
@@ -66,7 +62,6 @@ class Category
         $this->photos = new ArrayCollection();
         $this->evenements = new ArrayCollection();
         $this->informations = new ArrayCollection();
-        $this->category = new ArrayCollection();
     }
 
     public function getId(): ?int
