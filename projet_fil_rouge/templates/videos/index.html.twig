@@ -22,10 +22,10 @@
                 <td>{{ video.published ? 'Yes' : 'No' }}</td>
                 <td>{{ video.titre }}</td>
                 <td>{{ video.description }}</td>
-                <td>{% if information.updatedAt != null %}
-                        {{ information.updatedAt|date('d-m-Y')  }}
+                <td>{% if video.updatedAt != null %}
+                        {{ video.updatedAt|date('d-m-Y')  }}
                     {% else %}
-                        {{ information.createdAt|date('d-m-Y')  }}
+                        {{ video.createdAt|date('d-m-Y')  }}
                     {% endif %}
                 </td>
                 <td>{{ video.video }}</td>
