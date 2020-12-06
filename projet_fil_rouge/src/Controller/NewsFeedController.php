@@ -2,10 +2,15 @@
 
 namespace App\Controller;
 
+use App\Entity\Comments;
+use App\Form\CommentsType;
 use App\Repository\RessourcesRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 class NewsFeedController extends AbstractController
 {
@@ -15,8 +20,31 @@ class NewsFeedController extends AbstractController
     public function index(RessourcesRepository $ressourcesRepository): Response
     {
         $newsFeed = $ressourcesRepository->getAllNewsFeed();
+
         return $this->render('news_feed/index.html.twig', [
             'news' => $newsFeed,
         ]);
+    }
+
+    /**
+     * @Route("/comments/{id}", name="add_comment")
+     */
+    public function addComments(Request $request, RessourcesRepository $ressourcesRepository, EntityManagerInterface $entityManager, Security $security, $id)
+    {
+
+       if($request->request->get('comments') !== [] && $request->request->get('comments') !== null && $request->request->get('comments') !== ""){
+           $comments = new Comments();
+           $comments->setUser($security->getUser())
+               ->setContenu($request->request->get('comments'))
+               ->setRessource($ressourcesRepository->findOneBy(["id" => $id]))
+               ->setCreatedAt(new \DateTime('now', new \DateTimeZone("Europe/Paris")));
+           $entityManager->persist($comments);
+           $entityManager->flush();
+       }
+       else{
+           return $this->redirectToRoute('news_feed');
+       }
+
+        return $this->redirectToRoute('news_feed');
     }
 }
