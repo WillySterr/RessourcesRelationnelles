@@ -49,6 +49,40 @@
                                 </a>
                             </div>#}
                         </div>
+
+                        <form method="POST" action="{{ path('add_comment', {'id': new.id}) }}">
+                            <input class="form-control comments_contenu" name="comments" type="text" placeholder="Saisissez votre commentaire">
+                        </form>
+
+
+                        <div class="post-footer">
+
+                            <ul class="comments-list">
+
+
+                                {% for comments in new.comments %}
+                                    <li class="comment">
+                                        <a class="pull-left" href="javascript:void(0);">
+                                            <img class="avatar" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar">
+                                        </a>
+                                        <div class="comment-body">
+                                            <div class="comment-heading">
+                                                <h4 class="user">{{ comments.user.firstName }} {{ comments.user.lastName }}</h4>
+                                                <h5 class="time">
+                                                    {% if comments.updatedAt is not null %}
+                                                        {{ comments.updatedAt|date('Y-m-d H:i:s')  }}
+                                                    {% else %}
+                                                        {{ comments.createdAt|date('Y-m-d H:i:s')  }}
+                                                    {% endif %}
+                                                </h5>
+                                            </div>
+                                            <p>{{ comments.contenu }}</p>
+                                        </div>
+                                    </li>
+
+                                {% endfor %}
+                            </ul>
+                        </div>
                        {# <div class="post-footer">
                             <div class="input-group">
                                 <input class="form-control" placeholder="Add a comment" type="text">
@@ -143,52 +177,40 @@
                                 </a>
                             </div>#}
                                         </div>
-                                        {# <div class="post-footer">
-                            <div class="input-group">
-                                <input class="form-control" placeholder="Add a comment" type="text">
-                                <span class="input-group-addon">
-                                <a href="javascript:void(0);"><i class="fa fa-edit"></i></a>
-                            </span>
-                            </div>
+
+                                        <form method="POST" action="{{ path('add_comment', {'id': new.id}) }}">
+                                            <input class="form-control comments_contenu" name="comments" type="text" placeholder="Saisissez votre commentaire">
+                                        </form>
+
+
+                                         <div class="post-footer">
+
                             <ul class="comments-list">
+
+
+                                {% for comments in new.comments %}
                                 <li class="comment">
                                     <a class="pull-left" href="javascript:void(0);">
                                         <img class="avatar" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar">
                                     </a>
                                     <div class="comment-body">
                                         <div class="comment-heading">
-                                            <h4 class="user">John dOE</h4>
-                                            <h5 class="time">7 minutes ago</h5>
+                                            <h4 class="user">{{ comments.user.firstName }} {{ comments.user.lastName }}</h4>
+                                            <h5 class="time">
+                                                {% if comments.updatedAt is not null %}
+                                                    {{ comments.updatedAt|date('Y-m-d H:i:s')  }}
+                                                {% else %}
+                                                    {{ comments.createdAt|date('Y-m-d H:i:s')  }}
+                                                {% endif %}
+                                            </h5>
                                         </div>
-                                        <p>I really love this picture. I really wish i could have been there.</p>
+                                        <p>{{ comments.contenu }}</p>
                                     </div>
                                 </li>
-                                <li class="comment">
-                                    <a class="pull-left" href="javascript:void(0);">
-                                        <img class="avatar" src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar">
-                                    </a>
-                                    <div class="comment-body">
-                                        <div class="comment-heading">
-                                            <h4 class="user">John Doe</h4>
-                                            <h5 class="time">3 minutes ago</h5>
-                                        </div>
-                                        <p>I think I might you this for one of my projects.</p>
-                                    </div>
-                                </li>
-                                <li class="comment">
-                                    <a class="pull-left" href="javascript:void(0);">
-                                        <img class="avatar" src="https://bootdey.com/img/Content/avatar/avatar4.png" alt="avatar">
-                                    </a>
-                                    <div class="comment-body">
-                                        <div class="comment-heading">
-                                            <h4 class="user">John Doe</h4>
-                                            <h5 class="time">10 seconds ago</h5>
-                                        </div>
-                                        <p>Wow! This is gorgeous.</p>
-                                    </div>
-                                </li>
+
+                                {% endfor %}
                             </ul>
-                        </div>#}
+                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -252,6 +274,40 @@
                         <video controls width="400" height="200"><source src="{{ asset('/uploads/'~new.article.video) }}" type="video/mp4"></video>
                     {% endif %}
 </div>
+                </div>
+
+                <form method="POST" action="{{ path('add_comment', {'id': new.id}) }}">
+                    <input class="form-control comments_contenu" name="comments" type="text" placeholder="Saisissez votre commentaire">
+                </form>
+
+
+                <div class="post-footer">
+
+                    <ul class="comments-list">
+
+
+                        {% for comments in new.comments %}
+                            <li class="comment">
+                                <a class="pull-left" href="javascript:void(0);">
+                                    <img class="avatar" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar">
+                                </a>
+                                <div class="comment-body">
+                                    <div class="comment-heading">
+                                        <h4 class="user">{{ comments.user.firstName }} {{ comments.user.lastName }}</h4>
+                                        <h5 class="time">
+                                            {% if comments.updatedAt is not null %}
+                                                {{ comments.updatedAt|date('Y-m-d H:i:s')  }}
+                                            {% else %}
+                                                {{ comments.createdAt|date('Y-m-d H:i:s')  }}
+                                            {% endif %}
+                                        </h5>
+                                    </div>
+                                    <p>{{ comments.contenu }}</p>
+                                </div>
+                            </li>
+
+                        {% endfor %}
+                    </ul>
                 </div>
 
                 {#<div class="post-footer">
@@ -369,6 +425,40 @@
                 </tbody>
             </table>
         </div>
+
+                <form method="POST" action="{{ path('add_comment', {'id': new.id}) }}">
+                    <input class="form-control comments_contenu" name="comments" type="text" placeholder="Saisissez votre commentaire">
+                </form>
+
+
+                <div class="post-footer">
+
+                    <ul class="comments-list">
+
+
+                        {% for comments in new.comments %}
+                            <li class="comment">
+                                <a class="pull-left" href="javascript:void(0);">
+                                    <img class="avatar" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar">
+                                </a>
+                                <div class="comment-body">
+                                    <div class="comment-heading">
+                                        <h4 class="user">{{ comments.user.firstName }} {{ comments.user.lastName }}</h4>
+                                        <h5 class="time">
+                                            {% if comments.updatedAt is not null %}
+                                                {{ comments.updatedAt|date('Y-m-d H:i:s')  }}
+                                            {% else %}
+                                                {{ comments.createdAt|date('Y-m-d H:i:s')  }}
+                                            {% endif %}
+                                        </h5>
+                                    </div>
+                                    <p>{{ comments.contenu }}</p>
+                                </div>
+                            </li>
+
+                        {% endfor %}
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
@@ -417,6 +507,40 @@
             <p> </p>
             </div>
         </div>
+
+                <form method="POST" action="{{ path('add_comment', {'id': new.id}) }}">
+                    <input class="form-control comments_contenu" name="comments" type="text" placeholder="Saisissez votre commentaire">
+                </form>
+
+
+                <div class="post-footer">
+
+                    <ul class="comments-list">
+
+
+                        {% for comments in new.comments %}
+                            <li class="comment">
+                                <a class="pull-left" href="javascript:void(0);">
+                                    <img class="avatar" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar">
+                                </a>
+                                <div class="comment-body">
+                                    <div class="comment-heading">
+                                        <h4 class="user">{{ comments.user.firstName }} {{ comments.user.lastName }}</h4>
+                                        <h5 class="time">
+                                            {% if comments.updatedAt is not null %}
+                                                {{ comments.updatedAt|date('Y-m-d H:i:s')  }}
+                                            {% else %}
+                                                {{ comments.createdAt|date('Y-m-d H:i:s')  }}
+                                            {% endif %}
+                                        </h5>
+                                    </div>
+                                    <p>{{ comments.contenu }}</p>
+                                </div>
+                            </li>
+
+                        {% endfor %}
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
@@ -430,4 +554,16 @@
 
 
 
+{% endblock %}
+{% block javascripts %}
+    <script>
+        let form = document.querySelector('form');
+        let textContent = document.querySelector('.comments_contenu');
+        textContent.addEventListener('keypress', function(e){
+            if(e.key === 'Enter')
+            {
+                form.submit();
+            }
+        })
+    </script>
 {% endblock %}
