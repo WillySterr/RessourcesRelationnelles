@@ -44,6 +44,8 @@ class PhotosController extends AbstractController
             // On récupère les photos transmises
             $images = $form->get('image')->getData();
 
+
+
             // On boucle sur les images
             foreach($images as $image){
                 // On génère un nouveau nom de fichier
@@ -60,6 +62,7 @@ class PhotosController extends AbstractController
                 $photo->setImage($fichier);
                 }
 
+            dd($form->getData());
 
             $ressource = new Ressources();
             $ressource->setUser($security->getUser())

@@ -1,4 +1,13 @@
 {{ form_start(form) }}
     {{ form_widget(form) }}
-    <button class="btn btn-success">{{ button_label|default('Enregistrer') }}</button>
+    {# Si la route est "annonces_edit on affiche les images #}
+	{% if app.request.attributes.get('_route') == 'videos_edit' %}
+        <h6>Ancienne vidéo</h6>
+        {# {% for photo in photo.image %} #}
+        <div>
+            <video controls width="150"><source src="{{ asset('/uploads/'~video.video) }}" type="video/mp4"></video>
+        </div>
+        {# {% endfor %} #}
+    {% endif %}
+<button class="btn btn-success">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

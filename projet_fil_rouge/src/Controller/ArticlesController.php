@@ -126,8 +126,8 @@ class ArticlesController extends AbstractController
             $video = $article->getVideo();
             // On supprime le fichier
 
-            if ($this->getParameter('videos_directory').'/'.$nom != true){
-                unlink($this->getParameter('videos_directory').'/'.$nom);
+            if ($this->getParameter('videos_directory').'/'.$video != true){
+                unlink($this->getParameter('videos_directory').'/'.$video);
             }
 
             if ($this->getParameter('images_directory').'/'.$nom != true){
