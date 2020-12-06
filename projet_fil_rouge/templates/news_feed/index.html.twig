@@ -103,6 +103,99 @@
 
                 {% endif %}
 
+                {% if new.video is not null%}
+                        <div class="col-sm-12 mt-3 mb-3 col-sm-offset-2 bg-white">
+
+                            <div class="row">
+
+                                <div class="col-sm-12">
+                                    <div class="panel panel-white post">
+                                        <div class="post-heading">
+                                            <div class="pull-left image">
+                                                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="img-circle avatar" alt="user profile image">
+                                            </div>
+                                            <div class="pull-left meta">
+                                                <div class="title h5">
+                                                    <a href="#"><b>{{ new.video.user.firstName }} {{ new.video.user.lastName }}</b></a>
+                                                </div>
+                                                <h6 class="text-muted time">
+
+                                                    {% if new.updatedAt is not null %}
+                                                        {{ new.updatedAt|date('Y-m-d H:i:s')  }}
+                                                    {% else %}
+                                                        {{ new.createdAt|date('Y-m-d H:i:s')  }}
+                                                    {% endif %}
+                                                </h6>
+                                            </div>
+                                        </div>
+                                        <div class="post-image">
+                                            <video  width="400" height="200" class="fluid-width-video-wrapper" controls><source src="{{ asset('/uploads/'~new.video.video) }}" type="video/mp4"></video>
+                                        </div>
+                                        <div class="post-description">
+                                            <h4>{{ new.video.titre }}</h4>
+                                            <p>{{ new.video.description }}</p>
+                                            {#  <div class="stats">
+                                <a href="javascript:void(0);" class="btn btn-default stat-item">
+                                    <i class="fa fa-thumbs-up icon"></i>228
+                                </a>
+                                <a href="javascript:void(0);" class="btn btn-default stat-item">
+                                    <i class="fa fa-share icon"></i>128
+                                </a>
+                            </div>#}
+                                        </div>
+                                        {# <div class="post-footer">
+                            <div class="input-group">
+                                <input class="form-control" placeholder="Add a comment" type="text">
+                                <span class="input-group-addon">
+                                <a href="javascript:void(0);"><i class="fa fa-edit"></i></a>
+                            </span>
+                            </div>
+                            <ul class="comments-list">
+                                <li class="comment">
+                                    <a class="pull-left" href="javascript:void(0);">
+                                        <img class="avatar" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar">
+                                    </a>
+                                    <div class="comment-body">
+                                        <div class="comment-heading">
+                                            <h4 class="user">John dOE</h4>
+                                            <h5 class="time">7 minutes ago</h5>
+                                        </div>
+                                        <p>I really love this picture. I really wish i could have been there.</p>
+                                    </div>
+                                </li>
+                                <li class="comment">
+                                    <a class="pull-left" href="javascript:void(0);">
+                                        <img class="avatar" src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar">
+                                    </a>
+                                    <div class="comment-body">
+                                        <div class="comment-heading">
+                                            <h4 class="user">John Doe</h4>
+                                            <h5 class="time">3 minutes ago</h5>
+                                        </div>
+                                        <p>I think I might you this for one of my projects.</p>
+                                    </div>
+                                </li>
+                                <li class="comment">
+                                    <a class="pull-left" href="javascript:void(0);">
+                                        <img class="avatar" src="https://bootdey.com/img/Content/avatar/avatar4.png" alt="avatar">
+                                    </a>
+                                    <div class="comment-body">
+                                        <div class="comment-heading">
+                                            <h4 class="user">John Doe</h4>
+                                            <h5 class="time">10 seconds ago</h5>
+                                        </div>
+                                        <p>Wow! This is gorgeous.</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>#}
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    {% endif %}
 
                 {% if new.article is not null %}
 
@@ -334,68 +427,6 @@
                 {% endfor %}
 
 
-{#    <div class="col-sm-12">
-        <div class="panel panel-white post">
-            <div class="post-heading">
-                <div class="pull-left image">
-                    <img src="https://bootdey.com/img/Content/avatar/avatar5.png" class="img-circle avatar" alt="user profile image">
-                </div>
-                <div class="pull-left meta">
-                    <div class="title h5">
-                        <a href="#"><b>Yanique Robinson</b></a>
-                        shared a video.
-                    </div>
-                    <h6 class="text-muted time">1 minute ago</h6>
-                </div>
-            </div>
-            <div class="post-video">
-                <div class="fluid-width-video-wrapper" style="padding-top: 56.2%;"><iframe src="https://player.vimeo.com/video/98417189" id="fitvid369523"></iframe></div>
-            </div>
-            <div class="post-description">
-                <div class="stats">
-                    <a href="javascript:void(0);" class="btn btn-default stat-item">
-                        <i class="fa fa-thumbs-up icon"></i>2
-                    </a>
-                    <a href="javascript:void(0);" class="btn btn-default stat-item">
-                        <i class="fa fa-share icon"></i>12
-                    </a>
-                </div>
-            </div>
-            <div class="post-footer">
-                <div class="input-group">
-                    <input class="form-control" placeholder="Add a comment" type="text">
-                    <span class="input-group-addon">
-                                <a href="javascript:void(0);"><i class="fa fa-edit"></i></a>
-                            </span>
-                </div>
-            </div>
-        </div>
-    </div>#}
-
-{#
-
-        {% if new.article is not null %}
-            {{ dump(new.article.titre) }}
-        {% endif %}
-
-         {% if new.evenement is not null %}
-            {{ dump(new.evenement.titre) }}
-         {% endif %}
-
-        {% if new.information is not null %}
-            {{ dump(new.information.titre) }}
-         {% endif %}
-
-        {% if new.video is not null %}
-            {{ dump(new.video.titre) }}
-        {% endif %}
-
-        {% if new.photo is not null%}
-            {{ dump(new.photo.titre) }}
-
-        {% endif %}
-
-#}
 
 
 
