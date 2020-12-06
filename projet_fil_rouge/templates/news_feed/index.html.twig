@@ -311,7 +311,11 @@
         <div class="post-description">
 
             <h4>{{ new.information.titre }}</h4>
-
+            <h6>
+                {% for category in new.information.category %}
+                    {{ category.name }}
+                {% endfor %}
+            </h6>
             <p>{{ new.information.description }}</p>
             <div>
             <p>{{ new.information.contenu }}</p>
