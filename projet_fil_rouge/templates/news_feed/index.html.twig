@@ -10,9 +10,9 @@
                 {% for new in news %}
 
                 {% if new.photo is not null%}
-                    <div class="col-sm-12 mt-3 mb-3 col-sm-offset-2 bg-white">
+        <div class="col-sm-12 mt-3 mb-3 col-sm-offset-2 bg-white">
 
-                    <div class="row">
+            <div class="row">
 
                 <div class="col-sm-12">
                     <div class="panel panel-white post">
@@ -215,7 +215,7 @@
 
     </div>
 </div>
-                    {% endif %}
+                {% endif %}
 
 
                 {% if new.evenement is not null %}
@@ -248,6 +248,7 @@
             <h4>{{ new.evenement.titre }}</h4>
 
             <p>{{ new.evenement.description }}</p>
+
             <table class="table">
                 <thead>
                 <tr>
@@ -274,6 +275,50 @@
                 </tr>
                 </tbody>
             </table>
+        </div>
+            </div>
+        </div>
+    </div>
+</div>
+                {% endif %}
+
+
+                {% if new.information is not null %}
+                    <div class="col-sm-12 mt-3 mb-3 col-sm-offset-2 bg-white">
+
+    <div class="row">
+
+        <div class="col-sm-12">
+            <div class="panel panel-white post">
+                <div class="post-heading">
+                    <div class="pull-left image">
+                        <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="img-circle avatar" alt="user profile image">
+                    </div>
+                    <div class="pull-left meta">
+                        <div class="title h5">
+                            <a href="#"><b>{{ new.information.user.firstName }} {{ new.information.user.lastName }}</b></a>
+                        </div>
+                        <h6 class="text-muted time">
+                            {% if new.updatedAt is not null %}
+                                {{ new.updatedAt|date('Y-m-d H:i:s')  }}
+                            {% else %}
+                                {{ new.createdAt|date('Y-m-d H:i:s')  }}
+                            {% endif %}
+                        </h6>
+                    </div>
+                </div>
+
+        <div class="post-description">
+
+            <h4>{{ new.information.titre }}</h4>
+
+            <p>{{ new.information.description }}</p>
+            <div>
+            <p>{{ new.information.contenu }}</p>
+            </div>
+            <div>
+            <p> </p>
+            </div>
         </div>
             </div>
         </div>
