@@ -72,11 +72,6 @@ class Evenements
     private $heureFin;
 
     /**
-     * @ORM\OneToMany(targetEntity=Commentaires::class, mappedBy="evenements")
-     */
-    private $commentaires;
-
-    /**
      * @ORM\Column(type="datetime")
      * @var DateTime
      */
@@ -91,7 +86,6 @@ class Evenements
     public function __construct()
     {
         $this->category = new ArrayCollection();
-        $this->commentaires = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -227,36 +221,6 @@ class Evenements
     public function setHeureFin(\DateTimeInterface $heureFin): self
     {
         $this->heureFin = $heureFin;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Commentaires[]
-     */
-    public function getCommentaires(): Collection
-    {
-        return $this->commentaires;
-    }
-
-    public function addCommentaire(Commentaires $commentaire): self
-    {
-        if (!$this->commentaires->contains($commentaire)) {
-            $this->commentaires[] = $commentaire;
-            $commentaire->setEvenements($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCommentaire(Commentaires $commentaire): self
-    {
-        if ($this->commentaires->removeElement($commentaire)) {
-            // set the owning side to null (unless already changed)
-            if ($commentaire->getEvenements() === $this) {
-                $commentaire->setEvenements(null);
-            }
-        }
 
         return $this;
     }

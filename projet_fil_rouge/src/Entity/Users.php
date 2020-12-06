@@ -92,12 +92,6 @@ class Users implements UserInterface
     private $informations;
 
     /**
-     * @ORM\OneToMany(targetEntity=Commentaires::class, mappedBy="user")
-     */
-    private $commentaires;
-
-
-    /**
      * @Assert\EqualTo(propertyPath="password", message="Les mots de passe ne sont pas identiques")
      */
     private $passwordVerification;
@@ -106,6 +100,11 @@ class Users implements UserInterface
      * @ORM\OneToMany(targetEntity=Ressources::class, mappedBy="user", orphanRemoval=true)
      */
     private $ressources;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Comments::class, mappedBy="user")
+     */
+    private $comments;
 
 
     public function getPasswordVerification(): ?string
@@ -126,8 +125,8 @@ class Users implements UserInterface
         $this->photos = new ArrayCollection();
         $this->evenements = new ArrayCollection();
         $this->informations = new ArrayCollection();
-        $this->commentaires = new ArrayCollection();
         $this->ressources = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -400,36 +399,6 @@ class Users implements UserInterface
         return $this;
     }
 
-    /**
-     * @return Collection|Commentaires[]
-     */
-    public function getCommentaires(): Collection
-    {
-        return $this->commentaires;
-    }
-
-    public function addCommentaire(Commentaires $commentaire): self
-    {
-        if (!$this->commentaires->contains($commentaire)) {
-            $this->commentaires[] = $commentaire;
-            $commentaire->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCommentaire(Commentaires $commentaire): self
-    {
-        if ($this->commentaires->removeElement($commentaire)) {
-            // set the owning side to null (unless already changed)
-            if ($commentaire->getUser() === $this) {
-                $commentaire->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getSalt()
     {
         // TODO: Implement getSalt() method.
@@ -469,6 +438,36 @@ class Users implements UserInterface
             // set the owning side to null (unless already changed)
             if ($ressource->getUser() === $this) {
                 $ressource->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Comments[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comments $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comments $comment): self
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getUser() === $this) {
+                $comment->setUser(null);
             }
         }
 

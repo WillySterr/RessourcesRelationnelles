@@ -52,11 +52,6 @@ class Photos
     private $category;
 
     /**
-     * @ORM\OneToMany(targetEntity=Commentaires::class, mappedBy="photos")
-     */
-    private $commentaires;
-
-    /**
      * @var Datetime
      * @ORM\Column(type="datetime")
      */
@@ -76,7 +71,6 @@ class Photos
     public function __construct()
     {
         $this->category = new ArrayCollection();
-        $this->commentaires = new ArrayCollection();
         $this->image = new ArrayCollection();
     }
 
@@ -165,36 +159,6 @@ class Photos
     public function removeCategory(Category $category): self
     {
         $this->category->removeElement($category);
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Commentaires[]
-     */
-    public function getCommentaires(): Collection
-    {
-        return $this->commentaires;
-    }
-
-    public function addCommentaire(Commentaires $commentaire): self
-    {
-        if (!$this->commentaires->contains($commentaire)) {
-            $this->commentaires[] = $commentaire;
-            $commentaire->setPhotos($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCommentaire(Commentaires $commentaire): self
-    {
-        if ($this->commentaires->removeElement($commentaire)) {
-            // set the owning side to null (unless already changed)
-            if ($commentaire->getPhotos() === $this) {
-                $commentaire->setPhotos(null);
-            }
-        }
 
         return $this;
     }
