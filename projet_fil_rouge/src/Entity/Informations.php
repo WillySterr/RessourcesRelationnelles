@@ -60,11 +60,6 @@ class Informations
     private $category;
 
     /**
-     * @ORM\OneToMany(targetEntity=Commentaires::class, mappedBy="informations")
-     */
-    private $commentaires;
-
-    /**
      * @var DateTime
      * @ORM\Column(type="datetime")
      */
@@ -79,7 +74,6 @@ class Informations
     public function __construct()
     {
         $this->category = new ArrayCollection();
-        $this->commentaires = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -172,36 +166,6 @@ class Informations
     public function removeCategory(Category $category): self
     {
         $this->category->removeElement($category);
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Commentaires[]
-     */
-    public function getCommentaires(): Collection
-    {
-        return $this->commentaires;
-    }
-
-    public function addCommentaire(Commentaires $commentaire): self
-    {
-        if (!$this->commentaires->contains($commentaire)) {
-            $this->commentaires[] = $commentaire;
-            $commentaire->setInformations($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCommentaire(Commentaires $commentaire): self
-    {
-        if ($this->commentaires->removeElement($commentaire)) {
-            // set the owning side to null (unless already changed)
-            if ($commentaire->getInformations() === $this) {
-                $commentaire->setInformations(null);
-            }
-        }
 
         return $this;
     }

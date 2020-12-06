@@ -54,11 +54,6 @@ class Videos
     private $category;
 
     /**
-     * @ORM\OneToMany(targetEntity=Commentaires::class, mappedBy="videos")
-     */
-    private $commentaires;
-
-    /**
      * @var Datetime
      * @ORM\Column(type="datetime")
      */
@@ -164,35 +159,6 @@ class Videos
         return $this;
     }
 
-    /**
-     * @return Collection|Commentaires[]
-     */
-    public function getCommentaires(): Collection
-    {
-        return $this->commentaires;
-    }
-
-    public function addCommentaire(Commentaires $commentaire): self
-    {
-        if (!$this->commentaires->contains($commentaire)) {
-            $this->commentaires[] = $commentaire;
-            $commentaire->setVideos($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCommentaire(Commentaires $commentaire): self
-    {
-        if ($this->commentaires->removeElement($commentaire)) {
-            // set the owning side to null (unless already changed)
-            if ($commentaire->getVideos() === $this) {
-                $commentaire->setVideos(null);
-            }
-        }
-
-        return $this;
-    }
 
     public function getCreatedAt(): ?\DateTimeInterface
     {
