@@ -81,9 +81,15 @@ class Ressources
      */
     private $comments;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Favoris::class, mappedBy="ressource", orphanRemoval=true)
+     */
+    private $favoris;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->favoris = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -245,6 +251,36 @@ class Ressources
             // set the owning side to null (unless already changed)
             if ($comment->getRessource() === $this) {
                 $comment->setRessource(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Favoris[]
+     */
+    public function getFavoris(): Collection
+    {
+        return $this->favoris;
+    }
+
+    public function addFavori(Favoris $favori): self
+    {
+        if (!$this->favoris->contains($favori)) {
+            $this->favoris[] = $favori;
+            $favori->setRessource($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFavori(Favoris $favori): self
+    {
+        if ($this->favoris->removeElement($favori)) {
+            // set the owning side to null (unless already changed)
+            if ($favori->getRessource() === $this) {
+                $favori->setRessource(null);
             }
         }
 
