@@ -106,6 +106,11 @@ class Users implements UserInterface
      */
     private $comments;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Favoris::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $favoris;
+
 
     public function getPasswordVerification(): ?string
     {
@@ -127,6 +132,7 @@ class Users implements UserInterface
         $this->informations = new ArrayCollection();
         $this->ressources = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->favoris = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -234,7 +240,6 @@ class Users implements UserInterface
     {
         // TODO: Implement getRoles() method.
         return [$this->roles];
-
     }
 
 
@@ -468,6 +473,36 @@ class Users implements UserInterface
             // set the owning side to null (unless already changed)
             if ($comment->getUser() === $this) {
                 $comment->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Favoris[]
+     */
+    public function getFavoris(): Collection
+    {
+        return $this->favoris;
+    }
+
+    public function addFavori(Favoris $favori): self
+    {
+        if (!$this->favoris->contains($favori)) {
+            $this->favoris[] = $favori;
+            $favori->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFavori(Favoris $favori): self
+    {
+        if ($this->favoris->removeElement($favori)) {
+            // set the owning side to null (unless already changed)
+            if ($favori->getUser() === $this) {
+                $favori->setUser(null);
             }
         }
 

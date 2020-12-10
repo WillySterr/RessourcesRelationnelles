@@ -47,22 +47,21 @@ class PhotosController extends AbstractController
 
 
             // On boucle sur les images
-            foreach($images as $image){
+            foreach ($images as $image) {
                 // On génère un nouveau nom de fichier
-                $fichier = md5(uniqid()).'.'.$image->guessExtension();
-                
+                $fichier = md5(uniqid()) . '.' . $image->guessExtension();
+
                 // On copie le fichier dans le dossier uploads
                 $image->move(
                     $this->getParameter('images_directory'),
                     $fichier
                 );
-                
-                // On crée l'image dans la base de données
-                
-                $photo->setImage($fichier);
-                }
 
-            dd($form->getData());
+                // On crée l'image dans la base de données
+
+                $photo->setImage($fichier);
+            }
+
 
             $ressource = new Ressources();
             $ressource->setUser($security->getUser())
@@ -108,28 +107,28 @@ class PhotosController extends AbstractController
             // On récupère le nom de l'image
             $nom = $photo->getImage();
             // On supprime le fichier
-            
-            if ($this->getParameter('images_directory').'/'.$nom != true){
-                unlink($this->getParameter('images_directory').'/'.$nom);
+
+            if ($this->getParameter('images_directory') . '/' . $nom != true) {
+                unlink($this->getParameter('images_directory') . '/' . $nom);
             }
             // On récupère les photos transmises
             $images = $form->get('image')->getData();
 
             // On boucle sur les images
-            foreach($images as $image){
+            foreach ($images as $image) {
                 // On génère un nouveau nom de fichier
-                $fichier = md5(uniqid()).'.'.$image->guessExtension();
-                
+                $fichier = md5(uniqid()) . '.' . $image->guessExtension();
+
                 // On copie le fichier dans le dossier uploads
                 $image->move(
                     $this->getParameter('images_directory'),
                     $fichier
                 );
-                
+
                 // On crée l'image dans la base de données
-                
+
                 $photo->setImage($fichier);
-                }
+            }
 
             $ressource = $ressourcesRepository->findOneBy(["photo" => $photo->getId()]);
             $ressource->setUpdatedAt();
@@ -151,11 +150,11 @@ class PhotosController extends AbstractController
     public function delete(Request $request, Photos $photo, RessourcesRepository $ressourcesRepository): Response
     {
 
-        if ($this->isCsrfTokenValid('delete'.$photo->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $photo->getId(), $request->request->get('_token'))) {
             // On récupère le nom de l'image
             $nom = $photo->getImage();
             // On supprime le fichier
-            unlink($this->getParameter('images_directory').'/'.$nom);
+            unlink($this->getParameter('images_directory') . '/' . $nom);
 
             $entityManager = $this->getDoctrine()->getManager();
             $ressource = $ressourcesRepository->findOneBy(["photo" => $photo->getId()]);
@@ -172,13 +171,12 @@ class PhotosController extends AbstractController
      */
     public function publish($id, Photos $photo): Response
     {
-        if($photo->getPublished() == false)
-        {
+        if ($photo->getPublished() == false) {
             $entityManager = $this->getDoctrine()->getManager();
             $photo->setPublished(true);
             $entityManager->persist($photo);
             $entityManager->flush();
-        }else{
+        } else {
             $this->addFlash('warning', 'Article déjà publié');
         }
 
