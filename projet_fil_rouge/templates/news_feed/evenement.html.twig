@@ -1,0 +1,92 @@
+                {% if new.evenement is not null %}
+
+<div class="card w-75 my-5">
+  <div class="card-header">
+      <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="rounded-circle avatar a" style="width: 10%" alt="user profile image">
+    <p class="a ml-2"><a href="#">{{ new.evenement.user.firstName }} {{ new.evenement.user.lastName }}, {{ new.evenement.user.job }}</a></p>
+        <div class="favoris a">
+                       {% if (favoList == []) %}
+                       <a href="{{ path('add_favoris', {'id': new.id}) }}">add_favoris</a>
+                       {% endif %}
+
+                        {% for favoris in new.favoris %}
+
+                            {% if favoris.user == userCo %}
+
+                        <a href="{{ path('remove_favoris', {'id': favoris.id}) }}">remove_favoris</a>
+                            {% endif %}
+                        {% endfor %}
+                       {# {% for favoris in new.favoris %}
+                            {% if new.favoris == [] %}
+                            {% endif %}
+                        {% endfor %} #}
+    
+    </div>
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">{{ new.evenement.titre }}</h5>
+    <p>{{ new.evenement.description }}</p>
+    <div class="card-text text-center">
+                    <table class="table">
+                <thead>
+                <tr>
+                    <th>
+                        Date de début
+                    </th>
+                    <th>
+                        Heure de début
+                    </th>
+                    <th>
+                        Date de fin
+                    </th>
+                    <th>
+                        Heure de fin
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>{{ new.evenement.dateDebut ? new.evenement.dateDebut|date('d-m-Y') : '' }}</td>
+                    <td>{{ new.evenement.heureDebut ? new.evenement.heureDebut|date('H:i:s') : '' }}</td>
+                    <td>{{ new.evenement.dateFin ? new.evenement.dateFin|date('d-m-Y') : '' }}</td>
+                    <td>{{ new.evenement.heureFin ? new.evenement.heureFin|date('H:i:s') : '' }}</td>
+                </tr>
+                </tbody>
+            </table>
+    </div>
+
+  </div>
+  <div class="card-footer">
+    <form method="POST" action="{{ path('add_comment', {'id': new.id}) }}">
+                    <input class="form-control comments_contenu w-75" name="comments" type="text" placeholder="Saisissez votre commentaire">
+                </form>
+                <div class="post-footer">
+                    <ul class="comments-list">
+                        {% for comments in new.comments %}
+                            <li class="comment mt-2">
+                               <div class="commentOrigin">
+                                    <a class="pull-left" href="javascript:void(0);">
+                                        <img class="avatar a rounded-circle" src="https://bootdey.com/img/Content/avatar/avatar1.png" style="width: 5%"alt="avatar">
+                                    </a>
+                                    <h5 class="user a">{{ comments.user.firstName }} {{ comments.user.lastName }} a commenté </h5><a href="#"><i class="fas fa-reply ml-2"></i></a>
+                                </div>
+                                        {# <p class="time small">
+                                            {% if comments.updatedAt is not null %}
+                                                {{ comments.updatedAt|date('Y-m-d H:i:s')  }}
+                                            {% else %}
+                                                {{ comments.createdAt|date('Y-m-d H:i:s')  }}
+                                            {% endif %}
+                                        </p> #}
+                                <div class="comment-body">
+                                    <div>
+                                    <p>{{ comments.contenu }}</p>
+                                    </div>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+{% endif %}
+
