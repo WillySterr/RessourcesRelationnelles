@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Favoris{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+
+        <h2 class="text-center font-weight-bold pt-2 mb-4 pb-2">Mes favoris</h2>
+        <div class="row justify-content-center">
+
+            {% for new in news %}
+
+                {% include 'news_feed/photo.html.twig' %}
+
+                {% include 'news_feed/articles.html.twig' %}
+
+                {% include 'news_feed/video.html.twig' %}
+
+                {% include 'news_feed/informations.html.twig' %}
+
+                {% include 'news_feed/evenement.html.twig' %}
+
+            {% endfor %}
+
+        </div>
+
+
+
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <script>
+        let form = document.querySelector('form');
+        let textContent = document.querySelector('.comments_contenu');
+        textContent.addEventListener('keypress', function(e){
+            if(e.key === 'Enter')
+            {
+                form.submit();
+            }
+        });
+    </script>
+{% endblock %}

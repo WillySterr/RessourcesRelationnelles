@@ -19,6 +19,15 @@ class FavorisRepository extends ServiceEntityRepository
         parent::__construct($registry, Favoris::class);
     }
 
+    public function getFavorisAboutUser($user){
+        return $this->createQueryBuilder('q')
+            ->andWhere('q.user = :user')
+            ->setParameter('user', $user)
+            ->addOrderBy('q.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Favoris[] Returns an array of Favoris objects
     //  */
