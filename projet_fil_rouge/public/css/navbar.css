@@ -1,6 +1,7 @@
 body {
     background: white;
     font-family: 'Varela Round', sans-serif;
+    scroll-behavior: smooth;
 }
 
 .navbar {
@@ -11,7 +12,9 @@ body {
     border: none;
     box-shadow: 0 0 4px rgba(0, 0, 0, .1);
 }
-
+nav{
+    position: fixed;
+}
 .navbar img {
     border-radius: 50%;
     width: 36px;
