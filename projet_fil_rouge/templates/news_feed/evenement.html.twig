@@ -3,23 +3,43 @@
 <div class="card w-75 my-5">
   <div class="card-header">
       <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="rounded-circle avatar a" style="width: 10%" alt="user profile image">
-    <p class="a ml-2"><a href="#">{{ new.evenement.user.firstName }} {{ new.evenement.user.lastName }}, {{ new.evenement.user.job }}</a></p>
+    <p class="a ml-2"><a href="#">{{ new.evenement.user.firstName }} {{ new.evenement.user.lastName }}</a></p>
         <div class="favoris a">
-                       {% if (favoList == []) %}
-                       <a href="{{ path('add_favoris', {'id': new.id}) }}">add_favoris</a>
-                       {% endif %}
+            {% set flag, favId = 0, 0 %}
 
-                        {% for favoris in new.favoris %}
 
-                            {% if favoris.user == userCo %}
+            {% if favoList is empty %}
 
-                        <a href="{{ path('remove_favoris', {'id': favoris.id}) }}">remove_favoris</a>
-                            {% endif %}
-                        {% endfor %}
-                       {# {% for favoris in new.favoris %}
-                            {% if new.favoris == [] %}
-                            {% endif %}
-                        {% endfor %} #}
+                {% set flag = 0 %}
+
+            {% else %}
+
+                {% for fav in favoList %}
+
+                    {% if (fav.ressource.id) == (new.id) %}
+
+                        {% set favId = fav.id %}
+                        {% set flag = 1 %}
+
+                    {% elseif (fav.ressource.id) == (new.id) and flag != 1 %}
+
+                        {% set flag = 0 %}
+
+                    {% endif %}
+
+
+                {% endfor %}
+
+
+            {% endif %}
+
+
+
+            {% if flag == 0 %}
+                <a href="{{ path('add_favoris', {'id': new.id}) }}"><i class="far fa-star fa-lg ml-5"></i></a>
+            {% else %}
+                <a href="{{ path('remove_favoris', {'id': favId}) }}"><i class="fas fa-star fa-lg ml-5"></i></a>
+            {% endif %}
     
     </div>
   </div>
