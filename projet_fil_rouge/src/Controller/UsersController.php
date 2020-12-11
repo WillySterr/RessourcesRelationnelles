@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Users;
 use App\Form\RegisterType;
+use App\Repository\FavorisRepository;
+use App\Repository\RessourcesRepository;
 use App\Repository\UsersRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -65,13 +67,19 @@ class UsersController extends AbstractController
     /**
      * @Route("/profile", name="profile")
      */
-    public function getUserProfile(UsersRepository $usersRepository, Security $security)
+    public function getUserProfile(UsersRepository $usersRepository, RessourcesRepository $ressourcesRepository, Security $security, FavorisRepository $favorisRepository)
     {
 
         $user = $usersRepository->findOneBy(["id" => $security->getUser()]);
+        $lastRessources = $ressourcesRepository->getLastRessourceOfCurrentUser($security->getUser());
+        $favs = $favorisRepository->getLastFavorisOfCurrentUser($security->getUser());
+
+
 
         return $this->render("users/profile.html.twig", [
-            "user" => $user
+            "user" => $user,
+            "lastRessources" => $lastRessources,
+            "favs" => $favs
         ]);
     }
 }
