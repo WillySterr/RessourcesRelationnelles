@@ -4,11 +4,15 @@ namespace App\Controller;
 
 use App\Entity\Users;
 use App\Form\RegisterType;
+use App\Repository\FavorisRepository;
+use App\Repository\RessourcesRepository;
+use App\Repository\UsersRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class UsersController extends AbstractController
@@ -58,5 +62,24 @@ class UsersController extends AbstractController
     public function logout()
     {
         return $this->redirectToRoute("register");
+    }
+
+    /**
+     * @Route("/profile", name="profile")
+     */
+    public function getUserProfile(UsersRepository $usersRepository, RessourcesRepository $ressourcesRepository, Security $security, FavorisRepository $favorisRepository)
+    {
+
+        $user = $usersRepository->findOneBy(["id" => $security->getUser()]);
+        $lastRessources = $ressourcesRepository->getLastRessourceOfCurrentUser($security->getUser());
+        $favs = $favorisRepository->getLastFavorisOfCurrentUser($security->getUser());
+
+
+
+        return $this->render("users/profile.html.twig", [
+            "user" => $user,
+            "lastRessources" => $lastRessources,
+            "favs" => $favs
+        ]);
     }
 }

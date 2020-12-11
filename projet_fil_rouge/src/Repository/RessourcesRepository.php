@@ -28,6 +28,18 @@ class RessourcesRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function getLastRessourceOfCurrentUser($user)
+    {
+        return $this->createQueryBuilder('q')
+            ->addOrderBy('q.createdAt', 'DESC')
+            ->addOrderBy('q.updatedAt', 'DESC')
+            ->andWhere('q.user = :user')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->setMaxResults(5)
+            ->getResult();
+
+    }
     // /**
     //  * @return Ressources[] Returns an array of Ressources objects
     //  */

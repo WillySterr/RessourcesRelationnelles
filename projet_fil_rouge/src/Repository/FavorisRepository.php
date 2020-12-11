@@ -28,6 +28,18 @@ class FavorisRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function getLastFavorisOfCurrentUser($user)
+    {
+        return $this->createQueryBuilder('q')
+            ->addOrderBy('q.createdAt', 'DESC')
+            ->andWhere('q.user = :user')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->setMaxResults(5)
+            ->getResult();
+
+    }
+
     // /**
     //  * @return Favoris[] Returns an array of Favoris objects
     //  */
