@@ -4,17 +4,43 @@
 <div class="card w-75  my-5">
   <div class="card-header">
       <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="rounded-circle avatar a" style="width: 10%" alt="user profile image">
-    <p class="a ml-2"><a href="#">{{ new.information.user.firstName }} {{ new.information.user.lastName }}, {{ new.information.user.job}} </a></p>
+    <p class="a ml-2"><a href="#">{{ new.information.user.firstName }} {{ new.information.user.lastName }} </a></p>
         <div class="favoris a">
-                             {% if new.favoris != [] %}
-                       <a href="{{ path('add_favoris', {'id': new.id}) }}"><i class="far fa-star fa-lg ml-5"></i></a>
-                       
-                     {% endif %}
-                    {% for favoris in new.favoris %}
-                            {% if favoris.user == userCo %}
-                        <a href="{{ path('remove_favoris', {'id': favoris.id}) }}"><i class="fas fa-star fa-lg ml-5"></i></a>
-                            {% endif %}
-                        {% endfor %}
+            {% set flag, favId = 0, 0 %}
+
+
+            {% if favoList is empty %}
+
+                {% set flag = 0 %}
+
+            {% else %}
+
+                {% for fav in favoList %}
+
+                    {% if (fav.ressource.id) == (new.id) %}
+
+                        {% set favId = fav.id %}
+                        {% set flag = 1 %}
+
+                    {% elseif (fav.ressource.id) == (new.id) and flag != 1 %}
+
+                        {% set flag = 0 %}
+
+                    {% endif %}
+
+
+                {% endfor %}
+
+
+            {% endif %}
+
+
+
+            {% if flag == 0 %}
+                <a href="{{ path('add_favoris', {'id': new.id}) }}"><i class="far fa-star fa-lg ml-5"></i></a>
+            {% else %}
+                <a href="{{ path('remove_favoris', {'id': favId}) }}"><i class="fas fa-star fa-lg ml-5"></i></a>
+            {% endif %}
     
     </div>
   </div>
