@@ -87,4 +87,24 @@ class NewsFeedController extends AbstractController
 
         return $this->redirectToRoute('news_feed');
     }
+
+    /**
+     * @Route("/user/favoris", name="get_favoris_user", methods={"GET"})
+     */
+    public function getAllFavorisOfUser(FavorisRepository $favorisRepository, Security $security)
+    {
+
+        $favoris = $favorisRepository->getFavorisAboutUser($security->getUser());
+        $userCo = $security->getUser();
+        $favoList = $favorisRepository->findByUser($userCo);
+
+
+        return $this->render('news_feed/favoris.html.twig', [
+            'news' => $favoris,
+            'userCo' => $userCo,
+            'favoList' => $favoList,
+        ]);
+
+
+    }
 }

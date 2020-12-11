@@ -27,6 +27,7 @@ class RessourcesRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
     // /**
     //  * @return Ressources[] Returns an array of Ressources objects
     //  */
