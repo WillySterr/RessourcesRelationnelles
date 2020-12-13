@@ -29,7 +29,7 @@ class ConversationsRepository extends ServiceEntityRepository
             ->andWhere(':currentUserId MEMBER OF c.users')
             ->setParameter('currentUserId', $currentUserId)
             ->getQuery()
-            ->getArrayResult();
+            ->getResult();
     }
 
     /*
