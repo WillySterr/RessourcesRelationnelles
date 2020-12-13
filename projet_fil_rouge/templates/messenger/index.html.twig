@@ -211,8 +211,9 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
+                <form action="{{ path('create_conversation') }}" method="post" id="form-conversation">
                 <div class="modal-body">
-                    <select class="mdb-select md-form" searchable="Chercher un utilisateur">
+                    <select name="user" class="mdb-select md-form" searchable="Chercher un utilisateur">
                         <option value="" disabled selected>Utilisateurs</option>
                         {% for user in users %}
                             <option data-icon="https://mdbootstrap.com/img/Photos/Avatars/avatar-1.jpg" class="rounded-circle" value="{{ user.id }}">{{ user.firstName }} {{ user.lastName }}</option>
@@ -221,8 +222,9 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Fermer</button>
-                    <button type="button" class="btn btn-primary">Créer</button>
+                    <button type="submit" id="btn-add-conversation" class="btn btn-primary">Créer</button>
                 </div>
+                </form>
             </div>
         </div>
     </div>
