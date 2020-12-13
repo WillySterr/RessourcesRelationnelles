@@ -53,7 +53,7 @@ class MessengerController extends AbstractController
             $entityManager->flush();
         }
 
-        $conversationOfCurrentUser = $conversationsRepository->findAll();
+        $conversationOfCurrentUser = $conversationsRepository->getCurrentUserConversation($security->getUser()->getId());
 
         return $this->redirectToRoute('messenger');
     }
