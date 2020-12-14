@@ -67,27 +67,27 @@ class Users implements UserInterface
     private $roles;
 
     /**
-     * @ORM\OneToMany(targetEntity=Articles::class, mappedBy="user")
+     * @ORM\OneToMany(targetEntity=Articles::class, mappedBy="user", orphanRemoval=true)
      */
     private $articles;
 
     /**
-     * @ORM\OneToMany(targetEntity=Videos::class, mappedBy="user")
+     * @ORM\OneToMany(targetEntity=Videos::class, mappedBy="user", orphanRemoval=true)
      */
     private $videos;
 
     /**
-     * @ORM\OneToMany(targetEntity=Photos::class, mappedBy="user")
+     * @ORM\OneToMany(targetEntity=Photos::class, mappedBy="user", orphanRemoval=true)
      */
     private $photos;
 
     /**
-     * @ORM\OneToMany(targetEntity=Evenements::class, mappedBy="user")
+     * @ORM\OneToMany(targetEntity=Evenements::class, mappedBy="user", orphanRemoval=true)
      */
     private $evenements;
 
     /**
-     * @ORM\OneToMany(targetEntity=Informations::class, mappedBy="user")
+     * @ORM\OneToMany(targetEntity=Informations::class, mappedBy="user", orphanRemoval=true)
      */
     private $informations;
 
@@ -102,7 +102,7 @@ class Users implements UserInterface
     private $ressources;
 
     /**
-     * @ORM\OneToMany(targetEntity=Comments::class, mappedBy="user")
+     * @ORM\OneToMany(targetEntity=Comments::class, mappedBy="user", orphanRemoval=true)
      */
     private $comments;
 
@@ -112,7 +112,7 @@ class Users implements UserInterface
     private $favoris;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Conversations::class, mappedBy="users")
+     * @ORM\ManyToMany(targetEntity=Conversations::class, mappedBy="users", orphanRemoval=true)
      */
     private $conversations;
 
