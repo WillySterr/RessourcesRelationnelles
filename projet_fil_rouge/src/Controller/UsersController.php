@@ -109,4 +109,26 @@ class UsersController extends AbstractController
 
         return $this->redirectToRoute('logout');
     }
+
+    /**
+     *  @Route("/{id}/edituser", name="edituser", methods={"GET", "POST"})
+     */
+    public function edituser(Request $request, UsersRepository $usersRepository, Security $security, $id)
+    {
+        $user = $usersRepository->findOneBy(["id" => $security->getUser()]);
+
+        $form = $this->createForm(RegisterType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+           return $this->redirectToRoute('profile');
+        }
+
+        return $this->render('users/useredit.html.twig', [
+            'user' => $user,
+            'form' => $form->createView(),
+        ]);
+    }
 }
