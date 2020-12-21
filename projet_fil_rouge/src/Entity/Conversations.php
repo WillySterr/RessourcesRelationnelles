@@ -29,6 +29,16 @@ class Conversations
      */
     private $messages;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $lastMessage;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $lastMessageDate;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
@@ -90,6 +100,30 @@ class Conversations
                 $message->setConversation(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLastMessage(): ?string
+    {
+        return $this->lastMessage;
+    }
+
+    public function setLastMessage(?string $lastMessage): self
+    {
+        $this->lastMessage = $lastMessage;
+
+        return $this;
+    }
+
+    public function getLastMessageDate(): ?\DateTimeInterface
+    {
+        return $this->lastMessageDate;
+    }
+
+    public function setLastMessageDate(?\DateTimeInterface $lastMessageDate): self
+    {
+        $this->lastMessageDate = $lastMessageDate;
 
         return $this;
     }
