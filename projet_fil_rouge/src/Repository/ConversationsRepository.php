@@ -32,6 +32,17 @@ class ConversationsRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function checkConversationExist($currentUserId, $distantUserId)
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere(':currentUserId MEMBER OF c.users')
+            ->andWhere(':distantUserId MEMBER OF c.users')
+            ->setParameter('currentUserId', $currentUserId)
+            ->setParameter('distantUserId', $distantUserId)
+            ->getQuery()
+            ->getResult();
+    }
+
     /*
     public function findOneBySomeField($value): ?Conversations
     {

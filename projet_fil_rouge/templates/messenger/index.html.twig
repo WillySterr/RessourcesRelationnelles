@@ -6,6 +6,12 @@
 
 {% block body %}
 
+    {% for message in app.flashes('danger') %}
+        <div class="alert alert-danger">
+            {{ message }}
+        </div>
+    {% endfor %}
+
 
     <div class="container py-5 px-4">
         <!-- For demo purpose-->
@@ -19,6 +25,7 @@
         </header>
 
         <div class="row rounded-lg overflow-hidden shadow">
+            <input id="currentUserId" type="hidden" name="conversationId" value="{{ app.user.id }}">
             <!-- Users box-->
             <div class="col-5 px-0">
                 <div class="bg-white">
@@ -29,94 +36,8 @@
                     </div>
 
                     <div class="messages-box">
-                        <div class="list-group rounded-0">
-                            <a class="list-group-item list-group-item-action active text-white rounded-0">
-                                <div class="media"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
-                                    <div class="media-body ml-4">
-                                        <div class="d-flex align-items-center justify-content-between mb-1">
-                                            <h6 class="mb-0">Jason Doe</h6><small class="small font-weight-bold">25 Dec</small>
-                                        </div>
-                                        <p class="font-italic mb-0 text-small">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p>
-                                    </div>
-                                </div>
-                            </a>
+                        <div id="blocConversations" class="list-group rounded-0">
 
-                            <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
-                                <div class="media"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
-                                    <div class="media-body ml-4">
-                                        <div class="d-flex align-items-center justify-content-between mb-1">
-                                            <h6 class="mb-0">Jason Doe</h6><small class="small font-weight-bold">14 Dec</small>
-                                        </div>
-                                        <p class="font-italic text-muted mb-0 text-small">Lorem ipsum dolor sit amet, consectetur. incididunt ut labore.</p>
-                                    </div>
-                                </div>
-                            </a>
-
-                            <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
-                                <div class="media"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
-                                    <div class="media-body ml-4">
-                                        <div class="d-flex align-items-center justify-content-between mb-1">
-                                            <h6 class="mb-0">Jason Doe</h6><small class="small font-weight-bold">9 Nov</small>
-                                        </div>
-                                        <p class="font-italic text-muted mb-0 text-small">consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p>
-                                    </div>
-                                </div>
-                            </a>
-
-                            <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
-                                <div class="media"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
-                                    <div class="media-body ml-4">
-                                        <div class="d-flex align-items-center justify-content-between mb-1">
-                                            <h6 class="mb-0">Jason Doe</h6><small class="small font-weight-bold">18 Oct</small>
-                                        </div>
-                                        <p class="font-italic text-muted mb-0 text-small">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p>
-                                    </div>
-                                </div>
-                            </a>
-
-                            <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
-                                <div class="media"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
-                                    <div class="media-body ml-4">
-                                        <div class="d-flex align-items-center justify-content-between mb-1">
-                                            <h6 class="mb-0">Jason Doe</h6><small class="small font-weight-bold">17 Oct</small>
-                                        </div>
-                                        <p class="font-italic text-muted mb-0 text-small">consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p>
-                                    </div>
-                                </div>
-                            </a>
-
-                            <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
-                                <div class="media"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
-                                    <div class="media-body ml-4">
-                                        <div class="d-flex align-items-center justify-content-between mb-1">
-                                            <h6 class="mb-0">Jason Doe</h6><small class="small font-weight-bold">2 Sep</small>
-                                        </div>
-                                        <p class="font-italic text-muted mb-0 text-small">Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                                    </div>
-                                </div>
-                            </a>
-
-                            <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
-                                <div class="media"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
-                                    <div class="media-body ml-4">
-                                        <div class="d-flex align-items-center justify-content-between mb-1">
-                                            <h6 class="mb-0">Jason Doe</h6><small class="small font-weight-bold">30 Aug</small>
-                                        </div>
-                                        <p class="font-italic text-muted mb-0 text-small">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p>
-                                    </div>
-                                </div>
-                            </a>
-
-                            <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
-                                <div class="media"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
-                                    <div class="media-body ml-4">
-                                        <div class="d-flex align-items-center justify-content-between mb-3">
-                                            <h6 class="mb-0">Jason Doe</h6><small class="small font-weight-bold">21 Aug</small>
-                                        </div>
-                                        <p class="font-italic text-muted mb-0 text-small">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p>
-                                    </div>
-                                </div>
-                            </a>
 
                         </div>
                     </div>
@@ -124,80 +45,21 @@
             </div>
             <!-- Chat Box-->
             <div class="col-7 px-0">
-                <div class="px-4 py-5 chat-box bg-white">
-                    <!-- Sender Message-->
-                    <div class="media w-50 mb-3"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
-                        <div class="media-body ml-3">
-                            <div class="bg-light rounded py-2 px-3 mb-2">
-                                <p class="text-small mb-0 text-muted">Test which is a new approach all solutions</p>
-                            </div>
-                            <p class="small text-muted">12:00 PM | Aug 13</p>
-                        </div>
-                    </div>
+                <div id="blocMessages" class="px-4 py-5 chat-box bg-white">
 
-                    <!-- Reciever Message-->
-                    <div class="media w-50 ml-auto mb-3">
-                        <div class="media-body">
-                            <div class="bg-primary rounded py-2 px-3 mb-2">
-                                <p class="text-small mb-0 text-white">Test which is a new approach to have all solutions</p>
-                            </div>
-                            <p class="small text-muted">12:00 PM | Aug 13</p>
-                        </div>
-                    </div>
 
-                    <!-- Sender Message-->
-                    <div class="media w-50 mb-3"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
-                        <div class="media-body ml-3">
-                            <div class="bg-light rounded py-2 px-3 mb-2">
-                                <p class="text-small mb-0 text-muted">Test, which is a new approach to have</p>
-                            </div>
-                            <p class="small text-muted">12:00 PM | Aug 13</p>
-                        </div>
-                    </div>
-
-                    <!-- Reciever Message-->
-                    <div class="media w-50 ml-auto mb-3">
-                        <div class="media-body">
-                            <div class="bg-primary rounded py-2 px-3 mb-2">
-                                <p class="text-small mb-0 text-white">Apollo University, Delhi, India Test</p>
-                            </div>
-                            <p class="small text-muted">12:00 PM | Aug 13</p>
-                        </div>
-                    </div>
-
-                    <!-- Sender Message-->
-                    <div class="media w-50 mb-3"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
-                        <div class="media-body ml-3">
-                            <div class="bg-light rounded py-2 px-3 mb-2">
-                                <p class="text-small mb-0 text-muted">Test, which is a new approach</p>
-                            </div>
-                            <p class="small text-muted">12:00 PM | Aug 13</p>
-                        </div>
-                    </div>
-
-                    <!-- Reciever Message-->
-                    <div class="media w-50 ml-auto mb-3">
-                        <div class="media-body">
-                            <div class="bg-primary rounded py-2 px-3 mb-2">
-                                <p class="text-small mb-0 text-white">Apollo University, Delhi, India Test</p>
-                            </div>
-                            <p class="small text-muted">12:00 PM | Aug 13</p>
-                        </div>
-                    </div>
-
-                </div>
 
                 <!-- Typing area -->
-                <form action="#" class="bg-light">
-                    <div class="input-group">
-                        <input type="text" placeholder="Type a message" aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4 bg-light">
-                        <div class="input-group-append">
-                            <button id="button-addon2" type="submit" class="btn btn-link"> <i class="fa fa-paper-plane"></i></button>
-                        </div>
-                    </div>
-                </form>
+
 
             </div>
+                    <div class="input-group">
+                        <input id="form-message" type="hidden">
+                        <input type="text" id="message-content-form" placeholder="Type a message" aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4 bg-light">
+{#                        <div class="input-group-append">
+                            <button id="button-addon2" type="submit" class="btn btn-link"> <i class="fa fa-paper-plane"></i></button>
+                        </div>#}
+                    </div>
         </div>
     </div>
     <!-- Modal -->
@@ -230,9 +92,206 @@
     </div>
 
 
+    <script>
 
-{% endblock %}
 
+        document.addEventListener("DOMContentLoaded", function(event) {
+
+            let conversation = document.querySelectorAll('.conversation');
+            let blocMessages = document.querySelector('#blocMessages');
+            let blocConversations = document.querySelector('#blocConversations');
+            let currentUserId = parseInt(document.querySelector('#currentUserId').value);
+            let formMessageId = document.querySelector('#form-message');
+            let date;
+
+            var xhr = new XMLHttpRequest();
+
+            function callConversation(){
+            xhr.open('GET', '{{ path('get_conversations') }}', true);
+            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+            xhr.onreadystatechange = function() { //Appelle une fonction au changement d'état.
+                if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+
+                    let data = xhr.response;
+                    getConversations(data, date, blocConversations, blocMessages, formMessageId, xhr, currentUserId);
+
+                    /*  getConversationMessages(data, date, blocMessages, currentUserId);
+                      blocMessages.scroll(0,3000000);*/
+
+
+                }
+            }
+            xhr.responseType = 'json';
+            xhr.send();
+            }
+            callConversation();
+
+
+            document.addEventListener('keypress', function (e){
+                if(e.key === 'Enter'){
+                    // Current user = currentUserId
+                    // Conversation id = formMessageId.value
+                    //let paramConversationId = parseInt(formMessageId.value);
+
+                    let messageConversation = document.querySelector('#message-content-form').value,
+                        messageText = document.getElementById('message-content-form');
+
+                    const paramsMessage = {
+                        "conversationId" : parseInt(formMessageId.value),
+                        "message" : document.querySelector('#message-content-form').value
+                    }
+
+                    xhr.open('POST', '{{ path('add_new_message') }}', true);
+                    xhr.setRequestHeader('Content-Type', 'application/json');
+                    xhr.onreadystatechange = function() { //Appelle une fonction au changement d'état.
+                        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                            blocMessages.innerHTML = "";
+                            let data = xhr.response;
+                            getConversationMessages(data, date, blocMessages, currentUserId);
+                            messageText.value = "";
+                            blocMessages.scroll(0,3000000);
+                            callConversation();
+
+
+
+                        }
+                    }
+                    xhr.responseType = 'json';
+                    xhr.send(JSON.stringify(paramsMessage));
+
+                }
+            })
+
+        });
+
+        function getConversations(data, date, blocConversations, blocMessages, formMessageId, xhr, currentUserId){
+
+            blocConversations.innerHTML = "";
+            let lastMessages;
+            for (let i = 0; i < data.length; i++) {
+
+                if(data[i].lastMessageDate !== null){
+                    date = new Date(data[i].lastMessageDate.date);
+                    date = date.toLocaleString();
+                }
+                else{
+                    date = "";
+                }
+                if(data[i].lastMessage !== null){
+                   lastMessages = data[i].lastMessage;
+                }
+                else{
+                    lastMessages = "";
+                }
+
+
+                let eachBlocConversation = document.createElement("a");
+                eachBlocConversation.setAttribute('class', 'list-group-item list-group-item-action list-group-item-light rounded-0 conversation')
+                eachBlocConversation.setAttribute('id', "btn-"+data[i].id);
+                eachBlocConversation.innerHTML = `
+
+                                            <div class="media"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
+                                                <div class="media-body ml-4">
+                                                    <div class="d-flex align-items-center justify-content-between mb-1">
+                                                        <h6 class="mb-0">
+                                                            ${data[i].userFirstName} ${data[i].userLastName}
+                                                        </h6>
+                                                        <small class="small font-weight-bold">
+                                                            ${date}
+                                                        </small>
+                                                    </div>
+                                                    <p class="font-italic text-muted mb-0 text-small">${lastMessages}</p>
+                                                </div>
+                                            </div>
+                                        `;
+
+                blocConversations.appendChild(eachBlocConversation);
+
+            }
+
+            let conversation = document.querySelectorAll('.conversation');
+
+            conversation.forEach(e => e.addEventListener('click', function(){
+
+                blocMessages.innerHTML = "";
+                // effacer la conversation
+                let conversationId = this.id.split('-');
+                let id = parseInt(conversationId[1]);
+
+
+                formMessageId.value = id;
+
+
+                xhr.open('POST', '{{ path('get_conversation_messages') }}', true);
+                xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+                xhr.onreadystatechange = function() { //Appelle une fonction au changement d'état.
+                    if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+
+                        let data = xhr.response;
+
+                        getConversationMessages(data, date, blocMessages, currentUserId);
+                        blocMessages.scroll(0,3000000);
+
+
+                    }
+                }
+                xhr.responseType = 'json';
+                xhr.send(id);
+
+
+
+            }))
+        }
+
+        function getConversationMessages(data, date, blocMessages, currentUserId){
+
+            for (let i = 0; i < data.length; i++){
+                if(data[i].user.id === currentUserId){
+
+                    date = new Date(data[i].postedAt.date);
+                    date = date.toLocaleString();
+                    let divUserCurrent = document.createElement("div");
+                    divUserCurrent.setAttribute('class', 'media w-50 ml-auto mb-3')
+                    divUserCurrent.innerHTML = `
+                                                        <div class="media-body">
+                                                        <div class="bg-primary rounded py-2 px-3 mb-2">
+                                                        <p class="text-small mb-0 text-white">${data[i].message}</p>
+                                                        </div>
+                                                        <p class="small text-muted"  style="white-space: nowrap;">${date}</p>
+                                                        </div>
+                                                        `;
+
+
+                    blocMessages.appendChild(divUserCurrent);
+                }
+                else{
+                    date = new Date(data[i].postedAt.date);
+                    date = date.toLocaleString();
+                    let userDistant = document.createElement("div");
+                    userDistant.setAttribute('class', 'media w-50 mb-3')
+                    userDistant.innerHTML = `
+                                                         <div class="media w-50 mb-3">
+                                                              <img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
+                                                            <div class="media-body ml-3">
+                                                                <div class="bg-light rounded py-2 px-3 mb-2">
+                                                                    <p class="text-small mb-0 text-muted">${data[i].message}</p>
+                                                                </div>
+                                                                <p class="small text-muted" style="white-space: nowrap;">${date}</p>
+                                                            </div>
+                                                         </div>
+                                                        `;
+
+
+                    blocMessages.appendChild(userDistant);
+                }
+            }
+
+        }
+
+
+
+    </script>
 
 {% block javascripts %}{% endblock %}
 
+{% endblock %}

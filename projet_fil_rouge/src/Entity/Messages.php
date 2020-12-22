@@ -34,6 +34,11 @@ class Messages
      */
     private $conversation;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $postedAt;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -71,6 +76,18 @@ class Messages
     public function setConversation(?Conversations $conversation): self
     {
         $this->conversation = $conversation;
+
+        return $this;
+    }
+
+    public function getPostedAt(): ?\DateTimeInterface
+    {
+        return $this->postedAt;
+    }
+
+    public function setPostedAt(\DateTimeInterface $postedAt): self
+    {
+        $this->postedAt = $postedAt;
 
         return $this;
     }
