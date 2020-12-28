@@ -24,10 +24,11 @@ class EvenementsController extends AbstractController
     /**
      * @Route("/", name="evenements_index", methods={"GET"})
      */
-    public function index(EvenementsRepository $evenementsRepository, UsersRepository $usersRepository): Response
+    public function index(EvenementsRepository $evenementsRepository, Security $security): Response
     {
-        return $this->render('evenements/index.html.twig', [
-            'evenements' => $evenementsRepository->findAll(),
+        $evenements = $evenementsRepository->findBy(["user" => $security->getUser()->getId()]);
+        return $this->render('Evenements/index.html.twig', [
+            'evenements' => $evenements,
         ]);
     }
 
@@ -100,7 +101,7 @@ class EvenementsController extends AbstractController
      */
     public function delete(Request $request, Evenements $evenement, RessourcesRepository $ressourcesRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$evenement->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $evenement->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $ressource = $ressourcesRepository->findOneBy(["evenement" => $evenement->getId()]);
             $entityManager->remove($evenement);
@@ -116,13 +117,12 @@ class EvenementsController extends AbstractController
      */
     public function publish($id, Evenements $evenement): Response
     {
-        if($evenement->getPublished() == false)
-        {
+        if ($evenement->getPublished() == false) {
             $entityManager = $this->getDoctrine()->getManager();
             $evenement->setPublished(true);
             $entityManager->persist($evenement);
             $entityManager->flush();
-        }else{
+        } else {
             $this->addFlash('warning', 'Article déjà publié');
         }
 

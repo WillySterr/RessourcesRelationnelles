@@ -23,17 +23,18 @@ class VideosController extends AbstractController
     /**
      * @Route("/", name="videos_index", methods={"GET"})
      */
-    public function index(VideosRepository $videosRepository): Response
+    public function index(VideosRepository $videosRepository, Security $security): Response
     {
+        $videos = $videosRepository->findBy(["user" => $security->getUser()->getId()]);
         return $this->render('videos/index.html.twig', [
-            'videos' => $videosRepository->findAll(),
+            'videos' => $videos,
         ]);
     }
 
     /**
      * @Route("/new", name="videos_new", methods={"GET","POST"})
      */
-    public function new(Request $request, Security $security,UsersRepository $usersRepository): Response
+    public function new(Request $request, Security $security, UsersRepository $usersRepository): Response
     {
         $video = new Videos();
         $form = $this->createForm(VideosType::class, $video);
@@ -44,8 +45,8 @@ class VideosController extends AbstractController
             $videos = $form->get('video')->getData();
 
 
-            foreach ($videos as $item){
-                $file = md5(uniqid()).'.'.$item->guessExtension();
+            foreach ($videos as $item) {
+                $file = md5(uniqid()) . '.' . $item->guessExtension();
 
                 // On copie le fichier dans le dossier uploads
                 $item->move(
@@ -77,7 +78,7 @@ class VideosController extends AbstractController
     }
 
     /**
-     * @Route("/{slug}", name="videos_show", methods={"GET"})
+     * @Route("/{id}", name="videos_show", methods={"GET"})
      */
     public function show(Videos $video): Response
     {
@@ -98,16 +99,16 @@ class VideosController extends AbstractController
 
             $item = $video->getVideo();
 
-            if ($this->getParameter('videos_directory').'/'.$item != true){
-                unlink($this->getParameter('videos_directory').'/'.$item);
+            if ($this->getParameter('videos_directory') . '/' . $item != true) {
+                unlink($this->getParameter('videos_directory') . '/' . $item);
             }
 
             $files = $form->get('video')->getData();
 
 
-            foreach($files as $file){
+            foreach ($files as $file) {
                 // On génère un nouveau nom de fichier
-                $newVideo = md5(uniqid()).'.'.$file->guessExtension();
+                $newVideo = md5(uniqid()) . '.' . $file->guessExtension();
 
                 // On copie le fichier dans le dossier uploads
                 $file->move(
@@ -140,9 +141,9 @@ class VideosController extends AbstractController
      */
     public function delete(Request $request, Videos $video): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$video->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $video->getId(), $request->request->get('_token'))) {
             $file = $video->getVideo();
-            unlink($this->getParameter('videos_directory').'/'.$file);
+            unlink($this->getParameter('videos_directory') . '/' . $file);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($video);
             $entityManager->flush();

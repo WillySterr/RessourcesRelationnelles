@@ -23,7 +23,7 @@ class ArticlesController extends AbstractController
      */
     public function index(ArticlesRepository $articlesRepository, Security $security): Response
     {
-        $articles = $articlesRepository->findBy(["id" => $security->getUser()->getId()]);
+        $articles = $articlesRepository->findBy(["user" => $security->getUser()->getId()]);
         return $this->render('articles/index.html.twig', [
             'articles' => $articles,
         ]);
@@ -46,9 +46,9 @@ class ArticlesController extends AbstractController
             $videos = $form->get('video')->getData();
 
             // On boucle sur les images
-            foreach($images as $image){
+            foreach ($images as $image) {
                 // On génère un nouveau nom de fichier
-                $fichier = md5(uniqid()).'.'.$image->guessExtension();
+                $fichier = md5(uniqid()) . '.' . $image->guessExtension();
 
                 // On copie le fichier dans le dossier uploads
                 $image->move(
@@ -57,11 +57,10 @@ class ArticlesController extends AbstractController
                 );
 
                 $article->setPhoto($fichier);
-
             }
 
-            foreach ($videos as $video){
-                $file = md5(uniqid()).'.'.$video->guessExtension();
+            foreach ($videos as $video) {
+                $file = md5(uniqid()) . '.' . $video->guessExtension();
 
                 // On copie le fichier dans le dossier uploads
                 $video->move(
@@ -70,9 +69,9 @@ class ArticlesController extends AbstractController
                 );
 
                 $article->setVideo($file);
-                }
+            }
 
-                // On crée l'image dans la base de données
+            // On crée l'image dans la base de données
 
 
 
@@ -127,21 +126,21 @@ class ArticlesController extends AbstractController
             $video = $article->getVideo();
             // On supprime le fichier
 
-            if ($this->getParameter('videos_directory').'/'.$video != true){
-                unlink($this->getParameter('videos_directory').'/'.$video);
+            if ($this->getParameter('videos_directory') . '/' . $video != true) {
+                unlink($this->getParameter('videos_directory') . '/' . $video);
             }
 
-            if ($this->getParameter('images_directory').'/'.$nom != true){
-                unlink($this->getParameter('images_directory').'/'.$nom);
+            if ($this->getParameter('images_directory') . '/' . $nom != true) {
+                unlink($this->getParameter('images_directory') . '/' . $nom);
             }
             // On récupère les photos transmises
             $images = $form->get('photo')->getData();
             $files = $form->get('video')->getData();
 
 
-            foreach($files as $file){
+            foreach ($files as $file) {
                 // On génère un nouveau nom de fichier
-                $newVideo = md5(uniqid()).'.'.$file->guessExtension();
+                $newVideo = md5(uniqid()) . '.' . $file->guessExtension();
 
                 // On copie le fichier dans le dossier uploads
                 $file->move(
@@ -156,9 +155,9 @@ class ArticlesController extends AbstractController
 
 
             // On boucle sur les images
-            foreach($images as $image){
+            foreach ($images as $image) {
                 // On génère un nouveau nom de fichier
-                $fichier = md5(uniqid()).'.'.$image->guessExtension();
+                $fichier = md5(uniqid()) . '.' . $image->guessExtension();
 
                 // On copie le fichier dans le dossier uploads
                 $image->move(
@@ -190,13 +189,13 @@ class ArticlesController extends AbstractController
      */
     public function delete(Request $request, Articles $article, RessourcesRepository $ressourcesRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$article->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $article->getId(), $request->request->get('_token'))) {
             // On récupère le nom de l'image
             $photo = $article->getPhoto();
             $video = $article->getVideo();
             // On supprime le fichier
-            unlink($this->getParameter('images_directory').'/'.$photo);
-            unlink($this->getParameter('videos_directory').'/'.$video);
+            unlink($this->getParameter('images_directory') . '/' . $photo);
+            unlink($this->getParameter('videos_directory') . '/' . $video);
 
             $entityManager = $this->getDoctrine()->getManager();
             $ressource = $ressourcesRepository->findOneBy(["article" => $article->getId()]);

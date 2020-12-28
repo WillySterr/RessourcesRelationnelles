@@ -1,49 +1,59 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Photos index{% endblock %}
+{% block title %}Liste des photos{% endblock %}
 
 {% block body %}
-    <h1>Photos index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Published</th>
-                <th>Slug</th>
-                <th>Titre</th>
-                <th>Description</th>
-                <th>CreatedAt</th>
-                <th>Image</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
+             <div class="container my-5">
+  <!--Section: Content-->
+  <section class="photosList">
+    <!-- Section heading -->
+    <h3 class="text-center font-weight-bold my-5">Ma liste de photos</h3>
+    <a class="btn btn-primary mb-5 " href="{{ path('photos_new') }}"><i class="fas fa-plus"></i></a>
+  	<div class="row">
         {% for photo in photos %}
-            <tr>
-                <td>{{ photo.id }}</td>
-                <td>{{ photo.published ? 'Yes' : 'No' }}</td>
-                <td>{{ photo.slug }}</td>
-                <td>{{ photo.titre }}</td>
-                <td>{{ photo.description }}</td>
-                <td>{% if photo.updatedAt != null %}
-                    {{ photo.updatedAt|date('Y-m-d H:i:s')  }}
-                {% else %}
-                    {{ photo.createdAt|date('Y-m-d H:i:s')  }}
-                {% endif %}</td>
-                <td><img src="{{ asset('/uploads/'~photo.image) }}" alt="ancienne image" width="150"></td>
-                <td>
-                    <a href="{{ path('photos_show', {'id': photo.id}) }}">show</a>
-                    <a href="{{ path('photos_edit', {'id': photo.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="9">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
 
-    <a href="{{ path('photos_new') }}">Create new</a>
+ 
+      <!--Grid column-->
+      <div class="col-md-4 mb-4">
+        <!--Card-->
+        <div class="card">
+
+          <!--Card image-->
+          <div class="view overlay">
+            <img src="{{ asset('/uploads/'~photo.image) }}" class="card-img-top" alt="{{photo.titre}}" width="350px" height="200px">
+          </div>
+          <!--/.Card image-->
+
+          <!--Card content-->
+          <div class="card-body">
+            <!--Title-->
+            <h4 class="card-title"><strong>{{ photo.titre }}</strong></h4>
+            <hr>
+            <!--Text-->
+            <p class="card-text mb-3"> {{ photo.description }}
+            </p>
+            <p class="font-small font-weight-bold dark-grey-text mb-1"><i class="fas fa-clock"></i>
+              {% if photo.updatedAt != null %}
+                    {{ photo.updatedAt|date('d-m-Y')  }}
+                {% else %}
+                    {{ photo.createdAt|date('d-m-Y')  }}
+                {% endif %}
+            </p>
+                    <a class="btn btn-sm btn-success mb-0" href="{{ path('photos_show', {'id': photo.id}) }}"><i class="fas fa-eye"></i></a>
+                    <a class="btn btn-sm btn-warning mb-0" href="{{ path('photos_edit', {'id': photo.id}) }}"><i class="fas fa-pen"></i></a>
+                    <a class="btn btn-sm btn-danger mb-0" href="{{ path('photos_delete', {'id': photo.id}) }}"><i class="fas fa-trash-alt"></i></a>
+          </div>
+          <!--/.Card content-->
+
+        </div>
+        <!--/.Card-->
+
+      </div>
+ {% endfor %}
+
+      <!--Grid column-->
+</div>
+  </section>
+  <!--Section: Content-->
 {% endblock %}

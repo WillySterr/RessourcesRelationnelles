@@ -1,11 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Ajouter une Informations{% endblock %}
+{% block title %}{% endblock %}
 
 {% block body %}
-    <h1>Ajouter une information</h1>
-
+<a class="btn btn-primary"  href="{{ path('informations_index') }}">Retour</a>
     {{ include('informations/_form.html.twig') }}
 
-    <a class="btn btn-primary"  href="{{ path('informations_index') }}">Retour</a>
+    
 {% endblock %}

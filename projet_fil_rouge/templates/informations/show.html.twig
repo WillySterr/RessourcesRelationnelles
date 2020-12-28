@@ -3,44 +3,40 @@
 {% block title %}Information{% endblock %}
 
 {% block body %}
-    <h1>Information</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Date</th>
-                <td>{% if information.updatedAt != null %}
+
+ 
+    <!--Section: Content-->
+    <section class="px-md-5 my-5 mx-md-5 dark-grey-text text-center text-lg-left">
+
+      <!--Grid row-->
+      <div class="row">
+
+        <!--Grid column-->
+        <div class="col-lg-6 mb-4 mb-lg-0">
+
+          <h3 class="font-weight-bold"> Titre de l'info : {{ information.titre}}</h3>
+
+          <p class="font-weight-bold">Crée le {% if information.updatedAt != null %}
                     {{ information.updatedAt|date('d-m-Y')  }}
                 {% else %}
                     {{ information.createdAt|date('d-m-Y')  }}
-                {% endif %}</td>
-            </tr>
-            <tr>
-                <th>Publié</th>
-                <td>{{ information.published ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>Slug</th>
-                <td>{{ information.slug }}</td>
-            </tr>
-            <tr>
-                <th>Titre</th>
-                <td>{{ information.titre }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ information.description }}</td>
-            </tr>
-            <tr>
-                <th>Contenu</th>
-                <td>{{ information.contenu }}</td>
-            </tr>
-        </tbody>
-    </table>
+                {% endif %}</p>
 
-    <a class="btn mb-2 btn-primary" href="{{ path('informations_index') }}">Retour</a>
+          <p>Son contenu : {{ information.contenu }}</p>
+          <div class="d-flex">
+          <a class="btn btn-indigo" href="{{ path('informations_index') }}">Retour</a><br/>
+          <a class="btn btn-deep-orange" href="{{ path('informations_edit', {'id': information.id}) }}">Modifier</a>
+          {{ include('informations/_delete_form.html.twig') }}
+          </div>
 
-    <a class="btn mb-2 btn-primary" href="{{ path('informations_edit', {'id': information.id}) }}">Modifier</a>
+        </div>
+        <!--Grid column-->
 
-    {{ include('informations/_delete_form.html.twig') }}
+      </div>
+      <!--Grid row-->
+
+
+    </section>
+    <!--Section: Content-->
 {% endblock %}

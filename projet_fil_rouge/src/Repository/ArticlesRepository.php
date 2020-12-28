@@ -19,6 +19,16 @@ class ArticlesRepository extends ServiceEntityRepository
         parent::__construct($registry, Articles::class);
     }
 
+    public function getArticlesByUser($user)
+    {
+        return $this->createQueryBuilder('q')
+            ->andWhere('q.user = :user')
+            ->setParameter('user', $user)
+            ->addOrderBy('q.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Articles[] Returns an array of Articles objects
     //  */
