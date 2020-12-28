@@ -1,4 +1,75 @@
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/login.css') }}">
+{% endblock %}
+
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn mb-2 btn-success">{{ button_label|default('Enregistrer') }}</button>
+<div class="global-container">
+    <div class="card login-form">
+        <div class="card-body">
+            <h3 class="card-title text-center text-nowrap">{{ title_label|default('Information') }}</h3>
+            <div class="card-text">
+
+
+                <div class="form-group col-12">
+                    <label for="InputTitre">Titre</label>
+                    {{ form_widget(form.titre, {
+                        "attr": {
+                            "class": "form-control form-control-sm",
+                            "id": "InputTitre"
+                        }
+                    }) }}
+                </div>
+
+
+                <div class="form-group col-12">
+                    <label for="InputDescription">Description</label>
+                    {{ form_widget(form.description, {
+                        "attr": {
+                            "class": "form-control form-control-sm",
+                            "id": "InputDescription"
+                        }
+                    }) }}
+                </div>
+                <div class="form-group col-12">
+                    <label for="InputContenu">Contenu</label>
+                    {{ form_widget(form.contenu, {
+                        "attr": {
+                            "class": "form-control form-control-sm",
+                            "id": "InputContenu"
+                        }
+                    }) }}
+                </div>
+
+                <div class="form-group col-12">
+                    <label for="InputCategorie">Catégorie</label>
+                    {{ form_widget(form.category, {
+                        "attr": {
+                            "class": "form-control form-control-sm",
+                            "id": "InputCategorie"
+                        }
+                    }) }}
+                </div>
+                <div class="form-group col-6">
+                    <label for="InputPublie">Publié</label>
+                    {{ form_widget(form.published, {
+                        "attr": {
+                            "id": "InputPublie"
+                        }
+                    }) }}
+                </div>
+                <div class="form-group col-12">
+    <button class="btn btn-primary btn-block"><i class="fa fa-plus-square"></i> Enregistrer</button>
+                </div>
+
+                <div class="form-group col-12">
+                <div class="sign-up text-left">
+                     <a href="{{ path('category_index') }}"><i class="fa fa-reply"></i> Retour</a>
+                </div>
+                </div>
 {{ form_end(form) }}
+
+
+            </div>
+        </div>
+    </div>
+</div>

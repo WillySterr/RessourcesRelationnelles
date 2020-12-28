@@ -1,13 +1,83 @@
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/login.css') }}">
+{% endblock %}
+
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    {# Si la route est "annonces_edit on affiche les images #}
-	{% if app.request.attributes.get('_route') == 'videos_edit' %}
-        <h6>Ancienne vidéo</h6>
-        {# {% for photo in photo.image %} #}
-        <div>
-            <video controls width="150"><source src="{{ asset('/uploads/'~video.video) }}" type="video/mp4"></video>
-        </div>
-        {# {% endfor %} #}
-    {% endif %}
-<button class="btn btn-success">{{ button_label|default('Save') }}</button>
+<div class="global-container">
+    <div class="card login-form">
+        <div class="card-body">
+            <h3 class="card-title text-center text-nowrap">{{ title_label|default('') }} Vidéo</h3>
+            <div class="card-text">
+
+
+                <div class="form-group col-12">
+                    <label for="InputName">Titre</label>
+                    {{ form_widget(form.titre, {
+                        "attr": {
+                            "class": "form-control form-control-sm",
+                            "id": "InputName"
+                        }
+                    }) }}
+                </div>
+
+
+                <div class="form-group col-12">
+                    <label for="InputDescription">Description</label>
+                    {{ form_widget(form.description, {
+                        "attr": {
+                            "class": "form-control form-control-sm",
+                            "id": "InputDescription"
+                        }
+                    }) }}
+                </div>
+
+                <div class="form-group col-2">
+                    <label for="InputPublished">Publiée</label>
+                    {{ form_widget(form.published, {
+                        "attr": {
+                            "class": "form-control form-control-sm",
+                            "id": "InputPublished"
+                        }
+                    }) }}
+                </div>
+
+                <div class="form-group col-12">
+                    <label for="InputCategory">Catégorie</label>
+                    {{ form_widget(form.category, {
+                        "attr": {
+                            "class": "form-control form-control-sm",
+                            "id": "InputCategory"
+                        }
+                    }) }}
+                </div>
+
+                <div class="form-group col-12">
+                    <label for="InputVideo">Vidéo</label>
+                    {{ form_widget(form.video, {
+                        "attr": {
+                            "class": "form-control form-control-sm",
+                            "id": "InputVideo"
+                        }
+                    }) }}
+                </div>
+
+                <div class="form-group col-12">
+    <button class="btn btn-primary btn-block"><i class="fa fa-plus-square"></i> Ajouter</button>
+                </div>
+
+                <div class="form-group col-12">
+                <div class="sign-up text-left">
+                     <a href="{{ path('videos_index') }}"><i class="fa fa-reply"></i> Retour</a>
+                </div>
+                </div>
+
+
+
+
 {{ form_end(form) }}
+
+
+            </div>
+        </div>
+    </div>
+</div>

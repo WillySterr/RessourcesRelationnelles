@@ -1,46 +1,63 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Videos index{% endblock %}
+{% block title %}Liste des videos{% endblock %}
 
 {% block body %}
-    <h1>Videos index</h1>
+             <div class="container my-5">
+  <!--Section: Content-->
+  <section class="videosList">
+    <!-- Section heading -->
+    <h3 class="text-center font-weight-bold my-5">Ma liste de videos</h3>
+    <a class="btn btn-primary mb-5 " href="{{ path('videos_new') }}"><i class="fas fa-plus"></i></a>
+  	<div class="row">
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Publié</th>
-                <th>Titre</th>
-                <th>Description</th>
-                <th>Crée le</th>
-                <th>Video</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
         {% for video in videos %}
-            <tr>
-                <td>{{ video.published ? 'Yes' : 'No' }}</td>
-                <td>{{ video.titre }}</td>
-                <td>{{ video.description }}</td>
-                <td>{% if video.updatedAt != null %}
-                        {{ video.updatedAt|date('d-m-Y')  }}
-                    {% else %}
-                        {{ video.createdAt|date('d-m-Y')  }}
-                    {% endif %}
-                </td>
-                <td>{{ video.video }}</td>
-                <td>
-                    <a class="btn btn-primary" href="{{ path('videos_show', {'slug': video.slug}) }}">Voir</a>
-                    <a class="btn btn-primary" href="{{ path('videos_edit', {'id': video.id}) }}">Modifier</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="9">Aucun résultats</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
 
-    <a class="btn btn-success" href="{{ path('videos_new') }}">Ajouter une vidéo</a>
+ 
+      <!--Grid column-->
+      <div class="col-md-4 mb-4">
+        <!--Card-->
+        <div class="card">
+
+          <!--Card image-->
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <video class="embed-responsive-item" controls><source src="{{ asset('/uploads/'~video.video) }}" type="video/mp4"></video>
+                    </div>
+          <!--/.Card image-->
+
+          <!--Card content-->
+          <div class="card-body">
+            <!--Title-->
+            <h4 class="card-title"><strong>{{ video.titre }}</strong></h4>
+            <hr>
+            <!--Text-->
+            <p class="card-text mb-3"> {{ video.description }}
+            </p>
+            <p class="font-small font-weight-bold dark-grey-text mb-1"><i class="fas fa-clock"></i>
+              {% if video.updatedAt != null %}
+                    {{ video.updatedAt|date('d-m-Y')  }}
+                {% else %}
+                    {{ video.createdAt|date('d-m-Y')  }}
+                {% endif %}
+            </p>
+                    <a class="btn btn-sm btn-success mb-0" href="{{ path('videos_show', {'id': video.id}) }}"><i class="fas fa-eye"></i></a>
+                    <a class="btn btn-sm btn-warning mb-0" href="{{ path('videos_edit', {'id': video.id}) }}"><i class="fas fa-pen"></i></a>
+                    <a class="btn btn-sm btn-danger mb-0" href="{{ path('videos_delete', {'id': video.id}) }}"><i class="fas fa-trash-alt"></i></a>
+          </div>
+          <!--/.Card content-->
+
+        </div>
+        <!--/.Card-->
+
+      </div>
+ {% endfor %}
+
+      <!--Grid column-->
+</div>
+  </section>
+  <!--Section: Content-->
+
+
+
+    
 {% endblock %}
