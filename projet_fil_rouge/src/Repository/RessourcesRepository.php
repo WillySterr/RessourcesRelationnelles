@@ -40,6 +40,17 @@ class RessourcesRepository extends ServiceEntityRepository
             ->getResult();
 
     }
+
+    public function findRessourcesByString($str){
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT e
+                FROM App:Ressources e
+                WHERE e.title LIKE :str'
+            )
+            ->setParameter('str', '%'.$str.'%')
+            ->getResult();
+    }
     // /**
     //  * @return Ressources[] Returns an array of Ressources objects
     //  */

@@ -14,6 +14,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\HttpFoundation\Session\Session;
+
 
 class UsersController extends AbstractController
 {
@@ -80,6 +82,53 @@ class UsersController extends AbstractController
             "user" => $user,
             "lastRessources" => $lastRessources,
             "favs" => $favs
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/userandco_delete", name="userandco_delete", methods={"GET", "DELETE"})
+     */
+    public function deleteUserAndCo(Request $request, UsersRepository $usersRepository, Security $security, $id)
+    {
+
+        $user = $usersRepository->findOneBy(["id" => $security->getUser()]);
+
+        $currentUserId = $this->getUser()->getId();
+      if ($currentUserId == $id)
+      {
+        $session = $this->get('session');
+        $session = new Session();
+        $session->invalidate();
+      }
+
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($user);
+        $entityManager->flush();
+        
+
+        return $this->redirectToRoute('logout');
+    }
+
+    /**
+     *  @Route("/{id}/edituser", name="edituser", methods={"GET", "POST"})
+     */
+    public function edituser(Request $request, UsersRepository $usersRepository, Security $security, $id)
+    {
+        $user = $usersRepository->findOneBy(["id" => $security->getUser()]);
+
+        $form = $this->createForm(RegisterType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+           return $this->redirectToRoute('profile');
+        }
+
+        return $this->render('users/useredit.html.twig', [
+            'user' => $user,
+            'form' => $form->createView(),
         ]);
     }
 }
