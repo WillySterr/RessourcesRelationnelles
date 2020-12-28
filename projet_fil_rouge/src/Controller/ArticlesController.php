@@ -23,7 +23,7 @@ class ArticlesController extends AbstractController
      */
     public function index(ArticlesRepository $articlesRepository, Security $security): Response
     {
-        $articles = $articlesRepository->findBy(["user" => $security->getUser()->getId()]);
+        $articles = $articlesRepository->findBy(["id" => $security->getUser()->getId()]);
         return $this->render('articles/index.html.twig', [
             'articles' => $articles,
         ]);
