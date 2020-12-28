@@ -104,7 +104,62 @@ class NewsFeedController extends AbstractController
             'userCo' => $userCo,
             'favoList' => $favoList,
         ]);
+      }
 
+
+  
+
+    /**
+     * Creates a new ActionItem entity.
+     *
+     * @Route("/search", name="ajax_search", methods={"POST"})
+     */
+    public function searchAction(Request $request, RessourcesRepository $ressourcesRepository)
+    {
+      // reception du contenu de la searchbar
+      $requestData = json_decode($request->getContent(), true);
+      //récupère la valeur de l'objet envoyé
+      $searchData = $requestData["searchContent"];
+      //rechere dans la base les ressources correspondant à la valeur envoyé
+      $dbData = $ressourcesRepository->findRessourcesByString($searchData);
+      //formater ces données en Json pour les renvoyées 
+      $arrayDbData = [];
+
+      foreach ($dbData as $data) {
+        $arrayDbData[] = array(
+          'id' => $data->getId(),
+          'title' => $data->getTitle(),
+          'user' => [
+            'id' => $data->getUser()->getId(),
+            'lastname' => $data->getUser()->getLastName(),
+            'firstname' => $data->getUser()->getFirstName()
+
+          ],
+          'article' => $data->getArticle() ? $data->getArticle()->getId() : null,
+          'evenement' => $data->getEvenement() ? $data->getEvenement()->getId() : null,
+          'information' => $data->getInformation() ? $data->getInformation()->getId() : null,
+          'photo' => $data->getPhoto() ? $data->getPhoto()->getId() : null,
+          'video' => $data->getVideo() ? $data->getVideo()->getId() : null,
+          'date' => $data->getUpdatedAt() ?  $data->getUpdatedAt() :  $data->getCreatedAt()
+
+
+        );
+      }
+      // on va les envoyer
+      $response = new Response(json_encode($arrayDbData));
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
 
     }
-}
+
+    public function getRealRessources($ressources){
+
+        foreach ($ressources as $ressource){
+            $realressources[$ressource->getId()] = $ressource->getTitle();
+        }
+
+        return $realressources;
+    }
+  
+  }
