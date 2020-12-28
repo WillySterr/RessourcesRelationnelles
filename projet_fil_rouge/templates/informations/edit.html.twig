@@ -1,15 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modifier Informations{% endblock %}
+{% block title %}Modifier l'information{% endblock %}
 
 {% block body %}
-    <h1>Éditer {{ information.titre }}</h1>
+        <a class="btn btn-primary" href="{{ path('informations_index') }}">Retour</a>
 
-    {{ include('informations/_form.html.twig', {'button_label': 'Modifier'}) }}
+   <div class="container my-5 px-0 text-center">
 
+    {{ include('informations/_form.html.twig', {'button_label': 'Éditer'}) }}
 
     {{ include('informations/_delete_form.html.twig') }}
+</div>
 
-    <a class="btn mt-2 btn-primary" href="{{ path('informations_index') }}">Retour</a>
 
-{% endblock %}
+    {% endblock %}
+

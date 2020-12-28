@@ -24,10 +24,11 @@ class PhotosController extends AbstractController
     /**
      * @Route("/", name="photos_index", methods={"GET"})
      */
-    public function index(PhotosRepository $photosRepository): Response
+    public function index(PhotosRepository $photosRepository, Security $security): Response
     {
-        return $this->render('photos/index.html.twig', [
-            'photos' => $photosRepository->findAll(),
+        $photos = $photosRepository->findBy(["user" => $security->getUser()->getId()]);
+        return $this->render('Photos/index.html.twig', [
+            'photos' => $photos,
         ]);
     }
 

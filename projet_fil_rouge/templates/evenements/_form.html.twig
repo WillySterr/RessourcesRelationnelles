@@ -1,25 +1,98 @@
-<section class="my-md-5"
-				 style="background-color: black; background-size: cover; background-position: center center;">
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/login.css') }}">
+{% endblock %}
 
-	<div class="rgba-black-strong rounded p-5">
+{{ form_start(form) }}
+<div class="global-container">
+    <div class="card login-form">
+        <div class="card-body">
+            <div class="card-text">
 
-				<!-- Section heading -->
-		<h3 class="text-center font-weight-bold text-white mt-3 mb-5">Créer un évènement</h3>
-		<p class="text-center w-responsive text-white mx-auto mb-5">Veuillez remplir les champs suivants</p>
-			<div class="row m-auto">
-				<div class="col-md-6 mb-4">
 
-					<div class="card-body text-white px-4 center">
+                <div class="form-group col-12">
+                    <label for="InputTitre">Titre</label>
+                    {{ form_widget(form.titre, {
+                        "attr": {
+                            "class": "form-control form-control-sm",
+                            "id": "InputTitre"
+                        }
+                    }) }}
+                </div>
 
-						{{ form_start(form) }}
-{# 						{{ form_label(form.dateDebut, 'Débute le ' , { attr:{ class: 'js-datepicker' } }) }}
- #}						{{ form_row(form.dateDebut, { attr:{ class:'js-datepicker' } }) }}
-						{{ form_row(form.dateFin, { attr:{ class:'js-datepicker' } }) }}
-						    {{ form_widget(form) }}
-						    <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
-						{{ form_end(form) }}
-					</div>
-				</div>
-			</div>
-	</div>
-</section>
+
+                <div class="form-group col-12">
+                    <label for="InputDescription">Description</label>
+                    {{ form_widget(form.description, {
+                        "attr": {
+                            "class": "form-control form-control-sm",
+                            "id": "InputDescription"
+                        }
+                    }) }}
+                </div>
+                <div class="form-group col-12">
+                    <label for="InputDateDebut">Date début</label>
+                    {{ form_widget(form.dateDebut, {
+                        "attr": {
+                            "class": "form-control form-control-sm",
+                            "id": "InputDateDebut"
+                        }
+                    }) }}
+                </div>
+                <div class="form-group col-12">
+                    <label for="InputDateFin">Date fin</label>
+                    {{ form_widget(form.dateFin, {
+                        "attr": {
+                            "class": "form-control form-control-sm",
+                            "id": "InputDateFin"
+                        }
+                    }) }}
+                </div>
+
+                <div class="form-group col-12">
+                    <label for="InputheureDebut">Heure début</label>
+                    {{ form_widget(form.heureDebut, {
+                        "attr": {
+                            "class": "form-control form-control-sm",
+                            "id": "InputheureDebut"
+                        }
+                    }) }}
+                </div>
+                <div class="form-group col-12">
+                    <label for="InputHeureFin">Heure fin</label>
+                    {{ form_widget(form.heureFin, {
+                        "attr": {
+                            "class": "form-control form-control-sm",
+                            "id": "InputHeureFin"
+                        }
+                    }) }}
+                </div>
+                <div class="form-group col-12">
+                    <label for="InputCategorie">Catégorie</label>
+                    {{ form_widget(form.category, {
+                        "attr": {
+                            "class": "form-control form-control-sm",
+                            "id": "InputCategorie"
+                        }
+                    }) }}
+                </div>
+
+                <div class="form-group col-12">
+    <button class="btn btn-primary btn-block"><i class="fa fa-plus-square"></i> Ajouter</button>
+                </div>
+
+                <div class="form-group col-12">
+                <div class="sign-up text-left">
+                     <a href="{{ path('category_index') }}"><i class="fa fa-reply"></i> Retour</a>
+                </div>
+                </div>
+
+
+
+
+{{ form_end(form) }}
+
+
+            </div>
+        </div>
+    </div>
+</div>

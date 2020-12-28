@@ -22,10 +22,11 @@ class InformationsController extends AbstractController
     /**
      * @Route("/", name="informations_index", methods={"GET"})
      */
-    public function index(InformationsRepository $informationsRepository): Response
+    public function index(InformationsRepository $informationsRepository, Security $security): Response
     {
-        return $this->render('informations/index.html.twig', [
-            'informations' => $informationsRepository->findAll(),
+        $informations = $informationsRepository->findBy(["user" => $security->getUser()->getId()]);
+        return $this->render('Informations/index.html.twig', [
+            'informations' => $informations,
         ]);
     }
 
@@ -63,7 +64,7 @@ class InformationsController extends AbstractController
     }
 
     /**
-     * @Route("/{slug}", name="informations_show", methods={"GET"})
+     * @Route("/{id}", name="informations_show", methods={"GET"})
      */
     public function show(Informations $information): Response
     {
@@ -104,7 +105,7 @@ class InformationsController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $ressource = $ressourcesRepository->findOneby(["information" => $information->getId()]);
             $entityManager->remove($information);
-            $entityManager ->remove($ressource);
+            $entityManager->remove($ressource);
             $entityManager->flush();
         }
 

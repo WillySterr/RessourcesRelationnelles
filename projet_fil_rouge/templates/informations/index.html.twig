@@ -3,45 +3,57 @@
 {% block title %}Liste des informations{% endblock %}
 
 {% block body %}
-    <h1>Toutes les informations</h1>
+             <div class="container my-5">
+  <!--Section: Content-->
+  <section class="infosList">
+    <!-- Section heading -->
+    <h3 class="text-center font-weight-bold my-5">Ma liste d'informations</h3>
+    <a class="btn btn-primary " href="{{ path('informations_new') }}"><i class="fas fa-plus"></i></a>
+  	<div class="row">
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Publié</th>
-                <th>Titre</th>
-                <th>Description</th>
-                <th>Contenu</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
         {% for information in informations %}
-            <tr>
-                <td>{% if information.updatedAt != null %}
+
+ 
+      <!--Grid column-->
+      <div class="col-md-4 mb-4">
+        <!--Card-->
+        <div class="card">
+          <!--Card content-->
+          <div class="card-body">
+            <!--Title-->
+            <h4 class="card-title"><strong>{{ information.titre }}</strong></h4>
+            <hr>
+            <!--Text-->
+            <p class="card-subtitle mb-3"> {{ information.description }}
+            </p>
+            <p class="font-small font-weight-bold dark-grey-text mb-1"><i class="fas fa-clock"></i>
+              {% if information.updatedAt != null %}
                     {{ information.updatedAt|date('d-m-Y')  }}
                 {% else %}
                     {{ information.createdAt|date('d-m-Y')  }}
                 {% endif %}
-                </td>
-                <td>{{ information.published ? 'Yes' : 'No' }}</td>
+            </p>
+            <p class="font-weight-bold dark-grey-text mb-1">
+                {{ information.contenu }}
+            </p>
+                    <a class="btn btn-sm btn-success mb-0" href="{{ path('informations_show', {'id': information.id}) }}"><i class="fas fa-eye"></i></a>
+                    <a class="btn btn-sm btn-warning mb-0" href="{{ path('informations_edit', {'id': information.id}) }}"><i class="fas fa-pen"></i></a>
+                    <a class="btn btn-sm btn-danger mb-0" href="{{ path('informations_delete', {'id': information.id}) }}"><i class="fas fa-trash-alt"></i></a>
+          </div>
+          <!--/.Card content-->
 
-                <td>{{ information.titre }}</td>
-                <td>{{ information.description }}</td>
-                <td>{{ information.contenu }}</td>
-                <td>
-                    <a class="btn btn-primary mr-2" href="{{ path('informations_show', {'slug': information.slug}) }}">Voir</a>
-                    <a class="btn btn-primary" href="{{ path('informations_edit', {'id': information.id}) }}">Modifier</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="9">Aucun Résultat</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+        </div>
+        <!--/.Card-->
 
-    <a class="btn btn-success" href="{{ path('informations_new') }}">Ajouter une information</a>
+      </div>
+ {% endfor %}
+
+      <!--Grid column-->
+</div>
+  </section>
+  <!--Section: Content-->
+
+
+
+    
 {% endblock %}
