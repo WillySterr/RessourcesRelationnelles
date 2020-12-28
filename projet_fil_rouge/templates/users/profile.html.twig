@@ -185,8 +185,8 @@
                                 </ul>
 
                                 <a class="btn btn-primary" href="{{ path('app_check_email') }}">Modifier mot de passe</a>
-                                <a class="btn btn-warning" href="#">Modifier informations</a>
-                                <a class="btn btn-danger" href="#">Supprimer utilisateur</a>
+                                <a class="btn btn-warning" href="{{ path('edituser', {'id' : user.id}) }}">Modifier informations</a>
+                                <a class="btn btn-danger" href="{{ path('userandco_delete', {'id': user.id}) }}">Supprimer utilisateur</a>
 
 
                             </div>

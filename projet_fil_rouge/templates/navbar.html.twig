@@ -13,9 +13,17 @@
             <div class="input-group search-box">
                 <input type="text" id="search" class="form-control" placeholder="Rechercher...">
                 <span class="input-group-addon"><i class="fas fa-search"></i></span>
-            </div>
-            {% endif %}
+              
+        
+        <div class="dropdown position-absolute" style="top:7.85vh;width:100%;background-color: white;">
+            <p class="dropdown-item m-0 p-2 ">nimporte quoi</p>
+            <p class="dropdown-item m-0 p-2">nimporte quoi</p>
+        </div>
+        </div>
+
         </form>
+
+        {% endif %}
         <div class="navbar-nav ml-auto">
             {% if app.user %}
                 <a href="{{ path('news_feed') }}" class="nav-item nav-link active"><i class="fa fa-home"></i><span>Accueil</span></a>
@@ -54,3 +62,39 @@
         </div>
     </div>
 </nav>
+
+<script> 
+let searchBarContent = document.querySelector('#search');
+searchBarContent.addEventListener('keyup', function(e){
+    
+    // get search bar content
+
+    let content = searchBarContent.value;
+   // console.log(content);
+
+   // create XmlHttpRequest
+
+   let requestParam = {
+    "searchContent" : content
+   }
+   let xhr = new XMLHttpRequest();
+
+   xhr.open('POST', '{{ path('ajax_search') }}', true);
+   xhr.setRequestHeader('Content-Type', 'application/json');
+
+   xhr.onreadystatechange = function(){
+    if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+        console.log(xhr.response)
+
+        document.getElementById("livesearch").innerHTML = "javascript";
+        document.getElementById("livesearch").style.border = "1px solid #A5ACB2";
+
+   }
+}
+    xhr.responseType = "json";
+    xhr.send(JSON.stringify(requestParam));
+
+
+});
+
+</script>
