@@ -28,6 +28,7 @@ class ConversationsRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('c')
             ->andWhere(':currentUserId MEMBER OF c.users')
             ->setParameter('currentUserId', $currentUserId)
+            ->addOrderBy('c.lastMessageDate', 'DESC')
             ->getQuery()
             ->getResult();
     }
