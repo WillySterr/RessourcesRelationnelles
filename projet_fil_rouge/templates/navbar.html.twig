@@ -1,6 +1,44 @@
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
 {% endblock %}
+<style>
+    .wrapper{
+        max-width: 100%;
+        max-height: 50px;
+        margin: auto;
+        width: 100%;
+        padding-right: 10px;
+    }
+    .wrapper .search-input{
+        background: #fff;
+        width: 100%;
+        border-radius: 5px;
+        box-shadow: 0px 1px 5px 3px #1B2838;
+    }
+    .search-input input{
+        height: 50px;
+        width: 100%;
+        outline: none;
+        border: none;
+        border-radius: 5px;
+        padding: 0px 60px 0px 20px;
+        font-size: 18px;
+    }
+    .search-input .autocom-box{
+        overflow-y: auto;
+    }
+    .autocom-box li {
+        list-style: none;
+        padding: 8px 12px;
+        width: 100%;
+        cursor: pointer;
+        border-radius: 3px;
+        color: #1B2838;
+    }
+    .autocom-box li:hover{
+        background: #efefef;
+    }
+</style>
 <nav class="navbar navbar-expand-lg">
     <a href="#" class="navbar-brand"><i class="fa fa-cube"></i>Ressources<b>Relationelles</b></a>
     <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
@@ -9,19 +47,19 @@
     <!-- Collection of nav links, forms, and other content for toggling -->
     <div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
         {% if app.user %}
-        <form class="navbar-form form-inline">
-            <div class="input-group search-box">
-                <input type="text" id="search" class="form-control" placeholder="Rechercher...">
-                <span class="input-group-addon"><i class="fas fa-search"></i></span>
-              
-        
-        <div class="dropdown position-absolute" style="top:7.85vh;width:100%;background-color: white;">
-            <p class="dropdown-item m-0 p-2 ">nimporte quoi</p>
-            <p class="dropdown-item m-0 p-2">nimporte quoi</p>
-        </div>
-        </div>
+{#        <form class="navbar-form">#}
+{#            <div class="input-group search-box">#}
+{#                <input type="text" id="search" class="form-control" placeholder="Rechercher..." >#}
+{#            </div>#}
 
-        </form>
+            <div class="wrapper">
+                <div class="search-input">
+                    <input type="text" id="search"  placeholder="Rechercher...">
+                    <div class="autocom-box">
+
+                    </div>
+                </div>
+            </div>
 
         {% endif %}
         <div class="navbar-nav ml-auto">
@@ -77,6 +115,14 @@ searchBarContent.addEventListener('keyup', function(e){
    let requestParam = {
     "searchContent" : content
    }
+
+
+   let boxResults = document.querySelector('.autocom-box');
+
+
+    if(content != ""){
+
+
    let xhr = new XMLHttpRequest();
 
    xhr.open('POST', '{{ path('ajax_search') }}', true);
@@ -84,16 +130,30 @@ searchBarContent.addEventListener('keyup', function(e){
 
    xhr.onreadystatechange = function(){
     if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+        boxResults.innerHTML = "";
         console.log(xhr.response)
+        let data = xhr.response;
 
-        document.getElementById("livesearch").innerHTML = "javascript";
-        document.getElementById("livesearch").style.border = "1px solid #A5ACB2";
+        for (let i = 0; i < data.length; i++) {
+            if(content == ""){
+                boxResults.innerHTML = "";
+            }
+
+            let ressource = document.createElement("li");
+            ressource.innerHTML = `${data[i].title}`;
+
+
+            boxResults.appendChild(ressource);
+        }
 
    }
 }
     xhr.responseType = "json";
     xhr.send(JSON.stringify(requestParam));
-
+    }
+    else{
+        boxResults.innerHTML = "";
+    }
 
 });
 
