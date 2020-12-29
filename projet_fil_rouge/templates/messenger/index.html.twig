@@ -55,7 +55,7 @@
             </div>
                     <div class="input-group">
                         <input id="form-message" type="hidden">
-                        <input type="text" id="message-content-form" placeholder="Type a message" aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4 bg-light">
+                        <input type="text" id="message-content-form" placeholder="Écrivez votre message" aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4 bg-light">
 {#                        <div class="input-group-append">
                             <button id="button-addon2" type="submit" class="btn btn-link"> <i class="fa fa-paper-plane"></i></button>
                         </div>#}
@@ -141,26 +141,29 @@
                         "message" : document.querySelector('#message-content-form').value
                     }
 
-                    xhr.open('POST', '{{ path('add_new_message') }}', true);
-                    xhr.setRequestHeader('Content-Type', 'application/json');
-                    xhr.onreadystatechange = function() { //Appelle une fonction au changement d'état.
-                        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-                            blocMessages.innerHTML = "";
-                            let data = xhr.response;
-                            getConversationMessages(data, date, blocMessages, currentUserId);
-                            messageText.value = "";
-                            blocMessages.scroll(0,3000000);
-                            callConversation();
+                        xhr.open('POST', '{{ path('add_new_message') }}', true);
+                        xhr.setRequestHeader('Content-Type', 'application/json');
+                        xhr.onreadystatechange = function () { //Appelle une fonction au changement d'état.
+                            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                                blocMessages.innerHTML = "";
+                                let data = xhr.response;
+                                getConversationMessages(data, date, blocMessages, currentUserId);
+                                messageText.value = "";
+                                blocMessages.scroll(0, 3000000);
+                                callConversation();
 
 
-
+                            }
                         }
+                        xhr.responseType = 'json';
+                        xhr.send(JSON.stringify(paramsMessage));
                     }
-                    xhr.responseType = 'json';
-                    xhr.send(JSON.stringify(paramsMessage));
-
-                }
             })
+
+            setInterval(function(){
+               callConversation();
+
+            }, 2000);
 
         });
 
@@ -239,7 +242,29 @@
                 xhr.send(id);
 
 
+                function refreshMessages(id, blocMessages, currentUserId, date){
 
+                    setInterval(function (){
+                        xhr.open('POST', '{{ path('get_conversation_messages') }}', true);
+                        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+                        xhr.onreadystatechange = function() { //Appelle une fonction au changement d'état.
+                            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+
+                                let data = xhr.response;
+
+                                getConversationMessages(data, date, blocMessages, currentUserId);
+                                blocMessages.scroll(0,3000000);
+
+
+                            }
+                        }
+                        xhr.responseType = 'json';
+                        xhr.send(id);
+                    }, 2000)
+
+                }
+
+                refreshMessages(id, blocMessages, currentUserId, date);
             }))
         }
 
