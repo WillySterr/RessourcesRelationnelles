@@ -6,6 +6,7 @@ use App\Entity\Articles;
 use App\Entity\Ressources;
 use App\Form\ArticlesType;
 use App\Repository\ArticlesRepository;
+use App\Repository\CommentsRepository;
 use App\Repository\RessourcesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -104,10 +105,24 @@ class ArticlesController extends AbstractController
     /**
      * @Route("/{id}", name="articles_show", methods={"GET"})
      */
-    public function show(Articles $article): Response
+    public function show($id, Articles $article, RessourcesRepository $ressourcesRepository, CommentsRepository $commentsRepository): Response
     {
+
+        //Récupérer la ressource
+
+        $ressource = $ressourcesRepository->findOneBy(["article" => $id]);
+
+
+        //Récupérer les commentaires de la ressource
+
+
+        $comments = $commentsRepository->findBy(["ressource" => $ressource->getId()]);
+
+
         return $this->render('articles/show.html.twig', [
             'article' => $article,
+            'comments' => $comments,
+            'ressourceId' => $ressource->getId()
         ]);
     }
 
