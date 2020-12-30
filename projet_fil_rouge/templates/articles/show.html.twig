@@ -83,12 +83,19 @@
 
       let ressourceId = document.querySelector('#ressource-id').value;
 
+      const requestParams = {
+        "idRessource" : ressourceId
+      }
 
+      ajaxRequestGetArticleComments(requestParams, commentsBox);
+
+
+    });
+
+    function ajaxRequestGetArticleComments(requestParams, commentsBox){
       var xhr = new XMLHttpRequest();
 
-      const requestParams = {
-          "idRessource" : ressourceId
-      }
+
 
       //article_comments
 
@@ -98,23 +105,23 @@
         if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
 
           let data = xhr.response;
-          loadData(data);
+          loadData(data, commentsBox);
         }
       }
       xhr.responseType = 'json';
       xhr.send(JSON.stringify(requestParams));
+    }
 
 
+    function loadData(data, commentsBox){
 
-      function loadData(data){
-
-        console.log(data)
+      console.log(data)
 
 
-        for (let i = 0; i < data.length; i++) {
-          let eachComment = document.createElement("li");
-          eachComment.setAttribute('class', 'comment mt-2')
-          eachComment.innerHTML = `<a class="pull-left" href="javascript:void(0);">
+      for (let i = 0; i < data.length; i++) {
+        let eachComment = document.createElement("li");
+        eachComment.setAttribute('class', 'comment mt-2')
+        eachComment.innerHTML = `<a class="pull-left" href="javascript:void(0);">
               <img class="avatar rounded-circle" src="https://bootdey.com/img/Content/avatar/avatar1.png" style="width: 5%"alt="avatar">
             </a>
             <h5 class="user a">${data[i].user.firstName} ${data[i].user.lastName}  a commenté</h5><a href="#"><i class="fas fa-reply ml-2"></i></a>
@@ -132,11 +139,9 @@
             </div>
           `;
 
-          commentsBox.appendChild(eachComment);
-        }
+        commentsBox.appendChild(eachComment);
       }
-
-    });
+    }
 
 
   </script>
