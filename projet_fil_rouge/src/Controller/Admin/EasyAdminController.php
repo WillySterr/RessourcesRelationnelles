@@ -43,6 +43,8 @@ class EasyAdminController extends AbstractDashboardController
             ->setController(RessourcesCrudController::class),
         MenuItem::linkToCrud('Catégories', 'fa fa-book', Category::class)
             ->setController(CategoryCrudController::class),
+        MenuItem::linkToCrud('Comments', 'fa fa-book', Category::class)
+            ->setController(CommentsCrudController::class),
 
         MenuItem::section('Fil d\'actualité'),
 
