@@ -8,6 +8,7 @@
         margin: auto;
         width: 100%;
         padding-right: 10px;
+        z-index: 2;
     }
     .wrapper .search-input{
         background: #fff;
@@ -103,58 +104,97 @@
 
 <script> 
 let searchBarContent = document.querySelector('#search');
-searchBarContent.addEventListener('keyup', function(e){
-    
+
+function searchContent(){
     // get search bar content
 
     let content = searchBarContent.value;
-   // console.log(content);
+    // console.log(content);
 
-   // create XmlHttpRequest
+    // create XmlHttpRequest
 
-   let requestParam = {
-    "searchContent" : content
-   }
+    let requestParam = {
+        "searchContent" : content
+    }
 
 
-   let boxResults = document.querySelector('.autocom-box');
+    let boxResults = document.querySelector('.autocom-box');
 
 
     if(content != ""){
 
 
-   let xhr = new XMLHttpRequest();
+        let xhr = new XMLHttpRequest();
 
-   xhr.open('POST', '{{ path('ajax_search') }}', true);
-   xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.open('POST', '{{ path('ajax_search') }}', true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
 
-   xhr.onreadystatechange = function(){
-    if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-        boxResults.innerHTML = "";
-        console.log(xhr.response)
-        let data = xhr.response;
-
-        for (let i = 0; i < data.length; i++) {
-            if(content == ""){
+        xhr.onreadystatechange = function(){
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                 boxResults.innerHTML = "";
+                console.log(xhr.response)
+                let data = xhr.response;
+
+                for (let i = 0; i < data.length; i++) {
+                    let ressource;
+                    if(content == ""){
+                        boxResults.innerHTML = "";
+                    }
+
+                    console.log(window.location)
+                    if(data[i].article !== null){
+                        let url = window.location.origin+"/articles/"+data[i].article;
+                        ressource = document.createElement("li");
+                        ressource.innerHTML = `<a class="d-flex justify-content-between align-items-center" href="${url}"><span class="text-dark">${data[i].title}</span><i class="text-dark fa fa-file"></i></a>`;
+
+                    }
+                    else if(data[i].evenement !== null){
+                        let url = window.location.origin+"/evenements/"+data[i].evenement;
+                        ressource = document.createElement("li");
+                        ressource.innerHTML = `<a class="d-flex justify-content-between align-items-center" href="${url}"><span class="text-dark">${data[i].title}</span><i class="text-dark fa fa-calendar"></i></a>`;
+                    }
+                    else if(data[i].information !== null){
+                        let url = window.location.origin+"/informations/"+data[i].information;
+
+                        ressource = document.createElement("li");
+                        ressource.innerHTML = `<a class="d-flex justify-content-between align-items-center" href="${url}"><span class="text-dark">${data[i].title}</span><i class="text-dark fa fa-info-circle"></i></a>`;
+                    }
+                    else if(data[i].photo !== null){
+                        let url = window.location.origin+"/photos/"+data[i].photo;
+
+                        ressource = document.createElement("li");
+                        ressource.innerHTML = `<a class="d-flex justify-content-between align-items-center" href="${url}"><span class="text-dark">${data[i].title}</span><i class="text-dark fas fa-camera"></i></a>`;
+                    }
+                    else if(data[i].video !== null){
+                        let url = window.location.origin+"/videos/"+data[i].video;
+
+
+                        ressource = document.createElement("li");
+                        ressource.innerHTML = `<a class="d-flex justify-content-between align-items-center" href="${url}"><span class="text-dark">${data[i].title}</span><i class="text-dark fas fa-video"></i></a>`;
+                    }
+
+
+
+                    boxResults.appendChild(ressource);
+                }
+
             }
-
-            let ressource = document.createElement("li");
-            ressource.innerHTML = `${data[i].title}`;
-
-
-            boxResults.appendChild(ressource);
         }
-
-   }
-}
-    xhr.responseType = "json";
-    xhr.send(JSON.stringify(requestParam));
+        xhr.responseType = "json";
+        xhr.send(JSON.stringify(requestParam));
     }
     else{
         boxResults.innerHTML = "";
     }
 
-});
+    document.addEventListener('click', function(){
+        boxResults.innerHTML = "";
+    })
+
+}
+searchBarContent.addEventListener('keyup', searchContent) || searchBarContent.addEventListener('click', searchContent)
+    
+
+
 
 </script>
