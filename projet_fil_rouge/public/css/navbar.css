@@ -30,11 +30,6 @@ nav{
     font-size: 24px;
 }
 
-.navbar .navbar-brand:hover,
-.navbar .navbar-brand:focus {
-    color: #fff;
-}
-
 .navbar .navbar-brand i {
     font-size: 25px;
     margin-right: 5px;
@@ -88,12 +83,6 @@ nav{
     font-size: 14px;
 }
 
-.navbar .navbar-nav>a:hover,
-.navbar .navbar-nav>a:focus {
-    color: #fff;
-    text-shadow: 0 0 4px rgba(255, 255, 255, 0.3);
-}
-
 .navbar .navbar-nav>a>i {
     display: block;
     text-align: center;
@@ -115,12 +104,6 @@ nav{
     color: #fff;
 }
 
-.navbar .nav-item.open>a,
-.navbar .nav-item.open>a:hover,
-.navbar .nav-item.open>a:focus {
-    color: #fff;
-    background: none !important;
-}
 
 .navbar .dropdown-menu {
     border-radius: 1px;
@@ -133,20 +116,6 @@ nav{
     padding: 8px 20px;
     line-height: normal;
     font-size: 15px;
-}
-
-.navbar .dropdown-menu a:hover,
-.navbar .dropdown-menu a:focus {
-    color: #333 !important;
-    background: transparent !important;
-}
-
-.navbar .navbar-nav .active a,
-.navbar .navbar-nav .active a:hover,
-.navbar .navbar-nav .active a:focus {
-    color: #fff;
-    text-shadow: 0 0 4px rgba(255, 255, 255, 0.2);
-    background: transparent !important;
 }
 
 .navbar .navbar-nav .user-action {
@@ -162,10 +131,6 @@ nav{
     background: #fff;
 }
 
-.navbar .navbar-toggle:focus,
-.navbar .navbar-toggle:hover {
-    background: transparent;
-}
 
 .navbar .navbar-nav .open .dropdown-menu {
     background: #faf7fd;
