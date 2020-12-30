@@ -221,4 +221,44 @@ class ArticlesController extends AbstractController
 
         return $this->redirectToRoute('articles_index');
     }
+
+    /**
+     * @Route("/article/comments", name="article_comments")
+     */
+    public function getArticleComments(Request $request, CommentsRepository $commentsRepository){
+
+        // On récupère les données de la requete ajax
+
+        $data = json_decode($request->getContent(), true);
+
+        // On récupère l'id de la ressource
+
+        $ressourceId = $data['idRessource'];
+
+        // On récupère les commentaires de la ressource
+
+        $comments = $commentsRepository->findBy(["ressource" => $ressourceId]);
+
+        // On construit le tableau de commentaires
+
+        $arrayComments = [];
+
+        foreach($comments as $comment){
+            $arrayComments[] = array(
+                'id' => $comment->getId(),
+                'user' => [
+                    "id" => $comment->getUser()->getId(),
+                    "lastName" => $comment->getUser()->getLastName(),
+                    "firstName" => $comment->getUser()->getFirstName()
+                ],
+                'contenu' => $comment->getContenu(),
+                'date' => $comment->getUpdatedAt() ? $comment->getUpdatedAt() : $comment->getCreatedAt()
+            );
+        }
+        $response = new Response(json_encode($arrayComments));
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+
+    }
 }
