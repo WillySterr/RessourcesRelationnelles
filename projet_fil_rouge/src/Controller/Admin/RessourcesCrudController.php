@@ -44,6 +44,7 @@ class RessourcesCrudController extends AbstractCrudController
             //AssociationField::new('evenement'),
             AssociationField::new('article'),
             BooleanField::new('published'),
+            AssociationField::new('comments'),
             //TextEditorField::new('description'),
         ];
     }
