@@ -49,6 +49,7 @@ class RessourcesRepository extends ServiceEntityRepository
                 WHERE e.title LIKE :str'
             )
             ->setParameter('str', '%'.$str.'%')
+            ->setMaxResults(8)
             ->getResult();
     }
     // /**
