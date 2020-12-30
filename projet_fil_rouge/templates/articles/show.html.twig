@@ -37,6 +37,36 @@
       </div>
       <!--Grid row-->
 
+      <form method="POST" action="{{ path('add_comment', {'id': ressourceId}) }}">
+        <input class="form-control comments_contenu w-75" name="comments" type="text" placeholder="Saisissez votre commentaire">
+      </form>
+
+      <ul class="comments-list">
+
+
+        {% for comment in comments %}
+          <li class="comment mt-2">
+            <a class="pull-left" href="javascript:void(0);">
+              <img class="avatar rounded-circle" src="https://bootdey.com/img/Content/avatar/avatar1.png" style="width: 5%"alt="avatar">
+            </a>
+            <h5 class="user a">{{ comment.user.firstName }} {{ comment.user.lastName }} a commenté</h5><a href="#"><i class="fas fa-reply ml-2"></i></a>
+            {# <p class="time">
+                                            {% if comments.updatedAt is not null %}
+                                                {{ comments.updatedAt|date('Y-m-d H:i:s')  }}
+                                            {% else %}
+                                                {{ comments.createdAt|date('Y-m-d H:i:s')  }}
+                                            {% endif %}
+                                        </p> #}
+            <div class="comment-body">
+              <div>
+                <p>{{ comment.contenu }}</p>
+              </div>
+            </div>
+          </li>
+
+        {% endfor %}
+      </ul>
+
 
     </section>
     <!--Section: Content-->
