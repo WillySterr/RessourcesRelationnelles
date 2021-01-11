@@ -66,10 +66,12 @@ class InformationsController extends AbstractController
     /**
      * @Route("/{id}", name="informations_show", methods={"GET"})
      */
-    public function show(Informations $information): Response
+    public function show($id, Informations $information, RessourcesRepository $ressourcesRepository): Response
     {
+        $ressource = $ressourcesRepository->findOneBy(["information" => $id]);
         return $this->render('informations/show.html.twig', [
             'information' => $information,
+            'ressourceId' => $ressource->getId()
         ]);
     }
 

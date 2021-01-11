@@ -112,9 +112,7 @@ class ArticlesController extends AbstractController
 
         $ressource = $ressourcesRepository->findOneBy(["article" => $id]);
 
-
         //Récupérer les commentaires de la ressource
-
 
         $comments = $commentsRepository->findBy(["ressource" => $ressource->getId()]);
 
