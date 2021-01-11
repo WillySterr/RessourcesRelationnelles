@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Evenements;
 use App\Form\EvenementsType;
+use App\Repository\CommentsRepository;
 use App\Repository\EvenementsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -66,10 +67,12 @@ class EvenementsController extends AbstractController
     /**
      * @Route("/{id}", name="evenements_show", methods={"GET"})
      */
-    public function show(Evenements $evenement): Response
+    public function show($id, Evenements $evenement, RessourcesRepository $ressourcesRepository): Response
     {
+        $ressource = $ressourcesRepository->findOneBy(["evenement" => $id]);
         return $this->render('evenements/show.html.twig', [
             'evenement' => $evenement,
+            'ressourceId' => $ressource->getId()
         ]);
     }
 
