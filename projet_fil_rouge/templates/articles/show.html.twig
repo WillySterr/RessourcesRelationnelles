@@ -39,89 +39,73 @@
       </div>
       <!--Grid row-->
 
-      <form method="POST" action="{{ path('add_comment', {'id': ressourceId}) }}">
-        <input class="form-control comments_contenu w-75" name="comments" type="text" placeholder="Saisissez votre commentaire">
-      </form>
+
+      <input class="form-control comments_contenu w-75" id="comments-text" name="comments" type="text" placeholder="Saisissez votre commentaire">
 
       <ul id="comments-box" class="comments-list">
 
-
-{#        {% for comment in comments %}#}
-{#          <li class="comment mt-2">#}
-{#            <a class="pull-left" href="javascript:void(0);">#}
-{#              <img class="avatar rounded-circle" src="https://bootdey.com/img/Content/avatar/avatar1.png" style="width: 5%"alt="avatar">#}
-{#            </a>#}
-{#            <h5 class="user a">{{ comment.user.firstName }} {{ comment.user.lastName }} a commenté</h5><a href="#"><i class="fas fa-reply ml-2"></i></a>#}
-{#            #}{# <p class="time">#}
-{#                                            {% if comments.updatedAt is not null %}#}
-{#                                                {{ comments.updatedAt|date('Y-m-d H:i:s')  }}#}
-{#                                            {% else %}#}
-{#                                                {{ comments.createdAt|date('Y-m-d H:i:s')  }}#}
-{#                                            {% endif %}#}
-{#                                        </p> #}
-{#            <div class="comment-body">#}
-{#              <div>#}
-{#                <p>{{ comment.contenu }}</p>#}
-{#              </div>#}
-{#            </div>#}
-{#          </li>#}
-
-{#        {% endfor %}#}
       </ul>
 
 
     </section>
-    <!--Section: Content-->
-  <script>
-    document.addEventListener("DOMContentLoaded", function(event) {
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
 
-      //On récupère la box dans laquelle on mettra les commentaires
+    var xhr = new XMLHttpRequest();
+    //On récupère la box dans laquelle on mettra les commentaires
 
-      let commentsBox = document.querySelector('#comments-box');
+    let commentsBox = document.querySelector('#comments-box');
 
-      //On récupère l'id de la ressource
+    //On récupère l'id de la ressource
 
-      let ressourceId = document.querySelector('#ressource-id').value;
+    let ressourceId = document.querySelector('#ressource-id').value;
 
-      const requestParams = {
-        "idRessource" : ressourceId
-      }
-
-      ajaxRequestGetArticleComments(requestParams, commentsBox);
-
-
-    });
-
-    function ajaxRequestGetArticleComments(requestParams, commentsBox){
-      var xhr = new XMLHttpRequest();
+    let commentsText = document.querySelector('#comments-text');
 
 
 
-      //article_comments
-
-      xhr.open('POST', '{{ path('article_comments') }}', true);
-      xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-      xhr.onreadystatechange = function() { //Appelle une fonction au changement d'état.
-        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-
-          let data = xhr.response;
-          loadData(data, commentsBox);
-        }
-      }
-      xhr.responseType = 'json';
-      xhr.send(JSON.stringify(requestParams));
+    const requestParams = {
+      "idRessource" : ressourceId
     }
 
+    ajaxRequestGetRessourceComments(xhr,requestParams, commentsBox);
 
-    function loadData(data, commentsBox){
+    commentsText.addEventListener('keypress', function(e){
+      if(e.key === "Enter"){
+        const requestParamsAddComments = {
+          "idRessource" : ressourceId,
+          "comments": commentsText.value
+        }
+        addNewComments(xhr, requestParamsAddComments, commentsBox);
+        commentsText.value = ""
+      }
+    })
 
-      console.log(data)
+
+  });
+
+  function ajaxRequestGetRessourceComments(xhr, requestParams, commentsBox){
+
+    xhr.open('POST', '{{ path('get_comments') }}', true);
+    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    xhr.onreadystatechange = function() { //Appelle une fonction au changement d'état.
+      if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+
+        let data = xhr.response;
+        loadData(data, commentsBox);
+      }
+    }
+    xhr.responseType = 'json';
+    xhr.send(JSON.stringify(requestParams));
+  }
 
 
-      for (let i = 0; i < data.length; i++) {
-        let eachComment = document.createElement("li");
-        eachComment.setAttribute('class', 'comment mt-2')
-        eachComment.innerHTML = `<a class="pull-left" href="javascript:void(0);">
+  function loadData(data, commentsBox){
+
+    for (let i = 0; i < data.length; i++) {
+      let eachComment = document.createElement("li");
+      eachComment.setAttribute('class', 'comment mt-2')
+      eachComment.innerHTML = `<a class="pull-left" href="javascript:void(0);">
               <img class="avatar rounded-circle" src="https://bootdey.com/img/Content/avatar/avatar1.png" style="width: 5%"alt="avatar">
             </a>
             <h5 class="user a">${data[i].user.firstName} ${data[i].user.lastName}  a commenté</h5><a href="#"><i class="fas fa-reply ml-2"></i></a>
@@ -139,12 +123,27 @@
             </div>
           `;
 
-        commentsBox.appendChild(eachComment);
+      commentsBox.appendChild(eachComment);
+    }
+  }
+
+  function addNewComments(xhr, requestParams, commentsBox){
+
+    xhr.open('POST', '{{ path('new_comments') }}', true);
+    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    xhr.onreadystatechange = function() { //Appelle une fonction au changement d'état.
+      if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+        commentsBox.innerHTML = '';
+        let data = xhr.response;
+        loadData(data, commentsBox);
       }
     }
+    xhr.responseType = 'json';
+    xhr.send(JSON.stringify(requestParams));
 
 
-  </script>
+  }
+</script>
   {% block javascript %}{% endblock %}
 {% endblock %}
 

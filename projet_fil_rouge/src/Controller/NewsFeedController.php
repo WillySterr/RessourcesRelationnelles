@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Comments;
 use App\Entity\Favoris;
-use App\Form\CommentsType;
 use App\Repository\RessourcesRepository;
 use App\Repository\FavorisRepository;
 use Doctrine\ORM\EntityManagerInterface;
