@@ -88,10 +88,14 @@ class PhotosController extends AbstractController
     /**
      * @Route("/{id}", name="photos_show", methods={"GET"})
      */
-    public function show(Photos $photo): Response
+    public function show($id, Photos $photo, RessourcesRepository $ressourcesRepository): Response
     {
+
+        $ressource = $ressourcesRepository->findOneBy(["photo" => $id]);
+
         return $this->render('photos/show.html.twig', [
             'photo' => $photo,
+            'ressourceId' => $ressource->getId()
         ]);
     }
 
