@@ -63,37 +63,13 @@
 
         </div>
         <div class="card-footer">
-            <form method="POST" action="{{ path('add_comment', {'id': new.ressource.id}) }}">
-                <input class="form-control comments_contenu w-75" name="comments" type="text" placeholder="Saisissez votre commentaire">
-            </form>
+                <input id="comments-{{ new.ressource.id }}" class="form-control comments_contenu w-75 all-comments" name="comments" type="text" placeholder="Saisissez votre commentaire">
 
 
             <div class="post-footer">
 
-                <ul class="comments-list">
+                <ul id="comments-box-{{ new.ressource.id }}" class="comments-list">
 
-
-                    {% for comments in new.ressource.comments %}
-                        <li class="comment mt-2">
-                            <a class="pull-left" href="javascript:void(0);">
-                                <img class="avatar rounded-circle" src="https://bootdey.com/img/Content/avatar/avatar1.png" style="width: 5%"alt="avatar">
-                            </a>
-                            <h5 class="user a">{{ comments.user.firstName }} {{ comments.user.lastName }} a commenté</h5><a href="#"><i class="fas fa-reply ml-2"></i></a>
-                            {# <p class="time">
-                                            {% if comments.updatedAt is not null %}
-                                                {{ comments.updatedAt|date('Y-m-d H:i:s')  }}
-                                            {% else %}
-                                                {{ comments.createdAt|date('Y-m-d H:i:s')  }}
-                                            {% endif %}
-                                        </p> #}
-                            <div class="comment-body">
-                                <div>
-                                    <p>{{ comments.contenu }}</p>
-                                </div>
-                            </div>
-                        </li>
-
-                    {% endfor %}
                 </ul>
             </div>
         </div>
@@ -164,37 +140,13 @@
 
         </div>
         <div class="card-footer">
-            <form method="POST" action="{{ path('add_comment', {'id': new.id}) }}">
-                <input class="form-control comments_contenu w-75" name="comments" type="text" placeholder="Saisissez votre commentaire">
-            </form>
+                <input id="comments-{{ new.id }}" class="form-control comments_contenu w-75 all-comments" name="comments" type="text" placeholder="Saisissez votre commentaire">
 
 
             <div class="post-footer">
 
-                <ul class="comments-list">
+                <ul id="comments-box-{{ new.id }}" class="comments-list">
 
-
-                    {% for comments in new.comments %}
-                        <li class="comment mt-2">
-                            <a class="pull-left" href="javascript:void(0);">
-                                <img class="avatar rounded-circle" src="https://bootdey.com/img/Content/avatar/avatar1.png" style="width: 5%"alt="avatar">
-                            </a>
-                            <h5 class="user a">{{ comments.user.firstName }} {{ comments.user.lastName }} a commenté</h5><a href="#"><i class="fas fa-reply ml-2"></i></a>
-                            {# <p class="time">
-                                            {% if comments.updatedAt is not null %}
-                                                {{ comments.updatedAt|date('Y-m-d H:i:s')  }}
-                                            {% else %}
-                                                {{ comments.createdAt|date('Y-m-d H:i:s')  }}
-                                            {% endif %}
-                                        </p> #}
-                            <div class="comment-body">
-                                <div>
-                                    <p>{{ comments.contenu }}</p>
-                                </div>
-                            </div>
-                        </li>
-
-                    {% endfor %}
                 </ul>
             </div>
         </div>
