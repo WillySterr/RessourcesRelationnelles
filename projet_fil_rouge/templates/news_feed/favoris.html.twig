@@ -30,13 +30,96 @@
 {% endblock %}
 {% block javascripts %}
     <script>
-        let form = document.querySelector('form');
-        let textContent = document.querySelector('.comments_contenu');
-        textContent.addEventListener('keypress', function(e){
-            if(e.key === 'Enter')
-            {
-                form.submit();
+
+        document.addEventListener('DOMContentLoaded', function(){
+            var xhr = new XMLHttpRequest();
+            let comments = document.querySelectorAll('.all-comments');
+            let id, commentBox;
+
+            initCommentsNewFeed(xhr);
+
+
+            comments.forEach(comment => comment.addEventListener('click', function(e){
+                let ressourceId = this.id.split('-');
+                id = parseInt(ressourceId[1]);
+                commentBox = document.querySelector('#comments-box-'+id);
+            }))
+            comments.forEach(comment => comment.addEventListener('keypress', function(e){
+                if(e.key === "Enter"){
+                    const requestParams = {
+                        "idRessource" : id,
+                        "comments": comment.value
+                    }
+
+                    xhr.open('POST', '{{ path('new_comments') }}', true);
+                    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+                    xhr.onreadystatechange = function() { //Appelle une fonction au changement d'état.
+                        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                            initCommentsNewFeed(xhr);
+                            comment.value = "";
+                        }
+                    }
+                    xhr.responseType = 'json';
+                    xhr.send(JSON.stringify(requestParams));
+                }
+            }))
+        })
+
+        function loadDataForNewsFeed(data, commentsBox){
+            let commentsBoxDatas = commentsBox.id.split('-');
+            let boxId = parseInt(commentsBoxDatas[2]);
+            commentsBox.innerHTML = "";
+
+
+            for (let i = 0; i < data.length; i++) {
+                if(boxId === data[i].ressource){
+
+
+                    let eachComment = document.createElement("li");
+                    eachComment.setAttribute('class', 'comment mt-2')
+                    eachComment.innerHTML = `<a class="pull-left" href="javascript:void(0);">
+              <img class="avatar rounded-circle" src="https://bootdey.com/img/Content/avatar/avatar1.png" style="width: 5%"alt="avatar">
+            </a>
+            <h5 class="user a">${data[i].user.firstName} ${data[i].user.lastName}  a commenté</h5><a href="#"><i class="fas fa-reply ml-2"></i></a>
+             {#<p class="time">#}
+             {#                               {% if comments.updatedAt is not null %}#}
+             {#                                   {{ comments.updatedAt|date('Y-m-d H:i:s')  }}#}
+             {#                               {% else %}#}
+             {#                                   {{ comments.createdAt|date('Y-m-d H:i:s')  }}#}
+             {#                               {% endif %}#}
+             {#                           </p>#}
+            <div class="comment-body">
+              <div>
+                <p>${data[i].contenu}</p>
+              </div>
+            </div>
+          `;
+
+                    commentsBox.appendChild(eachComment);
+                }
             }
-        });
+
+        }
+
+        function initCommentsNewFeed(xhr){
+            xhr.open('GET', '{{ path('get_all_comments') }}', true);
+            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+            xhr.onreadystatechange = function() { //Appelle une fonction au changement d'état.
+                if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+
+                    let data = xhr.response;
+
+                    for (let i = 0; i < data.length; i++){
+                        if(document.querySelector('#comments-box-'+data[i].ressource) !== null){
+                            loadDataForNewsFeed(data, document.querySelector('#comments-box-'+data[i].ressource))
+                        }
+                    }
+
+                }
+            }
+            xhr.responseType = 'json';
+            xhr.send();
+        }
+
     </script>
 {% endblock %}

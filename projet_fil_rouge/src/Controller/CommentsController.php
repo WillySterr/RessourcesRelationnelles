@@ -105,4 +105,33 @@ class CommentsController extends AbstractController
         return $response;
 
     }
+    /**
+     * @Route("/comments/all", name="get_all_comments")
+     */
+    public function getAllComments(CommentsRepository $commentsRepository){
+
+        $comments = $commentsRepository->findAll();
+
+        $arrayComments = [];
+
+        foreach($comments as $comment){
+            $arrayComments[] = array(
+                'id' => $comment->getId(),
+                'ressource' => $comment->getRessource()->getId(),
+                'user' => [
+                    "id" => $comment->getUser()->getId(),
+                    "lastName" => $comment->getUser()->getLastName(),
+                    "firstName" => $comment->getUser()->getFirstName()
+                ],
+                'contenu' => $comment->getContenu(),
+                'date' => $comment->getUpdatedAt() ? $comment->getUpdatedAt() : $comment->getCreatedAt()
+            );
+        }
+
+        $response = new Response(json_encode($arrayComments));
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+
+    }
 }
