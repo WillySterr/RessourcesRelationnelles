@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Users;
 use App\Form\EditUserType;
+use App\Form\RegisterType;
 use App\Repository\FavorisRepository;
 use App\Repository\RessourcesRepository;
 use App\Repository\UsersRepository;
@@ -26,7 +27,7 @@ class UsersController extends AbstractController
     {
         $user = new Users();
 
-        $form = $this->createForm(EditUserType::class, $user);
+        $form = $this->createForm(RegisterType::class, $user);
 
         $form->handleRequest($request);
 
