@@ -6,8 +6,6 @@
 {% block body %}
     <div class="container">
         <div class="main-body">
-
-
             <div class="row gutters-sm">
                 <div class="col-md-4 mb-3">
                     <div class="card">
@@ -37,13 +35,13 @@
 
                                     <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                         <h6 class="mb-0"><i class="mr-1 fas fa-camera"></i>Photo</h6>
-                                        <a href="{{ path('photos_show', {'id': ressource.photo.slug}) }}" class="text-secondary">{{ ressource.photo.titre }}</a>
+                                        <a href="{{ path('photos_show', {'id': ressource.photo.id}) }}" class="text-secondary">{{ ressource.photo.titre }}</a>
                                     </li>
 
                                 {% elseif ressource.video is not null %}
                                   <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                       <h6 class="mb-0"><i class="mr-1 fas fa-camera"></i>Vidéo</h6>
-                                      <a href="{{ path('videos_show', {'slug': ressource.video.slug}) }}" class="text-secondary">{{ ressource.video.titre }}</a>
+                                      <a href="{{ path('videos_show', {'id': ressource.video.id}) }}" class="text-secondary">{{ ressource.video.titre }}</a>
                                   </li>
 
                                 {% elseif ressource.article is not null %}
@@ -56,13 +54,13 @@
                                 {% elseif ressource.information is not null %}
                                     <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                         <h6 class="mb-0"><i class="mr-1 fas fa-info-circle"></i>Information</h6>
-                                        <a href="{{ path('informations_show', {'slug': ressource.information.slug}) }}" class="text-secondary">{{ ressource.information.titre }}</a>
+                                        <a href="{{ path('informations_show', {'id': ressource.information.id}) }}" class="text-secondary">{{ ressource.information.titre }}</a>
                                     </li>
 
                                 {% elseif ressource.evenement is not null %}
                                     <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                         <h6 class="mb-0"><i class="mr-1 fas fa-calendar"></i>Évènement</h6>
-                                        <a href="{{ path('evenements_show', {'id': ressource.evenement.slug}) }}" class="text-secondary">{{ ressource.evenement.titre }}</a>
+                                        <a href="{{ path('evenements_show', {'id': ressource.evenement.id}) }}" class="text-secondary">{{ ressource.evenement.titre }}</a>
                                     </li>
 
                                 {% endif %}
@@ -187,8 +185,6 @@
                                 <a class="btn btn-primary" href="{{ path('app_check_email') }}">Modifier mot de passe</a>
                                 <a class="btn btn-warning" href="{{ path('edituser', {'id' : user.id}) }}">Modifier informations</a>
                                 <a class="btn btn-danger" href="{{ path('userandco_delete', {'id': user.id}) }}">Supprimer utilisateur</a>
-
-
                             </div>
                         </div>
                     </div>
