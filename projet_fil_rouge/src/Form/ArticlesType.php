@@ -15,7 +15,6 @@ class ArticlesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('slug')
             ->add('titre')
             ->add('description')
             ->add('video',FileType::class,[

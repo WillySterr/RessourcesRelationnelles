@@ -1,5 +1,29 @@
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('css/login.css') }}">
+    <style>
+        .video_category{
+            border: none !important;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+        [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+            position: relative !important;
+            pointer-events: visible !important;
+            opacity: 1 !important;
+        }
+        .video_category *{
+            align-self: center;
+        }
+
+        .video_category label{
+            margin: 0 10px;
+        }
+        #videos_video{
+            border: none !important;
+        }
+
+    </style>
 {% endblock %}
 
 {{ form_start(form) }}
@@ -31,21 +55,11 @@
                     }) }}
                 </div>
 
-                <div class="form-group col-2">
-                    <label for="InputPublished">Publiée</label>
-                    {{ form_widget(form.published, {
-                        "attr": {
-                            "class": "form-control form-control-sm",
-                            "id": "InputPublished"
-                        }
-                    }) }}
-                </div>
-
                 <div class="form-group col-12">
                     <label for="InputCategory">Catégorie</label>
                     {{ form_widget(form.category, {
                         "attr": {
-                            "class": "form-control form-control-sm",
+                            "class": "form-control form-control-sm video_category",
                             "id": "InputCategory"
                         }
                     }) }}
@@ -67,12 +81,9 @@
 
                 <div class="form-group col-12">
                 <div class="sign-up text-left">
-                     <a href="{{ path('videos_index') }}"><i class="fa fa-reply"></i> Retour</a>
+                     <a style="color: #777;" href="{{ path('videos_index') }}"><i class="fa fa-reply"></i> Retour</a>
                 </div>
                 </div>
-
-
-
 
 {{ form_end(form) }}
 

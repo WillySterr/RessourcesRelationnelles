@@ -35,13 +35,6 @@ class Videos
      * @ORM\Column(type="boolean")
      */
     private $published;
-
-    /**
-     * @Gedmo\Slug(fields={"titre"})
-     * @ORM\Column(type="string", length=255)
-     */
-    private $slug;
-
     /**
      * @ORM\Column(type="string", length=255)
      */
@@ -115,12 +108,6 @@ class Videos
 
         return $this;
     }
-
-    public function getSlug(): ?string
-    {
-        return $this->slug;
-    }
-
 
     public function getTitre(): ?string
     {
@@ -224,14 +211,6 @@ class Videos
 
         return $this;
     }
-
-    public function setSlug(string $slug): self
-    {
-        $this->slug = $slug;
-
-        return $this;
-    }
-
         /**
      * @return File|null
      */
