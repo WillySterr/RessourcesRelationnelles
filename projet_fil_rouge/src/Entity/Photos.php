@@ -7,10 +7,15 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use DateTime;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass=PhotosRepository::class)
  * @ORM\HasLifecycleCallbacks()
+ * @Vich\Uploadable
  */
 class Photos
 {
@@ -32,6 +37,7 @@ class Photos
     private $published;
 
     /**
+     * @Gedmo\Slug(fields={"titre"})
      * @ORM\Column(type="string", length=255)
      */
     private $slug;
@@ -67,6 +73,14 @@ class Photos
      * @ORM\Column(type="string", length=255)
      */
     private $image;
+
+    /**
+     * @var File
+     * @Vich\UploadableField(mapping="vichFiles", fileNameProperty="image")
+     */
+    private $vichFile;
+
+    
 
     public function __construct()
     {
@@ -199,15 +213,48 @@ class Photos
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getImage(): ?string
     {
         return $this->image;
     }
 
-    public function setImage(string $image): self
+    /**
+     * @param string|null $image
+     * @return $this
+     */
+    public function setImage($image): self
     {
         $this->image = $image;
 
         return $this;
+    }
+
+    /**
+     * @return File|null
+     */
+    public function getVichFile(): ?File
+    {
+        return $this->vichFile;
+    }
+
+    /**
+     * @param File|null $vichFile
+     */
+    public function setVichFile(?File $vichFile = null)
+    {
+        $this->vichFile = $vichFile;
+
+        if ($vichFile !== null) {
+              $this->updatedAt = new \DateTime('now');
+        }
+
+        return $this;
+    }
+
+    public function __toString(){
+        return $this->titre;
     }
 }

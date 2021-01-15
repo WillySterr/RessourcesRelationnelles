@@ -8,10 +8,14 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use DateTime;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * @ORM\Entity(repositoryClass=VideosRepository::class)
  * @ORM\HasLifecycleCallbacks()
+ * @Vich\Uploadable
  */
 class Videos
 {
@@ -69,6 +73,13 @@ class Videos
      * @ORM\Column(type="string", length=255)
      */
     private $video;
+
+    /**
+     * @var File
+     * @Vich\UploadableField(mapping="vichFiles", fileNameProperty="video")
+     */
+    private $vichFile;
+
 
     public function __construct()
     {
@@ -195,15 +206,55 @@ class Videos
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getVideo(): ?string
     {
         return $this->video;
     }
 
+    /**
+     * @param string|null $video
+     * @return $this
+     */
     public function setVideo(string $video): self
     {
         $this->video = $video;
 
         return $this;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+        /**
+     * @return File|null
+     */
+    public function getVichFile(): ?File
+    {
+        return $this->vichFile;
+    }
+
+    /**
+     * @param File|null $vichFile
+     */
+    public function setVichFile(?File $vichFile = null)
+    {
+        $this->vichFile = $vichFile;
+
+        if ($vichFile !== null) {
+              $this->updatedAt = new \DateTime('now');
+        }
+
+        return $this;
+    }
+
+    public function __toString(){
+        return $this->titre;
     }
 }
