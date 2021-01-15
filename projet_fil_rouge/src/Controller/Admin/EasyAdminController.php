@@ -36,15 +36,35 @@ class EasyAdminController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         return [
-        MenuItem::linkToDashboard('Home', 'fa fa-home'),
+        MenuItem::linkToDashboard('Accueil', 'fa fa-home'),
         //MenuItem::linkToLogout('Logout', 'fa fa-exit'),
-        MenuItem::section('Ressources et catégories'),
-        MenuItem::linkToCrud('Ressources', 'fa fa-book', Ressources::class)
+        MenuItem::section('Ressources et Commentaires'),
+
+        /*MenuItem::linkToCrud('Ressources', 'fa fa-book', Ressources::class)
             ->setController(RessourcesCrudController::class),
+        */
+
+        MenuItem::linkToCrud('Evènements', 'fa fa-calendar', Evenements::class)
+            ->setController(EvenementsCrudController::class),
+
+        MenuItem::linkToCrud('Informations', 'fa fa-book', Informations::class)
+            ->setController(InformationsCrudController::class),
+
+        MenuItem::linkToCrud('Photos', 'fa fa-photo', Photos::class)
+            ->setController(PhotosCrudController::class),
+
+        MenuItem::linkToCrud('Videos', 'fa fa-video', Videos::class)
+            ->setController(VideosCrudController::class),
+
+        MenuItem::linkToCrud('Articles', 'fa fa-file-word-o', Articles::class)
+            ->setController(ArticlesCrudController::class),
+
+        MenuItem::linkToCrud('Commentaires', 'fa fa-comment', Comments::class)
+            ->setController(CommentsCrudController::class),
+
+        MenuItem::section('Catégories'),
         MenuItem::linkToCrud('Catégories', 'fa fa-book', Category::class)
             ->setController(CategoryCrudController::class),
-        MenuItem::linkToCrud('Comments', 'fa fa-book', Category::class)
-            ->setController(CommentsCrudController::class),
 
         MenuItem::section('Fil d\'actualité'),
 
