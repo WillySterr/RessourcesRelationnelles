@@ -111,7 +111,7 @@ class RessourcesSubscribers implements EventSubscriberInterface
 
             if ($entity->getVideo() != null){ 
             $video = $this->ressourcesRepository->findOneBy(['video' => $entity->getVideo()]); 
-            	dd($video);
+         
                 $entityManager = $this->entityManager;
                 $entityManager->remove($video);
             	$entityManager->flush();
