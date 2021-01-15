@@ -11,10 +11,12 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Gedmo\Mapping\Annotation as Gedmo;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * @ORM\Entity(repositoryClass=ArticlesRepository::class)
  * @ORM\HasLifecycleCallbacks()
+ * @ApiResource()
  * @Vich\Uploadable
  */
 class Articles
@@ -35,12 +37,6 @@ class Articles
      * @ORM\Column(type="boolean")
      */
     private $published;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Gedmo\Slug(fields={"titre"})
-     */
-    private $slug;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -120,18 +116,6 @@ class Articles
     public function setPublished(bool $published): self
     {
         $this->published = $published;
-
-        return $this;
-    }
-
-    public function getSlug(): ?string
-    {
-        return $this->slug;
-    }
-
-    public function setSlug(string $slug): self
-    {
-        $this->slug = $slug;
 
         return $this;
     }

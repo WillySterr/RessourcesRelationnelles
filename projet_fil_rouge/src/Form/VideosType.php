@@ -15,7 +15,6 @@ class VideosType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('published')
             ->add('titre')
             ->add('description')
             ->add('video',FileType::class,[
