@@ -4,10 +4,12 @@ namespace App\Entity;
 
 use App\Repository\CommentsRepository;
 use DateTime;
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=CommentsRepository::class)
+ * @ApiResource()
  */
 class Comments
 {
@@ -82,7 +84,8 @@ class Comments
     /**
      * @ORM\PrePersist
      */
-    public function setCreatedAt() {
+    public function setCreatedAt()
+    {
         try {
             $this->createdAt = new DateTime('now', new \DateTimeZone("Europe/Paris"));
         } catch (\Exception $e) {
@@ -99,7 +102,8 @@ class Comments
     /**
      * @ORM\PreUpdate
      */
-    public function setUpdatedAt() {
+    public function setUpdatedAt()
+    {
         try {
             $this->updatedAt = new DateTime('now', new \DateTimeZone("Europe/Paris"));
         } catch (\Exception $e) {

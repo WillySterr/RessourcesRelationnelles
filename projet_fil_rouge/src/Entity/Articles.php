@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ArticlesRepository;
+use ApiPlatform\Core\Annotation\ApiResource;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -11,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=ArticlesRepository::class)
  * @ORM\HasLifecycleCallbacks()
+ * @ApiResource()
  */
 class Articles
 {
@@ -172,9 +174,10 @@ class Articles
     }
 
     /**
-    * @ORM\PrePersist
-    */
-    public function setCreatedAt() {
+     * @ORM\PrePersist
+     */
+    public function setCreatedAt()
+    {
         try {
             $this->createdAt = new DateTime('now', new \DateTimeZone("Europe/Paris"));
         } catch (\Exception $e) {
@@ -189,9 +192,10 @@ class Articles
     }
 
     /**
-    * @ORM\PreUpdate
-    */
-    public function setUpdatedAt() {
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAt()
+    {
         try {
             $this->updatedAt = new DateTime('now', new \DateTimeZone("Europe/Paris"));
         } catch (\Exception $e) {

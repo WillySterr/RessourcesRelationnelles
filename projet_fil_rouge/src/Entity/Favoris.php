@@ -6,6 +6,7 @@ use App\Repository\FavorisRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Datetime;
 
+
 /**
  * @ORM\Entity(repositoryClass=FavorisRepository::class)
  * @ORM\HasLifecycleCallbacks()

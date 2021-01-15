@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use DateTime;
 
+
 /**
  * @ORM\Entity(repositoryClass=InformationsRepository::class)
  * @ORM\HasLifecycleCallbacks()
