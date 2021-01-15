@@ -77,7 +77,7 @@ class Ressources
     private $title;
 
     /**
-     * @ORM\OneToMany(targetEntity=Comments::class, mappedBy="ressource")
+     * @ORM\OneToMany(targetEntity=Comments::class, mappedBy="ressource", cascade={"persist", "remove"})
      */
     private $comments;
 
@@ -289,5 +289,9 @@ class Ressources
         }
 
         return $this;
+    }
+
+    public function __toString(){
+        return $this->title;
     }
 }

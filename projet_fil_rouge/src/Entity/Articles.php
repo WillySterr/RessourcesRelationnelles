@@ -7,10 +7,15 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass=ArticlesRepository::class)
  * @ORM\HasLifecycleCallbacks()
+ * @Vich\Uploadable
  */
 class Articles
 {
@@ -33,6 +38,7 @@ class Articles
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Gedmo\Slug(fields={"titre"})
      */
     private $slug;
 
@@ -64,14 +70,26 @@ class Articles
     private $updatedAt;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $video;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $photo;
+
+    /**
+     * @var File
+     * @Vich\UploadableField(mapping="vichFiles", fileNameProperty="photo")
+     */
+    private $photoFile;
+
+    /**
+     * @var File
+     * @Vich\UploadableField(mapping="vichFiles", fileNameProperty="video")
+     */
+    private $videoFile;
 
     public function __construct()
     {
@@ -200,11 +218,20 @@ class Articles
         return $this;
     }
 
+
+    /**
+     * @return string|null
+     */
     public function getVideo(): ?string
     {
         return $this->video;
     }
 
+
+    /**
+     * @param string|null $video
+     * @return $this
+     */
     public function setVideo(string $video): self
     {
         $this->video = $video;
@@ -212,15 +239,72 @@ class Articles
         return $this;
     }
 
+
+    /**
+     * @return string|null
+     */
     public function getPhoto(): ?string
     {
         return $this->photo;
     }
 
+
+    /**
+     * @param string|null $photo
+     * @return $this
+     */
     public function setPhoto(string $photo): self
     {
         $this->photo = $photo;
 
         return $this;
+    }
+
+    /**
+     * @return File|null
+     */
+    public function getphotoFile(): ?File
+    {
+        return $this->photoFile;
+    }
+
+    /**
+     * @param File|null $photoFile
+     */
+    public function setphotoFile(?File $photoFile = null)
+    {
+        $this->photoFile = $photoFile;
+
+        if ($photoFile !== null) {
+              $this->updatedAt = new \DateTime('now');
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return File|null
+     */
+    public function getvideoFile(): ?File
+    {
+        return $this->videoFile;
+    }
+
+    /**
+     * @param File|null $videoFile
+     */
+    public function setvideoFile(?File $videoFile = null)
+    {
+        $this->videoFile = $videoFile;
+
+        if ($videoFile !== null) {
+              $this->updatedAt = new \DateTime('now');
+        }
+
+        return $this;
+    }
+
+    public function __toString(){
+        return $this->titre;
     }
 }

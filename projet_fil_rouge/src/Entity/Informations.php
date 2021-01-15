@@ -205,4 +205,15 @@ class Informations
 
         return $this;
     }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function __toString(){
+        return $this->titre;
+    }
 }
