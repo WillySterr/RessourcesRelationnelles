@@ -32,7 +32,7 @@ class ArticlesCrudController extends AbstractCrudController
         return $actions
             // ...
             ->add(Crud::PAGE_INDEX, Action::DETAIL)
-            ->disable(Crud::PAGE_EDIT, Action::EDIT)
+            ->remove(Crud::PAGE_INDEX, Action::EDIT)
         ;
     }
 
