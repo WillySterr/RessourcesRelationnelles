@@ -103,7 +103,7 @@ class NewsFeedController extends AbstractController
             'userCo' => $userCo,
             'favoList' => $favoList,
         ]);
-      }
+    }
 
 
   
