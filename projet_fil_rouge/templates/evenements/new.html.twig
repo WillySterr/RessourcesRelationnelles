@@ -3,8 +3,15 @@
 {% block title %}Nouvel événement{% endblock %}
 
 {% block body %}
+
+{% if app.user %}
+
 <a class="btn btn-primary"  href="{{ path('evenements_index') }}">Retour</a>
 
     {{ include('evenements/_form.html.twig') }}
+
+    {% else %}
+        <script>window.location.href = "{{path('login')}}" </script>
+    {% endif %}
 
 {% endblock %}

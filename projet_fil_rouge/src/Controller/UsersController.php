@@ -112,7 +112,7 @@ class UsersController extends AbstractController
     }
 
     /**
-     *  @Route("/{id}/edituser", name="edituser", methods={"GET", "POST"})
+     *  @Route("/edituser/{id}", name="edituser", methods={"GET", "POST"})
      */
     public function edituser(Request $request, UsersRepository $usersRepository, Security $security, $id)
     {
