@@ -7,6 +7,7 @@
 {% endblock %}
 
 {% block body %}
+    {% if app.user.id is same as (user.id) %}
 
     <div class="global-container">
         <div class="card" style="width: 600px; margin: 20px;">
@@ -94,5 +95,10 @@
             </div>
         </div>
     </div>
+    {% else %}
+
+        <script>window.location.href = "{{path('news_feed')}}" </script>
+
+    {% endif %}
 
 {% endblock %}
