@@ -4,6 +4,8 @@
 
 {% block body %}
 
+  {% if app.user.id is same as (video.id) or video.published == true %}
+
   <input id="ressource-id" type="hidden" value="{{ ressourceId }}">
 
  
@@ -150,5 +152,7 @@
     }
   </script>
   {% block javascript %}{% endblock %}
-    <!--Section: Content-->
+  {% else %}
+    <script>window.location.href = "{{path('news_feed')}}" </script>
+  {% endif %}
 {% endblock %}

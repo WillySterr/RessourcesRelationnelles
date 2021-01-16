@@ -4,6 +4,12 @@
 
 {% block body %}
 
+    {% if app.user %}
+
     {{ include('category/_form.html.twig') }}
+
+    {% else %}
+        <script>window.location.href = "{{path('login')}}" </script>
+    {% endif %}
 
 {% endblock %}
