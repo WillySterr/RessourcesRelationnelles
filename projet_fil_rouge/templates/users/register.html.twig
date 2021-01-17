@@ -105,6 +105,17 @@
                         }) }}
                     </div>
                     <div class="form-group col-12">
+                
+                    <label for="InputJob">Avatar</label>
+
+                        {% for avatar in avatars %}
+                            <input type="radio" name="register[avatar]" id="radio-choice-{{avatar.id}}" value="{{avatar.id}}" />
+                                <label for="radio-choice-{{avatar.id}}"><img src="{{asset("uploads/"~avatar.avatarIcon)  }}"/></label>
+
+                        {% endfor %} 
+                        
+                    </div>
+                    <div class="form-group col-12">
                         <button type="submit" style="background-color: #1b2838 !important;" class="btn btn-primary btn-block">Inscription</button>
                     </div>
                     <div class="sign-up">
