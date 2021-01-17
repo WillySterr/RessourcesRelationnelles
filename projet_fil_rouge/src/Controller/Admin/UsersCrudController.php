@@ -40,9 +40,11 @@ class UsersCrudController extends AbstractCrudController
             TelephoneField::new('phone'),
             TextEditorField::new('description'),
             TextField::new('job'),
-            ChoiceField::new('roles')->setChoices([
-                'user' => 'ROLE_USER',
-                'admin' => 'ROLE_ADMIN'
+            ChoiceField::new('roles')->allowMultipleChoices(true)->setChoices([
+                'user' => "ROLE_USER",
+                'admin' => "ROLE_ADMIN",
+                'modérateur' => "ROLE_MODERATEUR",
+                "super_admin" => "ROLE_SUPERADMIN"
                 ])->hideOnIndex()
 
 
