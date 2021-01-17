@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\UsersRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -11,6 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UsersRepository::class)
+ * @ApiResource
  */
 class Users implements UserInterface
 {
@@ -120,6 +122,11 @@ class Users implements UserInterface
      * @ORM\OneToMany(targetEntity=Messages::class, mappedBy="user", orphanRemoval=true)
      */
     private $messages;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Avatars::class, inversedBy="users")
+     */
+    private $avatar;
 
 
     public function getPasswordVerification(): ?string
@@ -252,7 +259,7 @@ class Users implements UserInterface
     public function getRoles()
     {
         // TODO: Implement getRoles() method.
-        return [$this->roles];
+        return $this->roles;
     }
 
 
@@ -583,6 +590,18 @@ class Users implements UserInterface
 
         return $this->firstName; 
 
+    }
+
+    public function getAvatar(): ?Avatars
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(?Avatars $avatar): self
+    {
+        $this->avatar = $avatar;
+
+        return $this;
     }
 
 }

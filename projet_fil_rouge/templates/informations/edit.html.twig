@@ -3,6 +3,7 @@
 {% block title %}Modifier l'information{% endblock %}
 
 {% block body %}
+    {% if app.user.id is same as (information.user.id) %}
         <a class="btn btn-primary" href="{{ path('informations_index') }}">Retour</a>
 
    <div class="container my-5 px-0 text-center">
@@ -11,7 +12,11 @@
 
     {{ include('informations/_delete_form.html.twig') }}
 </div>
+    {% else %}
 
+        <script>window.location.href = "{{path('news_feed')}}" </script>
+
+    {% endif %}
 
     {% endblock %}
 

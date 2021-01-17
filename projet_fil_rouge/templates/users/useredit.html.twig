@@ -7,11 +7,12 @@
 {% endblock %}
 
 {% block body %}
+    {% if app.user.id is same as (user.id) %}
 
     <div class="global-container">
         <div class="card" style="width: 600px; margin: 20px;">
             <div class="card-body">
-                <h3 class="card-title text-center">Edit User</h3>
+                <h3 class="card-title text-center">Modification Informations</h3>
                 <div class="card-text">
 
     {{ form_start(form) }}
@@ -88,13 +89,16 @@
                         <button type="submit" class="btn btn-primary btn-block">Valider</button>
                     </div>
                     <div class="sign-up">
-                        Vous avez déjà un compte? <a href="{{ path('login') }}">Connectez-vous</a>
-                    </div>
     {{ form_end(form) }}
 
                 </div>
             </div>
         </div>
     </div>
+    {% else %}
+
+        <script>window.location.href = "{{path('news_feed')}}" </script>
+
+    {% endif %}
 
 {% endblock %}

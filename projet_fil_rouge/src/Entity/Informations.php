@@ -34,12 +34,6 @@ class Informations
     private $published;
 
     /**
-     * @Gedmo\Slug(fields={"titre"})
-     * @ORM\Column(length=128, unique=true)
-     */
-    private $slug;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $titre;
@@ -104,12 +98,6 @@ class Informations
 
         return $this;
     }
-
-    public function getSlug(): ?string
-    {
-        return $this->slug;
-    }
-
     public function getTitre(): ?string
     {
         return $this->titre;
@@ -202,13 +190,6 @@ class Informations
             $this->updatedAt = new DateTime('now', new \DateTimeZone("Europe/Paris"));
         } catch (\Exception $e) {
         }
-
-        return $this;
-    }
-
-    public function setSlug(string $slug): self
-    {
-        $this->slug = $slug;
 
         return $this;
     }
