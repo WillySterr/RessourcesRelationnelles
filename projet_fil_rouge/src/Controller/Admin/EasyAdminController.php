@@ -62,13 +62,20 @@ class EasyAdminController extends AbstractDashboardController
         MenuItem::linkToCrud('Commentaires', 'fa fa-comment', Comments::class)
             ->setController(CommentsCrudController::class),
 
+
         MenuItem::section('Catégories'),
         MenuItem::linkToCrud('Catégories', 'fa fa-book', Category::class)
             ->setController(CategoryCrudController::class),
 
-        MenuItem::section('Fil d\'actualité'),
+        MenuItem::section('Gestion des Utilisateurs'),
+        MenuItem::linkToCrud('Utilisateurs', 'fa fa-user', Users::class)
+            ->setController(UsersCrudController::class),
+      
 
+        MenuItem::section('Fil d\'actualité'),
         MenuItem::linkToRoute('Fil d\'actu', 'fa fa-cube', 'news_feed'),
-        ];
+
+       ];    
+        
     }
 }
