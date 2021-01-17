@@ -121,6 +121,11 @@ class Users implements UserInterface
      */
     private $messages;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Avatars::class, inversedBy="users")
+     */
+    private $avatar;
+
 
     public function getPasswordVerification(): ?string
     {
@@ -252,7 +257,7 @@ class Users implements UserInterface
     public function getRoles()
     {
         // TODO: Implement getRoles() method.
-        return [$this->roles];
+        return $this->roles;
     }
 
 
@@ -583,6 +588,18 @@ class Users implements UserInterface
 
         return $this->firstName; 
 
+    }
+
+    public function getAvatar(): ?Avatars
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(?Avatars $avatar): self
+    {
+        $this->avatar = $avatar;
+
+        return $this;
     }
 
 }
