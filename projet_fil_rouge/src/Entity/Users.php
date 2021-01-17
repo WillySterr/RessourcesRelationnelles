@@ -259,14 +259,17 @@ class Users implements UserInterface
     public function getRoles()
     {
         // TODO: Implement getRoles() method.
-        return $this->roles;
+        return array($this->roles);
     }
 
 
-    public function setRoles(string $roles): self
+    public function setRoles($roles): self
     {
         if ($roles === null) {
             $this->roles = "ROLE_USER";
+        }elseif(is_array($roles))
+        {
+            $this->roles = $roles[0];
         } else {
             $this->roles = $roles;
         }
