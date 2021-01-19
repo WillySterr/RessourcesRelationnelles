@@ -33,12 +33,6 @@ class Evenements
     private $published;
 
     /**
-     * @Gedmo\Slug(fields={"titre"})
-     * @ORM\Column(type="string", length=255)
-     */
-    private $slug;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $titre;
@@ -118,19 +112,6 @@ class Evenements
 
         return $this;
     }
-
-    public function getSlug(): ?string
-    {
-        return $this->slug;
-    }
-
-    public function setSlug(string $slug): self
-    {
-        $this->slug = $slug;
-
-        return $this;
-    }
-
     public function getTitre(): ?string
     {
         return $this->titre;
@@ -233,8 +214,8 @@ class Evenements
     }
 
     /**
-    * @ORM\PrePersist
-    */
+     * @ORM\PrePersist
+     */
     public function setCreatedAt() {
         try {
             $this->createdAt = new DateTime('now', new \DateTimeZone("Europe/Paris"));
@@ -250,8 +231,8 @@ class Evenements
     }
 
     /**
-    * @ORM\PreUpdate
-    */
+     * @ORM\PreUpdate
+     */
     public function setUpdatedAt() {
         try {
             $this->updatedAt = new DateTime('now', new \DateTimeZone("Europe/Paris"));

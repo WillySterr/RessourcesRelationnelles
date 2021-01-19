@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Users;
 use App\Form\EditUserType;
 use App\Form\RegisterType;
+use App\Repository\AvatarsRepository;
 use App\Repository\FavorisRepository;
 use App\Repository\RessourcesRepository;
 use App\Repository\UsersRepository;
@@ -26,7 +27,7 @@ class UsersController extends AbstractController
     /**
      * @Route("/register", name="register")
      */
-    public function register(Request $request, UserPasswordEncoderInterface $encoder, EntityManagerInterface $entityManager)
+    public function register(Request $request, UserPasswordEncoderInterface $encoder, EntityManagerInterface $entityManager, AvatarsRepository $avatarsRepository)
     {
         $user = new Users();
 
@@ -43,8 +44,9 @@ class UsersController extends AbstractController
 
             return $this->redirectToRoute("login");
         }
-
+        $avatars = $avatarsRepository->findAll();
         return $this->render('users/register.html.twig', [
+            'avatars'=>$avatars,
             "form" => $form->createView()
         ]);
     }
@@ -112,7 +114,7 @@ class UsersController extends AbstractController
     }
 
     /**
-     *  @Route("/{id}/edituser", name="edituser", methods={"GET", "POST"})
+     *  @Route("/edituser/{id}", name="edituser", methods={"GET", "POST"})
      */
     public function edituser(Request $request, UsersRepository $usersRepository, Security $security, $id)
     {

@@ -3,8 +3,12 @@
 {% block title %}{% endblock %}
 
 {% block body %}
+    {%  if app.user %}
     <a class="btn mt-2 btn-primary" href="{{ path('videos_index') }}">Retour</a>
 
     {{ include('videos/_form.html.twig') }}
+    {% else %}
+        <script>window.location.href = "{{path('login')}}" </script>
+    {% endif %}
 
 {% endblock %}

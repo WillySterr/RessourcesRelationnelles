@@ -1,5 +1,26 @@
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('css/login.css') }}">
+    <style>
+        .informations_category{
+            border: none !important;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+        [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+            position: relative !important;
+            pointer-events: visible !important;
+            opacity: 1 !important;
+        }
+        .informations_category *{
+            align-self: center;
+        }
+
+        .informations_category label{
+            margin: 0 10px;
+        }
+
+    </style>
 {% endblock %}
 
 {{ form_start(form) }}
@@ -44,16 +65,8 @@
                     <label for="InputCategorie">Catégorie</label>
                     {{ form_widget(form.category, {
                         "attr": {
-                            "class": "form-control form-control-sm",
+                            "class": "form-control form-control-sm informations_category",
                             "id": "InputCategorie"
-                        }
-                    }) }}
-                </div>
-                <div class="form-group col-6">
-                    <label for="InputPublie">Publié</label>
-                    {{ form_widget(form.published, {
-                        "attr": {
-                            "id": "InputPublie"
                         }
                     }) }}
                 </div>
@@ -63,7 +76,7 @@
 
                 <div class="form-group col-12">
                 <div class="sign-up text-left">
-                     <a href="{{ path('category_index') }}"><i class="fa fa-reply"></i> Retour</a>
+                     <a style="color: #777;" href="{{ path('category_index') }}"><i class="fa fa-reply"></i> Retour</a>
                 </div>
                 </div>
 {{ form_end(form) }}

@@ -1,5 +1,33 @@
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('css/login.css') }}">
+
+    <style>
+        .articles_category{
+            border: none !important;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+        [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+            position: relative !important;
+            pointer-events: visible !important;
+            opacity: 1 !important;
+        }
+        .articles_category *{
+            align-self: center;
+        }
+
+        .articles_category label{
+            margin: 0 10px;
+        }
+        #articles_photo{
+            border: none !important;
+        }
+        #articles_video{
+            border: none !important;
+        }
+
+    </style>
 {% endblock %}
 
 {{ form_start(form) }}
@@ -35,7 +63,7 @@
                     <label for="InputCategorie">Catégorie</label>
                     {{ form_widget(form.category, {
                         "attr": {
-                            "class": "form-control form-control-sm",
+                            "class": "form-control form-control-sm articles_category",
                             "id": "InputCategorie"
                         }
                     }) }}
@@ -65,7 +93,7 @@
 
                 <div class="form-group col-12">
                 <div class="sign-up text-left">
-                     <a href="{{ path('category_index') }}"><i class="fa fa-reply"></i> Retour</a>
+                     <a style="color: #777;" href="{{ path('category_index') }}"><i class="fa fa-reply"></i> Retour</a>
                 </div>
                 </div>
 

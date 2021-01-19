@@ -4,6 +4,9 @@
 
 {% block body %}
 
+  {% if app.user.id is same as (article.id) or article.published == true %}
+
+
   <input id="ressource-id" type="hidden" value="{{ ressourceId }}">
  
     <!--Section: Content-->
@@ -145,5 +148,10 @@
   }
 </script>
   {% block javascript %}{% endblock %}
+
+  {% else %}
+    <script>window.location.href = "{{path('news_feed')}}" </script>
+  {% endif %}
 {% endblock %}
+
 

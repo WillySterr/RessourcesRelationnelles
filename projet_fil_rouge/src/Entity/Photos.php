@@ -37,12 +37,6 @@ class Photos
     private $published;
 
     /**
-     * @Gedmo\Slug(fields={"titre"})
-     * @ORM\Column(type="string", length=255)
-     */
-    private $slug;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $titre;
@@ -116,19 +110,6 @@ class Photos
 
         return $this;
     }
-
-    public function getSlug(): ?string
-    {
-        return $this->slug;
-    }
-
-    public function setSlug(string $slug): self
-    {
-        $this->slug = $slug;
-
-        return $this;
-    }
-
     public function getTitre(): ?string
     {
         return $this->titre;

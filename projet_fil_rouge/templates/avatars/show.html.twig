@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Avatars{% endblock %}
+
+{% block body %}
+    <h1>Avatars</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ avatar.id }}</td>
+            </tr>
+            <tr>
+                <th>AvatarIcon</th>
+                <td>{{ avatar.avatarIcon }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('avatars_index') }}">back to list</a>
+
+    <a href="{{ path('avatars_edit', {'id': avatar.id}) }}">edit</a>
+
+    {{ include('avatars/_delete_form.html.twig') }}
+{% endblock %}
