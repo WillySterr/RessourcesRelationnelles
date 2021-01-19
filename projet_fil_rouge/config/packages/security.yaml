@@ -37,3 +37,4 @@ security:
     access_control:
         - { path: ^/admin, roles: [ROLE_ADMIN, ROLE_SUPERADMIN] }
         # - { path: ^/profile, roles: ROLE_USER }
+
