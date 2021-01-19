@@ -17,7 +17,10 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\HttpFoundation\Session\Session;
-
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Email;
 
 class UsersController extends AbstractController
 {
@@ -32,8 +35,7 @@ class UsersController extends AbstractController
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             $passwordEncrypt = $encoder->encodePassword($user, $user->getPassword());
             $user->setPassword($passwordEncrypt)
                 ->setRoles("ROLE_USER");
@@ -58,7 +60,6 @@ class UsersController extends AbstractController
             "lastUserName" => $utils->getLastUsername(),
             "error" => $utils->getLastAuthenticationError()
         ]);
-
     }
 
     /**
@@ -97,18 +98,17 @@ class UsersController extends AbstractController
         $user = $usersRepository->findOneBy(["id" => $security->getUser()]);
 
         $currentUserId = $this->getUser()->getId();
-      if ($currentUserId == $id)
-      {
-        $session = $this->get('session');
-        $session = new Session();
-        $session->invalidate();
-      }
+        if ($currentUserId == $id) {
+            $session = $this->get('session');
+            $session = new Session();
+            $session->invalidate();
+        }
 
 
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($user);
         $entityManager->flush();
-        
+
 
         return $this->redirectToRoute('logout');
     }
@@ -126,12 +126,41 @@ class UsersController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-           return $this->redirectToRoute('profile');
+            return $this->redirectToRoute('profile');
         }
 
         return $this->render('users/useredit.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/support", name="support")
+     */
+    public function support(Request $request, MailerInterface $mailer): Response
+    {
+        if ($request->isMethod("post") && isset($_POST['g-recaptcha-response']) && !empty($_POST['g-recaptcha-response'])) {
+            $mailSup = $request->request->get('email');
+            $message = $request->request->get("message");
+            $secret = '6LeHGC8aAAAAAKGK6QHyY7i61rHZC2B4pJ9S1PGy';
+            $verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret=' . $secret . '&response=' . $_POST['g-recaptcha-response']);
+            $responseData = json_decode($verifyResponse);
+            if ($responseData->success && filter_var($mailSup, FILTER_VALIDATE_EMAIL) && isset($mailSup) && isset($message) && strlen($message) > 10) {
+                $email = (new Email())
+                    ->sender($mailSup)
+                    ->to('arnaudpadula5@gmail.com')
+                    ->subject('Demande de support Resources Relationnelles')
+                    ->html('Email : ' . $mailSup . '<br/>' . 'Message : ' . $message);
+                $mailer->send($email);
+                $this->addFlash('success', 'Demande de support prise en compte');
+            } else {
+                $this->addFlash('danger', 'L\'email n\'est pas au bon format ou le message n\'a pas au moins 10 caractères');
+            }
+        }
+
+
+
+        return $this->render('users/support.html.twig');
     }
 }
