@@ -214,8 +214,8 @@ class Evenements
     }
 
     /**
-    * @ORM\PrePersist
-    */
+     * @ORM\PrePersist
+     */
     public function setCreatedAt() {
         try {
             $this->createdAt = new DateTime('now', new \DateTimeZone("Europe/Paris"));
@@ -231,8 +231,8 @@ class Evenements
     }
 
     /**
-    * @ORM\PreUpdate
-    */
+     * @ORM\PreUpdate
+     */
     public function setUpdatedAt() {
         try {
             $this->updatedAt = new DateTime('now', new \DateTimeZone("Europe/Paris"));
