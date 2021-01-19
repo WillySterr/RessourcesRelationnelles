@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/support.css') }}">
+{% endblock %}
+
+{% block body %}
+{% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+{% for message in app.flashes('danger') %}
+            <div class="alert alert-danger">
+                {{ message }}
+            </div>
+        {% endfor %}
+<div class="global-container my-5">
+
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title text-center">Demande de support</h5>
+<form action="{{path('support')}}" method="post">
+  <div class="row mb-4">
+    <div class="col-6">
+  <!-- Email input -->
+  <div class="form-outline mb-4">
+      <label class="form-label"  for="mail">Adresse Mail :</label>
+    <input type="email" name="email" id="mail" placeholder="adresse@mail.fr" class="form-control" />
+  </div>
+</div>
+    <div class="col-12">
+  <!-- Message input -->
+  <div class="form-outline mb-4">
+      <label class="form-label"  for="message">Message :</label>
+    <textarea class="form-control"name="message" placeholder="Mon message" id="message" rows="4"></textarea>
+  </div>
+</div>
+<input type="hidden" id="recaptchaResponse" name="g-recaptcha-response"
+        class="g-recaptcha">
+<div class="col-lg-3 text-center">
+  <button  class="btn btn-sm btn-success btn-block mb-4" type="submit">Envoyer</button>
+</div>
+<div class="col-lg-3 text-center">
+  <button class="btn btn-sm btn-danger  btn-block mb-4 ">Annuler</button>
+</div>
+</form>
+  </div>
+</div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://www.google.com/recaptcha/api.js?render=6LeHGC8aAAAAAHIbZ7rO6ZIvK0pkqgm0YqtWz7NL"></script><script type="text/javascript">
+        grecaptcha.ready(function () {
+            grecaptcha.execute('6LeHGC8aAAAAAHIbZ7rO6ZIvK0pkqgm0YqtWz7NL', { action: 'contact' }).then(function (token) {
+                var recaptchaResponse = document.getElementById('recaptchaResponse');
+                recaptchaResponse.value = token;
+            });
+        });
+
+
+</script>
+{% endblock %}
