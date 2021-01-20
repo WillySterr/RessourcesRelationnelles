@@ -15,7 +15,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity(repositoryClass=RessourcesRepository::class)
  * @ORM\HasLifecycleCallbacks()
- * @ApiResource(normalizationContext={"groups"={"fil_actu"}})
+ * @ApiResource(normalizationContext={"groups"={"fil_actu"}}, attributes={"order"={"createdAt": "DESC"}})
  */
 class Ressources
 {
