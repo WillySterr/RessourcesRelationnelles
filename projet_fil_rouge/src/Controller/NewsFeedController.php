@@ -52,7 +52,6 @@ class NewsFeedController extends AbstractController
         return $this->redirectToRoute('news_feed');
     }
 
-
     /**
      * @Route("/favoris/{id}", name="add_favoris", methods={"GET", "POST"})
      */

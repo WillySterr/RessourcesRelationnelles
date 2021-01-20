@@ -8,12 +8,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+
 
 
 /**
  * @ORM\Entity(repositoryClass=RessourcesRepository::class)
  * @ORM\HasLifecycleCallbacks()
- * @ApiResource()
+ * @ApiResource(normalizationContext={"groups"={"fil_actu"}})
  */
 class Ressources
 {
@@ -21,42 +23,50 @@ class Ressources
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("fil_actu")
      */
     private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=Users::class, inversedBy="ressources")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("fil_actu")
      */
     private $user;
 
     /**
      * @ORM\OneToOne(targetEntity=Articles::class, cascade={"persist", "remove"})
+     * @Groups("fil_actu")
      */
     private $article;
 
     /**
      * @ORM\OneToOne(targetEntity=Evenements::class, cascade={"persist", "remove"})
+     * @Groups("fil_actu")
      */
     private $evenement;
 
     /**
      * @ORM\OneToOne(targetEntity=Informations::class, cascade={"persist", "remove"})
+     * @Groups("fil_actu")
      */
     private $information;
 
     /**
      * @ORM\OneToOne(targetEntity=Photos::class, cascade={"persist", "remove"})
+     * @Groups("fil_actu")
      */
     private $photo;
 
     /**
      * @ORM\OneToOne(targetEntity=Videos::class, cascade={"persist", "remove"})
+     * @Groups("fil_actu")
      */
     private $video;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups("fil_actu")
      * @var DateTime
      */
     private $createdAt;
@@ -64,6 +74,7 @@ class Ressources
     /**
      * @var DateTime
      * @ORM\Column(type="datetime", nullable=true)
+     * @Groups("fil_actu")
      * @var DateTime
      */
     private $updatedAt;
@@ -71,11 +82,13 @@ class Ressources
     /**
      * @var DateTime
      * @ORM\Column(type="boolean")
+     * @Groups("fil_actu")
      */
     private $published;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("fil_actu")
      */
     private $title;
 

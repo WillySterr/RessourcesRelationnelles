@@ -11,11 +11,16 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Gedmo\Mapping\Annotation as Gedmo;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+
+
 
 /**
  * @ORM\Entity(repositoryClass=PhotosRepository::class)
  * @ORM\HasLifecycleCallbacks()
  * @Vich\Uploadable
+ * @ApiResource(normalizationContext={"groups"={"fil_actu"}})
  */
 class Photos
 {
@@ -23,6 +28,7 @@ class Photos
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("fil_actu")
      */
     private $id;
 
@@ -38,16 +44,19 @@ class Photos
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("fil_actu")
      */
     private $titre;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("fil_actu")
      */
     private $description;
 
     /**
      * @ORM\ManyToMany(targetEntity=Category::class, inversedBy="photos")
+     * @Groups("fil_actu")
      */
     private $category;
 
@@ -65,6 +74,7 @@ class Photos
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("fil_actu")
      */
     private $image;
 
