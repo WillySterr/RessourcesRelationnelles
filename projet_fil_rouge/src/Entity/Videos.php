@@ -11,11 +11,15 @@ use DateTime;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+
 
 /**
  * @ORM\Entity(repositoryClass=VideosRepository::class)
  * @ORM\HasLifecycleCallbacks()
  * @Vich\Uploadable
+ * @ApiResource(normalizationContext={"groups"={"fil_actu"}})
  */
 class Videos
 {
@@ -23,6 +27,7 @@ class Videos
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("fil_actu")
      */
     private $id;
 
@@ -37,16 +42,19 @@ class Videos
     private $published;
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("fil_actu")
      */
     private $titre;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("fil_actu")
      */
     private $description;
 
     /**
      * @ORM\ManyToMany(targetEntity=Category::class, inversedBy="videos")
+     * @Groups("fil_actu")
      */
     private $category;
 
@@ -64,6 +72,7 @@ class Videos
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("fil_actu")
      */
     private $video;
 
