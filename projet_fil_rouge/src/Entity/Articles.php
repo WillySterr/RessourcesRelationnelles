@@ -10,11 +10,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+
 
 /**
  * @ORM\Entity(repositoryClass=ArticlesRepository::class)
  * @ORM\HasLifecycleCallbacks()
- * @ApiResource()
+ * @ApiResource(normalizationContext={"groups"={"fil_actu"}})
  * @Vich\Uploadable
  */
 class Articles
@@ -23,6 +25,7 @@ class Articles
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("fil_actu")
      */
     private $id;
 
@@ -48,6 +51,7 @@ class Articles
 
     /**
      * @ORM\ManyToMany(targetEntity=Category::class, inversedBy="articles")
+     * @Groups("fil_actu")
      */
     private $category;
 
@@ -65,11 +69,13 @@ class Articles
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups("fil_actu")
      */
     private $video;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups("fil_actu")
      */
     private $photo;
 

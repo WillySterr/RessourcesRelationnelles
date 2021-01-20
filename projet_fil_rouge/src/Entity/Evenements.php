@@ -8,10 +8,15 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use DateTime;
 use Gedmo\Mapping\Annotation as Gedmo;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+
+
 
 /**
  * @ORM\Entity(repositoryClass=EvenementsRepository::class)
  * @ORM\HasLifecycleCallbacks()
+ * @ApiResource(normalizationContext={"groups"={"fil_actu"}})
  */
 class Evenements
 {
@@ -19,6 +24,7 @@ class Evenements
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("fil_actu")
      */
     private $id;
 
@@ -34,6 +40,7 @@ class Evenements
 
     /**
      * @ORM\Column(type="string", length=255)
+     *  @Groups("fil_actu")
      */
     private $titre;
 
@@ -44,26 +51,31 @@ class Evenements
 
     /**
      * @ORM\ManyToMany(targetEntity=Category::class, inversedBy="evenements")
+     * @Groups("fil_actu")
      */
     private $category;
 
     /**
      * @ORM\Column(type="date")
+     *  @Groups("fil_actu")
      */
     private $dateDebut;
 
     /**
      * @ORM\Column(type="date")
+     *  @Groups("fil_actu")
      */
     private $dateFin;
 
     /**
      * @ORM\Column(type="time")
+     *  @Groups("fil_actu")
      */
     private $heureDebut;
 
     /**
      * @ORM\Column(type="time")
+     *  @Groups("fil_actu")
      */
     private $heureFin;
 
