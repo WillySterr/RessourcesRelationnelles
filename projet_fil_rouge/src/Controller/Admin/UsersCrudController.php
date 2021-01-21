@@ -45,7 +45,7 @@ class UsersCrudController extends AbstractCrudController
                 'admin' => "ROLE_ADMIN",
                 'modérateur' => "ROLE_MODERATEUR",
                 "super_admin" => "ROLE_SUPERADMIN"
-                ])->hideOnIndex()
+                ])
 
 
         ];
