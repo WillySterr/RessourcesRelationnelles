@@ -35,47 +35,75 @@ class EasyAdminController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
-        return [
-        MenuItem::linkToDashboard('Accueil', 'fa fa-home'),
-        //MenuItem::linkToLogout('Logout', 'fa fa-exit'),
-        MenuItem::section('Ressources et Commentaires'),
-
-        /*MenuItem::linkToCrud('Ressources', 'fa fa-book', Ressources::class)
-            ->setController(RessourcesCrudController::class),
+       
+    
+        yield MenuItem::linkToDashboard('Accueil', 'fa fa-home');
+        //yield MenuItem::linkToLogout('Logout', 'fa fa-exit');
+        if ($this->isGranted('ROLE_ADMIN') || $this->isGranted('ROLE_SUPERADMIN')) {
+        yield MenuItem::section('Ressources');
+        }
+       
+      
+           
+        /*yield MenuItem::linkToCrud('Ressources', 'fa fa-book', Ressources::class)
+            ->setController(RessourcesCrudController::class);
         */
 
-        MenuItem::linkToCrud('Evènements', 'fa fa-calendar', Evenements::class)
-            ->setController(EvenementsCrudController::class),
+        if ($this->isGranted('ROLE_ADMIN') || $this->isGranted('ROLE_SUPERADMIN')) {
+        yield MenuItem::linkToCrud('Evènements', 'fa fa-calendar', Evenements::class)
+            ->setController(EvenementsCrudController::class);
+        }
 
-        MenuItem::linkToCrud('Informations', 'fa fa-book', Informations::class)
-            ->setController(InformationsCrudController::class),
+        if ($this->isGranted('ROLE_ADMIN') || $this->isGranted('ROLE_SUPERADMIN')) {
+        yield MenuItem::linkToCrud('Informations', 'fa fa-book', Informations::class)
+            ->setController(InformationsCrudController::class);
+        }
 
-        MenuItem::linkToCrud('Photos', 'fa fa-photo', Photos::class)
-            ->setController(PhotosCrudController::class),
+        if ($this->isGranted('ROLE_ADMIN') || $this->isGranted('ROLE_SUPERADMIN')) {
+        yield MenuItem::linkToCrud('Photos', 'fa fa-photo', Photos::class)
+            ->setController(PhotosCrudController::class);
+        }
 
-        MenuItem::linkToCrud('Videos', 'fa fa-video', Videos::class)
-            ->setController(VideosCrudController::class),
+        if ($this->isGranted('ROLE_ADMIN') || $this->isGranted('ROLE_SUPERADMIN')) {
+        yield MenuItem::linkToCrud('Videos', 'fa fa-video', Videos::class)
+            ->setController(VideosCrudController::class);
+        }
 
-        MenuItem::linkToCrud('Articles', 'fa fa-file-word-o', Articles::class)
-            ->setController(ArticlesCrudController::class),
+        if ($this->isGranted('ROLE_ADMIN') || $this->isGranted('ROLE_SUPERADMIN')) {
+        yield MenuItem::linkToCrud('Articles', 'fa fa-file-word-o', Articles::class)
+            ->setController(ArticlesCrudController::class);
+        }
 
-        MenuItem::linkToCrud('Commentaires', 'fa fa-comment', Comments::class)
-            ->setController(CommentsCrudController::class),
+        yield MenuItem::section('Commentaires');
+        yield MenuItem::linkToCrud('Commentaires', 'fa fa-comment', Comments::class)
+            ->setController(CommentsCrudController::class);
 
+        if ($this->isGranted('ROLE_ADMIN') || $this->isGranted('ROLE_SUPERADMIN')) {
+        yield MenuItem::section('Catégories');
+        }
 
-        MenuItem::section('Catégories'),
-        MenuItem::linkToCrud('Catégories', 'fa fa-book', Category::class)
-            ->setController(CategoryCrudController::class),
+        if ($this->isGranted('ROLE_ADMIN') || $this->isGranted('ROLE_SUPERADMIN')) {
+        yield MenuItem::linkToCrud('Catégories', 'fa fa-book', Category::class)
+            ->setController(CategoryCrudController::class);
+        }
 
-        MenuItem::section('Gestion des Utilisateurs'),
-        MenuItem::linkToCrud('Utilisateurs', 'fa fa-user', Users::class)
-            ->setController(UsersCrudController::class),
+        if ($this->isGranted('ROLE_ADMIN') || $this->isGranted('ROLE_SUPERADMIN')) {
+        yield MenuItem::section('Gestion des Utilisateurs');
+        }
+
+        if ($this->isGranted('ROLE_ADMIN') || $this->isGranted('ROLE_SUPERADMIN')) {
+        yield MenuItem::linkToCrud('Utilisateurs', 'fa fa-user', Users::class)
+            ->setController(UsersCrudController::class);
+        }
+
       
 
-        MenuItem::section('Fil d\'actualité'),
-        MenuItem::linkToRoute('Fil d\'actu', 'fa fa-cube', 'news_feed'),
+        yield MenuItem::section('Fil d\'actualité');
+        yield MenuItem::linkToRoute('Fil d\'actualité', 'fa fa-cube', 'news_feed');
 
-       ];    
+    ;
+
+       
         
     }
 }

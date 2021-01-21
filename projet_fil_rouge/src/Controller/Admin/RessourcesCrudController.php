@@ -26,6 +26,7 @@ class RessourcesCrudController extends AbstractCrudController
             ->add(Crud::PAGE_INDEX, Action::DETAIL)
             ->remove(Crud::PAGE_INDEX, Action::NEW)
             ->remove(Crud::PAGE_INDEX, Action::EDIT)
+            ->setPermission(Action::DELETE , 'ROLE_ADMIN')
            
         ;
     }
@@ -39,12 +40,7 @@ class RessourcesCrudController extends AbstractCrudController
     // public function configureCrud(Crud $crud): Crud
     // {
     //     return $crud
-    //         // ...
-
-    //         // don't forget to add EasyAdmin's form theme at the end of the list
-    //         // (otherwise you'll lose all the styles for the rest of form fields)
-    //         ->setFormThemes(['news_feed\index.html.twig', '@EasyAdmin/crud/form_theme.html.twig'])
-    //     ;
+    //        ->setEntityPermission('ROLE_ADMIN');
     // }
  
     public function configureFields(string $pageName): iterable
