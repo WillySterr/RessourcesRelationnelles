@@ -54,6 +54,11 @@ class Category
      */
     private $informations;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Ressources::class, mappedBy="category")
+     */
+    private $ressources;
+
 
     public function __construct()
     {
@@ -62,6 +67,7 @@ class Category
         $this->photos = new ArrayCollection();
         $this->evenements = new ArrayCollection();
         $this->informations = new ArrayCollection();
+        $this->ressources = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -230,5 +236,32 @@ class Category
 
     public function __toString(){
         return $this->name;
+    }
+
+    /**
+     * @return Collection|Ressources[]
+     */
+    public function getRessources(): Collection
+    {
+        return $this->ressources;
+    }
+
+    public function addRessource(Ressources $ressource): self
+    {
+        if (!$this->ressources->contains($ressource)) {
+            $this->ressources[] = $ressource;
+            $ressource->addCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRessource(Ressources $ressource): self
+    {
+        if ($this->ressources->removeElement($ressource)) {
+            $ressource->removeCategory($this);
+        }
+
+        return $this;
     }
 }

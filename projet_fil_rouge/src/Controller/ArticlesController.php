@@ -84,7 +84,9 @@ class ArticlesController extends AbstractController
                 ->setArticle($article)
                 ->setTitle($article->getTitre())
                 ->setPublished(false);
-
+            foreach ($article->getCategory() as $cat) {
+                $ressource->addCategory($cat);
+            };
             $article->setUser($security->getUser())
                 ->setPublished(false);
 
@@ -223,7 +225,8 @@ class ArticlesController extends AbstractController
     /**
      * @Route("/article/comments", name="article_comments")
      */
-    public function getArticleComments(Request $request, CommentsRepository $commentsRepository){
+    public function getArticleComments(Request $request, CommentsRepository $commentsRepository)
+    {
 
         // On récupère les données de la requete ajax
 
@@ -241,7 +244,7 @@ class ArticlesController extends AbstractController
 
         $arrayComments = [];
 
-        foreach($comments as $comment){
+        foreach ($comments as $comment) {
             $arrayComments[] = array(
                 'id' => $comment->getId(),
                 'user' => [
@@ -257,6 +260,5 @@ class ArticlesController extends AbstractController
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
-
     }
 }
