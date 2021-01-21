@@ -47,6 +47,9 @@ class InformationsController extends AbstractController
                 ->setInformation($information)
                 ->setTitle($information->getTitre())
                 ->setPublished(false);
+            foreach ($information->getCategory() as $cat) {
+                $ressource->addCategory($cat);
+            };
 
             $entityManager = $this->getDoctrine()->getManager();
             $information->setUser($security->getUser());
@@ -87,6 +90,9 @@ class InformationsController extends AbstractController
             $ressource = $ressourcesRepository->findOneby(["information" => $information->getId()]);
             $ressource->setUpdatedAt();
             $ressource->setTitle($information->getTitre());
+            foreach ($information->getCategory() as $cat) {
+                $ressource->addCategory($cat);
+            };
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('informations_index');

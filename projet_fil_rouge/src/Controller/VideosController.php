@@ -64,6 +64,9 @@ class VideosController extends AbstractController
                 ->setPublished(false);
             $entityManager = $this->getDoctrine()->getManager();
             $video->setUser($security->getUser());
+            foreach ($video->getCategory() as $cat) {
+                $ressource->addCategory($cat);
+            };
             $entityManager->persist($video);
             $entityManager->persist($ressource);
             $entityManager->flush();
@@ -129,6 +132,9 @@ class VideosController extends AbstractController
             $ressource = $ressourcesRepository->findOneBy(["video" => $video->getId()]);
             $ressource->setUpdatedAt();
             $ressource->setTitle($video->getTitre());
+            foreach ($video->getCategory() as $cat) {
+                $ressource->addCategory($cat);
+            };
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('videos_index');
