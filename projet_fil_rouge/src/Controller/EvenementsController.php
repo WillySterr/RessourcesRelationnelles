@@ -48,6 +48,10 @@ class EvenementsController extends AbstractController
                 ->setEvenement($evenement)
                 ->setTitle($evenement->getTitre())
                 ->setPublished(false);
+
+            foreach ($ressource->getCategory() as $cat) {
+                $ressource->addCategory($cat);
+            };
             $entityManager = $this->getDoctrine()->getManager();
             $evenement->setUser($security->getUser());
             $evenement->setPublished(false);
@@ -88,6 +92,9 @@ class EvenementsController extends AbstractController
             $ressource = $ressourcesRepository->findOneBy(["evenement" => $evenement->getId()]);
             $ressource->setUpdatedAt();
             $ressource->setTitle($evenement->getTitre());
+            foreach ($ressource->getCategory() as $cat) {
+                $ressource->addCategory($cat);
+            };
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('evenements_index');
