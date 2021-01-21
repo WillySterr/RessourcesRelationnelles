@@ -2,13 +2,17 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\AvatarsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+
 
 /**
  * @ORM\Entity(repositoryClass=AvatarsRepository::class)
+ * @ApiResource(normalizationContext={"groups"={"fil_actu"}})
  */
 class Avatars
 {
@@ -16,11 +20,13 @@ class Avatars
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("fil_actu")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("fil_actu")
      */
     private $avatarIcon;
 
