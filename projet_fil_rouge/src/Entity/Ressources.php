@@ -101,10 +101,16 @@ class Ressources
      * @ORM\OneToMany(targetEntity=Favoris::class, mappedBy="ressource", orphanRemoval=true)
      */
     private $favoris;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Category::class, inversedBy="ressources")
+     */
+    private $category;
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->favoris = new ArrayCollection();
+        $this->category = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -309,5 +315,29 @@ class Ressources
 
     public function __toString(){
         return $this->title;
+    }
+
+    /**
+     * @return Collection|Category[]
+     */
+    public function getCategory(): Collection
+    {
+        return $this->category;
+    }
+
+    public function addCategory(Category $category): self
+    {
+        if (!$this->category->contains($category)) {
+            $this->category[] = $category;
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(Category $category): self
+    {
+        $this->category->removeElement($category);
+
+        return $this;
     }
 }
