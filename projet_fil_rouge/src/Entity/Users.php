@@ -130,6 +130,7 @@ class Users implements UserInterface
 
     /**
      * @ORM\ManyToOne(targetEntity=Avatars::class, inversedBy="users")
+     * @Groups("fil_actu")
      */
     private $avatar;
 
