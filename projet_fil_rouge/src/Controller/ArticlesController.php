@@ -189,6 +189,9 @@ class ArticlesController extends AbstractController
             $ressource = $ressourcesRepository->findOneBy(["article" => $article->getId()]);
             $ressource->setTitle($article->getTitre());
             $ressource->setUpdatedAt();
+            foreach ($article->getCategory() as $cat) {
+                $ressource->addCategory($cat);
+            };
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('articles_index');

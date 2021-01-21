@@ -72,6 +72,9 @@ class PhotosController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $photo->setUser($security->getUser());
             $photo->setPublished(false);
+            foreach ($photo->getCategory() as $cat) {
+                $ressource->addCategory($cat);
+            };
             $entityManager->persist($photo);
             $entityManager->persist($ressource);
             $entityManager->flush();
@@ -138,6 +141,9 @@ class PhotosController extends AbstractController
             $ressource = $ressourcesRepository->findOneBy(["photo" => $photo->getId()]);
             $ressource->setUpdatedAt();
             $ressource->setTitle($photo->getTitre());
+            foreach ($photo->getCategory() as $cat) {
+                $ressource->addCategory($cat);
+            };
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('photos_index');
