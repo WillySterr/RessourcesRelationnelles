@@ -53,6 +53,7 @@ class InformationsController extends AbstractController
 
             $entityManager = $this->getDoctrine()->getManager();
             $information->setUser($security->getUser());
+            $information->setPublished(false);
             $entityManager->persist($information);
             $entityManager->persist($ressource);
             $entityManager->flush();
