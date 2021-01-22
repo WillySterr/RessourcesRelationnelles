@@ -64,6 +64,7 @@ class VideosController extends AbstractController
                 ->setPublished(false);
             $entityManager = $this->getDoctrine()->getManager();
             $video->setUser($security->getUser());
+            $video->setPublished(false);
             foreach ($video->getCategory() as $cat) {
                 $ressource->addCategory($cat);
             };
