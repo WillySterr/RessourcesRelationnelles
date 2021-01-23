@@ -109,7 +109,7 @@
                     <label for="InputJob">Avatar</label>
 
                         {% for avatar in avatars %}
-                            <input type="radio" name="register[avatar]" id="radio-choice-{{avatar.id}}" value="{{avatar.id}}" />
+                            <input type="radio" name="avatar" id="radio-choice-{{avatar.id}}" value="{{avatar.id}}" />
                                 <label for="radio-choice-{{avatar.id}}"><img src="{{asset("uploads/avatars/"~avatar.avatarIcon)  }}"/></label>
 
                         {% endfor %} 
