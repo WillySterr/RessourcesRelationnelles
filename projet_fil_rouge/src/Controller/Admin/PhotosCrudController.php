@@ -38,17 +38,17 @@ class PhotosCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
 
-        $catForm = AssociationField::new('category');
+        $catForm = AssociationField::new('category', "Catégories");
             
-        $catInd = ArrayField::new('category');
+        $catInd = ArrayField::new('category', "Catégories");
 
         $fields = [
             IdField::new('id')->hideOnForm(),
             TextField::new('titre'),
             TextEditorField::new('description'),//TextEditorField
-            BooleanField::new('published'),
-            DateTimeField::new('createdAt', 'Publié le :')->hideOnForm(),
-            TextField::new('vichFile')->setFormType(VichImageType::class)->hideOnIndex(),
+            BooleanField::new('published', "Publié"),
+            DateTimeField::new('createdAt', 'Publié le')->hideOnForm(),
+            TextField::new('vichFile', "Sélectionnez votre photo")->setFormType(VichImageType::class)->hideOnIndex(),
             ImageField::new('image')->setBasePath('/images/vichFiles')->hideOnForm(),
             //DateTimeField::new('updatedAt'),
             /*->setUploadDir('public\uploads'),*/
