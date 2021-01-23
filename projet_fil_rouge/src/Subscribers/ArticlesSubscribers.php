@@ -47,7 +47,11 @@ class ArticlesSubscribers implements EventSubscriberInterface
 				$ressource = new Ressources();
             	$ressource->setUser($this->security->getUser())
                 	->setArticle($entity)             
-                	->setTitle($entity->getTitre());
+					->setTitle($entity->getTitre());
+
+					foreach ($entity->getCategory() as $cat) {
+						$ressource->addCategory($cat);
+					};
                 
                 $ressource->setPublished($entity->getPublished());
                 
@@ -69,7 +73,11 @@ class ArticlesSubscribers implements EventSubscriberInterface
 			
             	$ressource->setUser($this->security->getUser())
             		->setArticle($entity)             
-                	->setTitle($entity->getTitre());
+					->setTitle($entity->getTitre());
+
+				foreach ($entity->getCategory() as $cat) {
+					$ressource->addCategory($cat);
+				};
                 
                 $ressource->setPublished($entity->getPublished());
                 
