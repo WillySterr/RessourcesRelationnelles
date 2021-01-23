@@ -38,22 +38,20 @@ class EvenementsCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
 
-        $catForm = AssociationField::new('category');
+        $catForm = AssociationField::new('category', "Catégories");
             
-        $catInd = ArrayField::new('category');
+        $catInd = ArrayField::new('category', "Catégories");
 
         $fields = [
             IdField::new('id')->hideOnForm(),
             TextField::new('titre'),
             TextEditorField::new('description'),
-            DateField::new('dateDebut'),
-            DateField::new('dateFin'),
-            TimeField::new('heureDebut'),
-            TimeField::new('heureFin'),
-            DateTimeField::new('CreatedAt', 'Publié le :')->hideOnForm(),
-            DateTimeField::new('UpdatedAt')->hideOnForm(),
-            BooleanField::new('published'),
-            AssociationField::new('category'),
+            DateField::new('dateDebut', "Date de début"),
+            DateField::new('dateFin', "Date de fin"),
+            TimeField::new('heureDebut', "Heure de début"),
+            TimeField::new('heureFin', "Heure de fin"),
+            DateTimeField::new('CreatedAt', 'Publié le')->hideOnForm(),
+            BooleanField::new('published', "Publié"),
 
         ];
         if ($pageName == Crud::PAGE_INDEX || $pageName == Crud::PAGE_DETAIL){

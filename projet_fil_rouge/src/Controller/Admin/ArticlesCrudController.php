@@ -56,19 +56,19 @@ class ArticlesCrudController extends AbstractCrudController
         array_push($test, $allCat[$i]);
       }
       //dd($allCat[0]->getName());
-        $catForm = AssociationField::new('category');
+        $catForm = AssociationField::new('category', "Catégories");
             
-        $catInd = ArrayField::new('category');
+        $catInd = ArrayField::new('category', "Catégories");
 
         $fields = [
             IdField::new('id')->hideOnForm(),
             TextField::new('titre'),
             TextEditorField::new('description'),//TextEditorField
-            BooleanField::new('published'),
-            DateTimeField::new('createdAt', 'Publié le :')->hideOnForm(),
-            TextField::new('photoFile')->setFormType(VichImageType::class)->hideOnIndex(),
+            BooleanField::new('published', "Publié"),
+            DateTimeField::new('createdAt', 'Publié le')->hideOnForm(),
+            TextField::new('photoFile', "Sélectionnez votre photo")->setFormType(VichImageType::class)->hideOnIndex(),
             ImageField::new('photo')->setBasePath('/images/vichFiles')->hideOnForm(),
-            TextField::new('videoFile')->setFormType(VichImageType::class)->hideOnIndex(),
+            TextField::new('videoFile', "Sélectionnez votre vidéo")->setFormType(VichImageType::class)->hideOnIndex(),
             ImageField::new('video')->setBasePath('/images/vichFiles')->hideOnForm(),
             
            
