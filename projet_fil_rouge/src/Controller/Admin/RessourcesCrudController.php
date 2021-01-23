@@ -57,7 +57,7 @@ class RessourcesCrudController extends AbstractCrudController
             AssociationField::new('video'),
             AssociationField::new('evenement'),
             AssociationField::new('information'),
-            BooleanField::new('published', "Publié le"),
+            BooleanField::new('published', "Publié"),
             
             //TextEditorField::new('description'),
         ];
