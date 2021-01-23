@@ -44,10 +44,10 @@ class CommentsCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id'),
-            AssociationField::new('user'),
+            AssociationField::new('user', "Utilisateur"),
             AssociationField::new('ressource'),
             TextField::new('contenu'),
-            DateTimeField::new('createdAt', 'Publié le :')->hideOnForm()
+            DateTimeField::new('createdAt', 'Publié le')->hideOnForm()
         ];
     }
     

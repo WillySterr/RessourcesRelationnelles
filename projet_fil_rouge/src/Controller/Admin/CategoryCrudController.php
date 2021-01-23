@@ -21,10 +21,10 @@ class CategoryCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id')->hideOnForm(),
-            TextField::new('name'),
+            TextField::new('name', "Nom"),
             TextEditorField::new('description'),
             AssociationField::new('articles')->hideOnForm(),
-            AssociationField::new('evenements')->hideOnForm(),
+            AssociationField::new('evenements', "Evènements")->hideOnForm(),
             AssociationField::new('informations')->hideOnForm(),
             AssociationField::new('photos')->hideOnForm(),
             AssociationField::new('videos')->hideOnForm(),

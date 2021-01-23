@@ -46,18 +46,18 @@ class RessourcesCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
        
-        $comForm = ArrayField::new('comments');
-        $comInd = AssociationField::new('comments');
+        $comForm = ArrayField::new('comments', "Commentaires");
+        $comInd = AssociationField::new('comments', "Commentaires");
         $fields = [
             //IdField::new('id')->hideOnIndex(),
-            TextField::new('title')->hideOnIndex(),
+            TextField::new('title', "Titre")->hideOnIndex(),
             AssociationField::new('user')->hideOnIndex(),
             AssociationField::new('article'),
             AssociationField::new('photo'),
             AssociationField::new('video'),
             AssociationField::new('evenement'),
             AssociationField::new('information'),
-            BooleanField::new('published'),
+            BooleanField::new('published', "Publié le"),
             
             //TextEditorField::new('description'),
         ];

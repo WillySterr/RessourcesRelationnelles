@@ -34,19 +34,17 @@ class InformationsCrudController extends AbstractCrudController
    
     public function configureFields(string $pageName): iterable
     {
-        $catForm = AssociationField::new('category');
+        $catForm = AssociationField::new('category', "Catégories");
             
-        $catInd = ArrayField::new('category');
+        $catInd = ArrayField::new('category', "Catégories");
 
         $fields = [
             IdField::new('id')->hideOnForm(),
             TextField::new('titre'),
             TextEditorField::new('description'),
             TextEditorField::new('contenu'),
-            DateTimeField::new('createdAt')->hideOnForm(),
-            DateTimeField::new('updatedAt')->hideOnForm(),
-            BooleanField::new('published'),
-            AssociationField::new('category'),
+            DateTimeField::new('createdAt', "Publié le")->hideOnForm(),
+            BooleanField::new('published', "Publié"),
 
         ];
         if ($pageName == Crud::PAGE_INDEX || $pageName == Crud::PAGE_DETAIL){
