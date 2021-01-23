@@ -85,7 +85,7 @@ class EasyAdminController extends AbstractDashboardController
             ->setController(CategoryCrudController::class);
         }
 
-        if ($this->isGranted('ROLE_ADMIN')) {
+        if ($this->isGranted('ROLE_SUPERADMIN')) {
             yield MenuItem::section('Gestion des Utilisateurs');
         }
 
