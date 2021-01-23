@@ -17,7 +17,7 @@
         {% for avatar in avatars %}
             <tr>
                 <td>{{ avatar.id }}</td>
-                <td><img src="{{ asset('/uploads/'~avatar.avatarIcon) }}" class="card-img-top" alt="{{avatar.avatarIcon}}" width="350px" height="200px">
+                <td><img src="{{ asset('/uploads/avatars/'~avatar.avatarIcon) }}" class="card-img-top" alt="{{avatar.avatarIcon}}" width="200px" height="200px">
   </td>
                 <td>
                     <a href="{{ path('avatars_show', {'id': avatar.id}) }}">show</a>

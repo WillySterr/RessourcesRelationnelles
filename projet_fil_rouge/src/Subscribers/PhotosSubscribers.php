@@ -5,7 +5,7 @@ namespace App\Subscribers;
 use App\Entity\Photos;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityPersistedEvent;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityUpdatedEvent;
-use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityDeletedEvent;
+use EasyCorp\Bundle\EasyAdminBundle\Event\AfterEntityDeletedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Core\Security;
 use App\Entity\Ressources;
@@ -47,7 +47,11 @@ class PhotosSubscribers implements EventSubscriberInterface
 				$ressource = new Ressources();
             	$ressource->setUser($this->security->getUser())
                 	->setPhoto($entity)             
-                	->setTitle($entity->getTitre());
+					->setTitle($entity->getTitre());
+
+				foreach ($entity->getCategory() as $cat) {
+					$ressource->addCategory($cat);
+				};
                 
                 $ressource->setPublished($entity->getPublished());
                 

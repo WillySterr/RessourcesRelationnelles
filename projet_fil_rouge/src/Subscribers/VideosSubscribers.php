@@ -48,7 +48,11 @@ class VideosSubscribers implements EventSubscriberInterface
 				$ressource = new Ressources();
             	$ressource->setUser($this->security->getUser())
                 	->setVideo($entity)             
-                	->setTitle($entity->getTitre());
+					->setTitle($entity->getTitre());
+					
+				foreach ($entity->getCategory() as $cat) {
+					$ressource->addCategory($cat);
+				};
                 
                 $ressource->setPublished($entity->getPublished());
                 

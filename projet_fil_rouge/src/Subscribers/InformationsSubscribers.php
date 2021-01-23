@@ -47,7 +47,11 @@ class InformationsSubscribers implements EventSubscriberInterface
 				$ressource = new Ressources();
             	$ressource->setUser($this->security->getUser())
                 	->setInformation($entity)             
-                	->setTitle($entity->getTitre());
+					->setTitle($entity->getTitre());
+					
+				foreach ($entity->getCategory() as $cat) {
+					$ressource->addCategory($cat);
+				};
                 
                 $ressource->setPublished($entity->getPublished());
                 
