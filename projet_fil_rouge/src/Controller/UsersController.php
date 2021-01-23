@@ -34,11 +34,14 @@ class UsersController extends AbstractController
         $form = $this->createForm(RegisterType::class, $user);
 
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
+            $avatarId = intval($request->request->get('avatar'));
+            $avatar = $avatarsRepository->findOneBy(["id" => $avatarId]);
+
             $passwordEncrypt = $encoder->encodePassword($user, $user->getPassword());
             $user->setPassword($passwordEncrypt)
-                ->setRoles("ROLE_USER");
+                ->setRoles("ROLE_USER")
+                ->setAvatar($avatar);
             $entityManager->persist($user);
             $entityManager->flush();
 
