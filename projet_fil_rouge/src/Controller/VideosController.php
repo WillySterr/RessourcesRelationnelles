@@ -150,14 +150,25 @@ class VideosController extends AbstractController
     /**
      * @Route("/{id}", name="videos_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Videos $video): Response
+    public function delete(Request $request, Videos $video, RessourcesRepository $ressourcesRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $video->getId(), $request->request->get('_token'))) {
-            $file = $video->getVideo();
-            unlink($this->getParameter('videos_directory') . '/' . $file);
+            $videoFile = null;
+            if($video->getVideo()){
+                $videoFile = $video->getVideo();
+            }
+
+
             $entityManager = $this->getDoctrine()->getManager();
+            $ressource = $ressourcesRepository->findOneBy(["video" => $video->getId()]);
+            $entityManager->remove($ressource);
             $entityManager->remove($video);
             $entityManager->flush();
+
+            if($videoFile !== null){
+                unlink($this->getParameter('videos_directory') . '/' . $videoFile);
+
+            }
         }
 
         return $this->redirectToRoute('videos_index');

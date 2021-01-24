@@ -4,7 +4,7 @@
 
 {% block body %}
 
-  {% if app.user.id is same as (video.id) or video.published == true %}
+  {% if app.user.id is same as (video.user.id) or video.published == true %}
 
   <input id="ressource-id" type="hidden" value="{{ ressourceId }}">
 

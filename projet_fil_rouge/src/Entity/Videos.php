@@ -76,12 +76,6 @@ class Videos
      */
     private $video;
 
-    /**
-     * @var File
-     * @Vich\UploadableField(mapping="vichFiles", fileNameProperty="video")
-     */
-    private $vichFile;
-
 
     public function __construct()
     {
@@ -217,27 +211,6 @@ class Videos
     public function setVideo(string $video): self
     {
         $this->video = $video;
-
-        return $this;
-    }
-        /**
-     * @return File|null
-     */
-    public function getVichFile(): ?File
-    {
-        return $this->vichFile;
-    }
-
-    /**
-     * @param File|null $vichFile
-     */
-    public function setVichFile(?File $vichFile = null)
-    {
-        $this->vichFile = $vichFile;
-
-        if ($vichFile !== null) {
-              $this->updatedAt = new \DateTime('now');
-        }
 
         return $this;
     }
