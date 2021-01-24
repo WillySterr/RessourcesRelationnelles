@@ -73,13 +73,6 @@ class ArticlesController extends AbstractController
                 $article->setVideo($file);
             }
 
-            // On crée l'image dans la base de données
-
-
-
-
-
-
             $ressource = new Ressources();
             $ressource->setUser($security->getUser())
                 ->setArticle($article)
