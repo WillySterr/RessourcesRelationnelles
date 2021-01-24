@@ -80,17 +80,6 @@ class Articles
      */
     private $photo;
 
-    /**
-     * @var File
-     * @Vich\UploadableField(mapping="vichFiles", fileNameProperty="photo")
-     */
-    private $photoFile;
-
-    /**
-     * @var File
-     * @Vich\UploadableField(mapping="vichFiles", fileNameProperty="video")
-     */
-    private $videoFile;
 
     public function __construct()
     {
@@ -207,7 +196,6 @@ class Articles
         return $this;
     }
 
-
     /**
      * @return string|null
      */
@@ -215,7 +203,6 @@ class Articles
     {
         return $this->video;
     }
-
 
     /**
      * @param string|null $video
@@ -249,49 +236,6 @@ class Articles
         return $this;
     }
 
-    /**
-     * @return File|null
-     */
-    public function getphotoFile(): ?File
-    {
-        return $this->photoFile;
-    }
-
-    /**
-     * @param File|null $photoFile
-     */
-    public function setphotoFile(?File $photoFile = null)
-    {
-        $this->photoFile = $photoFile;
-
-        if ($photoFile !== null) {
-              $this->updatedAt = new \DateTime('now');
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return File|null
-     */
-    public function getvideoFile(): ?File
-    {
-        return $this->videoFile;
-    }
-
-    /**
-     * @param File|null $videoFile
-     */
-    public function setvideoFile(?File $videoFile = null)
-    {
-        $this->videoFile = $videoFile;
-
-        if ($videoFile !== null) {
-              $this->updatedAt = new \DateTime('now');
-        }
-
-        return $this;
-    }
 
     public function __toString(){
         return $this->titre;

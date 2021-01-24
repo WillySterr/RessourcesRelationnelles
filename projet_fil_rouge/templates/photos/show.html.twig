@@ -4,7 +4,7 @@
 
 {% block body %}
 
-  {% if app.user.id is same as (photo.id) or photo.published == true %}
+  {% if app.user.id is same as (photo.user.id) or photo.published == true %}
 
   <input id="ressource-id" type="hidden" value="{{ ressourceId }}">
 
