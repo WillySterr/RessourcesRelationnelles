@@ -33,6 +33,7 @@ class ConversationsRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+
     public function checkConversationExist($currentUserId, $distantUserId)
     {
         return $this->createQueryBuilder('c')
