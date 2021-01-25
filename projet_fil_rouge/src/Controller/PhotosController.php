@@ -159,15 +159,6 @@ class PhotosController extends AbstractController
     {
 
         if ($this->isCsrfTokenValid('delete' . $photo->getId(), $request->request->get('_token'))) {
-            $photoFile = null;
-
-            if($photo->getImage()){
-                $photoFile = $photo->getImage();
-            }
-            // On récupère le nom de l'image
-
-            // On supprime le fichier
-
 
             $entityManager = $this->getDoctrine()->getManager();
             $ressource = $ressourcesRepository->findOneBy(["photo" => $photo->getId()]);
@@ -175,9 +166,6 @@ class PhotosController extends AbstractController
             $entityManager->remove($photo);
             $entityManager->flush();
 
-            if($photoFile !== null){
-                unlink($this->getParameter('images_directory') . '/' . $photoFile);
-            }
         }
 
         return $this->redirectToRoute('photos_index');

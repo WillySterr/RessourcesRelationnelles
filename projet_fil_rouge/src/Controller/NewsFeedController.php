@@ -248,7 +248,7 @@ class NewsFeedController extends AbstractController
                 'video' => $ressourceFilter->getVideo() ? [
                     'id' => $ressourceFilter->getVideo()->getId(),
                     'titre' =>  $ressourceFilter->getVideo()->getTitre(),
-                    'video' => $ressourceFilter->getVideo()->getVideo(),
+                    'video' => $ressourceFilter->getVideo()->getMediaFile(),
                     'description' => $ressourceFilter->getVideo()->getDescription(),
                 ] : null,
                 "datePubli" => $ressourceFilter->getUpdatedAt() ?  $ressourceFilter->getUpdatedAt() :  $ressourceFilter->getCreatedAt()
