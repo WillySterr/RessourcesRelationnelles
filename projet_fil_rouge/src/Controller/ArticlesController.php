@@ -204,29 +204,11 @@ class ArticlesController extends AbstractController
         if ($this->isCsrfTokenValid('delete' . $article->getId(), $request->request->get('_token'))) {
             // On récupère le nom de l'image
 
-            $photo = null;
-            $video = null;
-         if($article->getPhoto()){
-                $photo = $article->getPhoto();
-
-            }
-          if($article->getVideo()){
-              $video = $article->getVideo();
-
-          }
-
             $ressource = $ressourcesRepository->findOneBy(["article" => $article->getId()]);
             $entityManager->remove($article);
             $entityManager->remove($ressource);
             $entityManager->flush();
-
-
-            if($photo !== null){
-                unlink($this->getParameter('images_directory') . '/' . $photo);
-            }
-            if($video !== null){
-                unlink($this->getParameter('videos_directory') . '/' . $video);
-            }
+            
         }
 
         return $this->redirectToRoute('articles_index');
