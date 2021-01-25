@@ -209,12 +209,18 @@ class NewsFeedController extends AbstractController
         //
         $ressource = [];
         foreach ($ressourcesFilters as $ressourceFilter) {
+            $categoryRessource = [];
+            foreach ($ressourceFilter->getCategory()->getValues() as $category){
+                dump($category->getName());
+                array_push($categoryRessource, $category->getName());
+            }
             $ressource[] = array(
                 'id' => $ressourceFilter->getId(),
                 'user' => [
                     "id" => $ressourceFilter->getUser()->getId(),
                     "lastName" => $ressourceFilter->getUser()->getLastName(),
-                    "firstName" => $ressourceFilter->getUser()->getFirstName()
+                    "firstName" => $ressourceFilter->getUser()->getFirstName(),
+                    "avatarIcon" => $ressourceFilter->getUser()->getAvatar()->getAvatarIcon()
                 ],
                 'article' => $ressourceFilter->getArticle() ? [
                     'id' => $ressourceFilter->getArticle()->getId(),
@@ -251,7 +257,8 @@ class NewsFeedController extends AbstractController
                     'video' => $ressourceFilter->getVideo()->getMediaFile(),
                     'description' => $ressourceFilter->getVideo()->getDescription(),
                 ] : null,
-                "datePubli" => $ressourceFilter->getUpdatedAt() ?  $ressourceFilter->getUpdatedAt() :  $ressourceFilter->getCreatedAt()
+                "datePubli" => $ressourceFilter->getUpdatedAt() ?  $ressourceFilter->getUpdatedAt() :  $ressourceFilter->getCreatedAt(),
+                "category" => $categoryRessource
             );
         }
         $response = new Response(json_encode($ressource));
