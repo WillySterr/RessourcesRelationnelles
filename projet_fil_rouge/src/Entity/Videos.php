@@ -70,8 +70,7 @@ class Videos
      */
     private $updatedAt;
 
-   
-
+  
     /**
      * @var File
      * @Vich\UploadableField(mapping="vichFiles", fileNameProperty="mediaFile")
@@ -202,7 +201,6 @@ class Videos
 
         return $this;
     }
-
   
         /**
      * @return File|null

@@ -119,14 +119,18 @@ class UsersController extends AbstractController
     /**
      *  @Route("/edituser/{id}", name="edituser", methods={"GET", "POST"})
      */
-    public function edituser(Request $request, UsersRepository $usersRepository, Security $security, $id)
+    public function edituser(Request $request, UsersRepository $usersRepository, Security $security, $id, AvatarsRepository $avatarsRepository)
     {
         $user = $usersRepository->findOneBy(["id" => $security->getUser()]);
+        $avatars = $avatarsRepository->findAll();
 
         $form = $this->createForm(EditUserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $avatarId = intval($request->request->get('avatar'));
+            $avatar = $avatarsRepository->findOneBy(["id" => $avatarId]);
+            $user->setAvatar($avatar);
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('profile');
@@ -134,6 +138,7 @@ class UsersController extends AbstractController
 
         return $this->render('users/useredit.html.twig', [
             'user' => $user,
+            'avatars' => $avatars,
             'form' => $form->createView(),
         ]);
     }

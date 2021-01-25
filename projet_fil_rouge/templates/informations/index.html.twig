@@ -36,9 +36,17 @@
             <p class="font-weight-bold dark-grey-text mb-1">
                 {{ information.contenu }}
             </p>
+            <div class="d-flex">
                     <a class="btn btn-sm btn-success mb-0" href="{{ path('informations_show', {'id': information.id}) }}"><i class="fas fa-eye"></i></a>
                     <a class="btn btn-sm btn-warning mb-0" href="{{ path('informations_edit', {'id': information.id}) }}"><i class="fas fa-pen"></i></a>
-                    <a class="btn btn-sm btn-danger mb-0" href="{{ path('informations_delete', {'id': information.id}) }}"><i class="fas fa-trash-alt"></i></a>
+                    <form method="post" action="{{ path('informations_delete', {'id': information.id}) }}" onsubmit="return confirm('Etes vous sûr de vouloir supprimer?');">
+                      <input type="hidden" name="_method" value="DELETE">
+                      <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ information.id) }}">
+                      <button class="btn btn-sm btn-danger mb-0"><i class="fas fa-trash-alt"></i></button>
+                    </form>
+
+            </div>
+
           </div>
           <!--/.Card content-->
 

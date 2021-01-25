@@ -156,8 +156,8 @@ class VideosController extends AbstractController
             $videoFile = null;
             if($video->getMediaFile()){
                 $videoFile = $video->getMediaFile();
-            }
 
+            }
 
             $entityManager = $this->getDoctrine()->getManager();
             $ressource = $ressourcesRepository->findOneBy(["video" => $video->getId()]);

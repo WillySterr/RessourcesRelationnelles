@@ -78,7 +78,7 @@
                     <select name="user" class="mdb-select md-form" searchable="Chercher un utilisateur">
                         <option value="" disabled selected>Utilisateurs</option>
                         {% for user in users %}
-                            <option data-icon="https://mdbootstrap.com/img/Photos/Avatars/avatar-1.jpg" class="rounded-circle" value="{{ user.id }}">{{ user.firstName }} {{ user.lastName }}</option>
+                            <option data-icon="{{asset("uploads/avatars/"~user.avatar.avatarIcon)}}" class="rounded-circle" value="{{ user.id }}">{{ user.firstName }} {{ user.lastName }}</option>
                         {% endfor %}
                     </select>
                 </div>

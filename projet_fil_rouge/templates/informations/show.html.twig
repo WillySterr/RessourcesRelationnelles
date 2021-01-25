@@ -4,7 +4,7 @@
 
 {% block body %}
 
-  {% if app.user.id is same as (information.id) or information.published == true %}
+  {% if app.user.id is same as (information.user.id) or information.published == true %}
 
   <input id="ressource-id" type="hidden" value="{{ ressourceId }}">
  

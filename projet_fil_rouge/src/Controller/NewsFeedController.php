@@ -4,8 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Comments;
 use App\Entity\Favoris;
+use App\Repository\CategoryRepository;
 use App\Repository\RessourcesRepository;
 use App\Repository\FavorisRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,9 +20,10 @@ class NewsFeedController extends AbstractController
     /**
      * @Route("/", name="news_feed")
      */
-    public function index(RessourcesRepository $ressourcesRepository, Security $security, FavorisRepository $favorisRepository): Response
+    public function index(RessourcesRepository $ressourcesRepository, Security $security, FavorisRepository $favorisRepository, CategoryRepository $categoryRepository): Response
     {
         $newsFeed = $ressourcesRepository->getAllNewsFeed();
+        $category = $categoryRepository->findAll();
         $userCo = $security->getUser();
         $favoList = $favorisRepository->findByUser($userCo);
 
@@ -28,6 +31,7 @@ class NewsFeedController extends AbstractController
             'news' => $newsFeed,
             'userCo' => $userCo,
             'favoList' => $favoList,
+            'categories' => $category
         ]);
     }
 
@@ -51,6 +55,7 @@ class NewsFeedController extends AbstractController
 
         return $this->redirectToRoute('news_feed');
     }
+
 
     /**
      * @Route("/favoris/{id}", name="add_favoris", methods={"GET", "POST"})
@@ -102,10 +107,10 @@ class NewsFeedController extends AbstractController
             'userCo' => $userCo,
             'favoList' => $favoList,
         ]);
-      }
+    }
 
 
-  
+
 
     /**
      * Creates a new ActionItem entity.
@@ -114,50 +119,144 @@ class NewsFeedController extends AbstractController
      */
     public function searchAction(Request $request, RessourcesRepository $ressourcesRepository)
     {
-      // reception du contenu de la searchbar
-      $requestData = json_decode($request->getContent(), true);
-      //récupère la valeur de l'objet envoyé
-      $searchData = $requestData["searchContent"];
-      //rechere dans la base les ressources correspondant à la valeur envoyé
-      $dbData = $ressourcesRepository->findRessourcesByString($searchData);
-      //formater ces données en Json pour les renvoyées 
-      $arrayDbData = [];
+        // reception du contenu de la searchbar
+        $requestData = json_decode($request->getContent(), true);
+        //récupère la valeur de l'objet envoyé
+        $searchData = $requestData["searchContent"];
+        //rechere dans la base les ressources correspondant à la valeur envoyé
+        $dbData = $ressourcesRepository->findRessourcesByString($searchData);
+        //formater ces données en Json pour les renvoyées 
+        $arrayDbData = [];
 
-      foreach ($dbData as $data) {
-        $arrayDbData[] = array(
-          'id' => $data->getId(),
-          'title' => $data->getTitle(),
-          'user' => [
-            'id' => $data->getUser()->getId(),
-            'lastname' => $data->getUser()->getLastName(),
-            'firstname' => $data->getUser()->getFirstName()
+        foreach ($dbData as $data) {
+            $arrayDbData[] = array(
+                'id' => $data->getId(),
+                'title' => $data->getTitle(),
+                'user' => [
+                    'id' => $data->getUser()->getId(),
+                    'lastname' => $data->getUser()->getLastName(),
+                    'firstname' => $data->getUser()->getFirstName()
 
-          ],
-          'article' => $data->getArticle() ? $data->getArticle()->getId() : null,
-          'evenement' => $data->getEvenement() ? $data->getEvenement()->getId() : null,
-          'information' => $data->getInformation() ? $data->getInformation()->getId() : null,
-          'photo' => $data->getPhoto() ? $data->getPhoto()->getId() : null,
-          'video' => $data->getVideo() ? $data->getVideo()->getId() : null,
-          'date' => $data->getUpdatedAt() ?  $data->getUpdatedAt() :  $data->getCreatedAt()
+                ],
+                'article' => $data->getArticle() ? $data->getArticle()->getId() : null,
+                'evenement' => $data->getEvenement() ? $data->getEvenement()->getId() : null,
+                'information' => $data->getInformation() ? $data->getInformation()->getId() : null,
+                'photo' => $data->getPhoto() ? $data->getPhoto()->getId() : null,
+                'video' => $data->getVideo() ? $data->getVideo()->getId() : null,
+                'date' => $data->getUpdatedAt() ?  $data->getUpdatedAt() :  $data->getCreatedAt()
 
 
-        );
-      }
-      // on va les envoyer
-      $response = new Response(json_encode($arrayDbData));
+            );
+        }
+        // on va les envoyer
+        $response = new Response(json_encode($arrayDbData));
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
-
     }
 
-    public function getRealRessources($ressources){
+    public function getRealRessources($ressources)
+    {
 
-        foreach ($ressources as $ressource){
+        foreach ($ressources as $ressource) {
             $realressources[$ressource->getId()] = $ressource->getTitle();
         }
 
         return $realressources;
     }
-  
-  }
+
+
+    /**
+     * @Route("/ressources/filtre", name="filtre")
+     */
+    public function ressourceFilter(RessourcesRepository $ressources, Request $request)
+    {
+        // On récupere les données envoyées de JS
+        $requete = json_decode($request->getContent(), true);
+
+        // On récupère les filtres et tris
+        $catId = $requete && $requete['idCheck'] ? $requete['idCheck'] : null;
+        $tris = $requete && $requete['idTri'] ? $requete['idTri'] : null;
+
+        // Si il y'a que des filtres
+        if ($catId && $catId !== [] && $tris === null || $tris === []) {
+
+            $ressourcesFilters = $ressources->getRessourcesByCat($catId);
+        } // Si il y'a que des tris
+
+        elseif ($catId === [] || $catId === null && $tris !== null && $tris !== []) {
+
+            if (in_array('decroissant', $tris)) {
+                $ressourcesFilters = $ressources->getRessourcesByDesc();
+            } else {
+                $ressourcesFilters = $ressources->getRessourcesByAsc();
+            }
+        } //Si il y'a des filtres et tris
+
+        elseif ($tris !== null && $tris !== [] && $catId && $catId !== []) {
+
+            if (in_array('decroissant', $tris)) {
+                $ressourcesFilters = $ressources->getRessourcesByTriAndFilterDesc($catId);
+            } else {
+                $ressourcesFilters = $ressources->getRessourcesByTriAndFilterAsc($catId);
+            }
+        }
+        //Si il y'a rien
+        else {
+            $ressourcesFilters = $ressources->findAll();
+        };
+
+        //
+        $ressource = [];
+        foreach ($ressourcesFilters as $ressourceFilter) {
+            $ressource[] = array(
+                'id' => $ressourceFilter->getId(),
+                'user' => [
+                    "id" => $ressourceFilter->getUser()->getId(),
+                    "lastName" => $ressourceFilter->getUser()->getLastName(),
+                    "firstName" => $ressourceFilter->getUser()->getFirstName()
+                ],
+                'article' => $ressourceFilter->getArticle() ? [
+                    'id' => $ressourceFilter->getArticle()->getId(),
+                    'titre' =>  $ressourceFilter->getArticle()->getTitre(),
+                    'description' => $ressourceFilter->getArticle()->getDescription(),
+                    'video' =>  $ressourceFilter->getArticle()->getVideo(),
+                    'photo' =>  $ressourceFilter->getArticle()->getPhoto(),
+                ] :  null,
+                'evenement' => $ressourceFilter->getEvenement() ? [
+                    'id' => $ressourceFilter->getEvenement()->getId(),
+                    'titre' =>  $ressourceFilter->getEvenement()->getTitre(),
+                    'description' => $ressourceFilter->getEvenement()->getDescription(),
+                    'dateDebut' =>  $ressourceFilter->getEvenement()->getDateDebut(),
+                    'dateFin' =>  $ressourceFilter->getEvenement()->getDateFin(),
+                    'heureDebut' =>  $ressourceFilter->getEvenement()->getHeureDebut(),
+                    'heureFin' =>  $ressourceFilter->getEvenement()->getHeureFin()
+                ] : null,
+                'information' => $ressourceFilter->getInformation() ? [
+                    'id' => $ressourceFilter->getInformation()->getId(),
+                    'titre' =>  $ressourceFilter->getInformation()->getTitre(),
+                    'description' => $ressourceFilter->getInformation()->getDescription(),
+                    'contenu' =>  $ressourceFilter->getInformation()->getContenu(),
+                ] : null,
+                'photo' => $ressourceFilter->getPhoto() ? [
+                    'id' => $ressourceFilter->getPhoto()->getId(),
+                    'titre' =>  $ressourceFilter->getPhoto()->getTitre(),
+                    'image' => $ressourceFilter->getPhoto()->getImage(),
+                    'description' => $ressourceFilter->getPhoto()->getDescription(),
+                ] : null,
+
+                'video' => $ressourceFilter->getVideo() ? [
+                    'id' => $ressourceFilter->getVideo()->getId(),
+                    'titre' =>  $ressourceFilter->getVideo()->getTitre(),
+                    'video' => $ressourceFilter->getVideo()->getVideo(),
+                    'description' => $ressourceFilter->getVideo()->getDescription(),
+                ] : null,
+                "datePubli" => $ressourceFilter->getUpdatedAt() ?  $ressourceFilter->getUpdatedAt() :  $ressourceFilter->getCreatedAt()
+            );
+        }
+        $response = new Response(json_encode($ressource));
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+    }
+}

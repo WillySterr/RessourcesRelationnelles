@@ -8,6 +8,7 @@ use App\Form\ArticlesType;
 use App\Repository\ArticlesRepository;
 use App\Repository\CommentsRepository;
 use App\Repository\RessourcesRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -71,13 +72,6 @@ class ArticlesController extends AbstractController
 
                 $article->setVideo($file);
             }
-
-            // On crée l'image dans la base de données
-
-
-
-
-
 
             $ressource = new Ressources();
             $ressource->setUser($security->getUser())
@@ -203,23 +197,36 @@ class ArticlesController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="articles_delete", methods={"DELETE"})
+     * @Route("/delete/{id}", name="articles_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Articles $article, RessourcesRepository $ressourcesRepository): Response
+    public function delete(Request $request, Articles $article, RessourcesRepository $ressourcesRepository, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete' . $article->getId(), $request->request->get('_token'))) {
             // On récupère le nom de l'image
-            $photo = $article->getPhoto();
-            $video = $article->getVideo();
-            // On supprime le fichier
-            unlink($this->getParameter('images_directory') . '/' . $photo);
-            unlink($this->getParameter('videos_directory') . '/' . $video);
 
-            $entityManager = $this->getDoctrine()->getManager();
+            $photo = null;
+            $video = null;
+         if($article->getPhoto()){
+                $photo = $article->getPhoto();
+
+            }
+          if($article->getVideo()){
+              $video = $article->getVideo();
+
+          }
+
             $ressource = $ressourcesRepository->findOneBy(["article" => $article->getId()]);
             $entityManager->remove($article);
             $entityManager->remove($ressource);
             $entityManager->flush();
+
+
+            if($photo !== null){
+                unlink($this->getParameter('images_directory') . '/' . $photo);
+            }
+            if($video !== null){
+                unlink($this->getParameter('videos_directory') . '/' . $video);
+            }
         }
 
         return $this->redirectToRoute('articles_index');
