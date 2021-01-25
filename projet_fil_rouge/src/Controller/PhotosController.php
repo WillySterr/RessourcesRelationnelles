@@ -141,6 +141,9 @@ class PhotosController extends AbstractController
             $ressource = $ressourcesRepository->findOneBy(["photo" => $photo->getId()]);
             $ressource->setUpdatedAt();
             $ressource->setTitle($photo->getTitre());
+            foreach ($photo->getCategory() as $cat) {
+                $ressource->addCategory($cat);
+            };
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('photos_index');
