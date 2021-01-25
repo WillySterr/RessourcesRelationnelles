@@ -4,7 +4,7 @@
 
 {% block body %}
 
-  {% if app.user.id is same as (video.id) or video.published == true %}
+  {% if app.user.id is same as (video.user.id) or video.published == true %}
 
   <input id="ressource-id" type="hidden" value="{{ ressourceId }}">
 
@@ -18,7 +18,7 @@
         <!--Grid column-->
         <div class="col-lg-6 mb-4 mb-lg-0 d-flex align-items-center justify-content-center">
 
-        <video class="embed-responsive-item" controls><source src="{{ asset('/uploads/'~video.video) }}" type="video/mp4"></video>
+        <video class="embed-responsive-item" controls><source src="{{ asset('/uploads/'~video.mediaFile) }}" type="video/mp4"></video>
 
         </div>
         <!--Grid column-->

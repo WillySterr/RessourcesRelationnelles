@@ -42,7 +42,7 @@ class VideosController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $videos = $form->get('video')->getData();
+            $videos = $form->get('mediaFile')->getData();
 
 
             foreach ($videos as $item) {
@@ -54,7 +54,7 @@ class VideosController extends AbstractController
                     $file
                 );
 
-                $video->setVideo($file);
+                $video->setMediaFile($file);
             }
 
             $ressource = new Ressources();
@@ -64,6 +64,7 @@ class VideosController extends AbstractController
                 ->setPublished(false);
             $entityManager = $this->getDoctrine()->getManager();
             $video->setUser($security->getUser());
+            $video->setPublished(false);
             foreach ($video->getCategory() as $cat) {
                 $ressource->addCategory($cat);
             };
@@ -104,13 +105,13 @@ class VideosController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $item = $video->getVideo();
+            $item = $video->getMediaFile();
 
             if ($this->getParameter('videos_directory') . '/' . $item != true) {
                 unlink($this->getParameter('videos_directory') . '/' . $item);
             }
 
-            $files = $form->get('video')->getData();
+            $files = $form->get('mediaFile')->getData();
 
 
             foreach ($files as $file) {
@@ -119,13 +120,13 @@ class VideosController extends AbstractController
 
                 // On copie le fichier dans le dossier uploads
                 $file->move(
-                    $this->getParameter('images_directory'),
+                    $this->getParameter('videos_directory'),
                     $newVideo
                 );
 
                 // On crée l'image dans la base de données
 
-                $video->setVideo($newVideo);
+                $video->setMediaFile($newVideo);
             }
 
 
@@ -149,14 +150,25 @@ class VideosController extends AbstractController
     /**
      * @Route("/{id}", name="videos_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Videos $video): Response
+    public function delete(Request $request, Videos $video, RessourcesRepository $ressourcesRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $video->getId(), $request->request->get('_token'))) {
-            $file = $video->getVideo();
-            unlink($this->getParameter('videos_directory') . '/' . $file);
+            $videoFile = null;
+            if($video->getMediaFile()){
+                $videoFile = $video->getMediaFile();
+            }
+
+
             $entityManager = $this->getDoctrine()->getManager();
+            $ressource = $ressourcesRepository->findOneBy(["video" => $video->getId()]);
+            $entityManager->remove($ressource);
             $entityManager->remove($video);
             $entityManager->flush();
+
+            if($videoFile !== null){
+                unlink($this->getParameter('videos_directory') . '/' . $videoFile);
+
+            }
         }
 
         return $this->redirectToRoute('videos_index');

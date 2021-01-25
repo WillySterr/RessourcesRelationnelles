@@ -80,7 +80,6 @@ class Ressources
     private $updatedAt;
 
     /**
-     * @var DateTime
      * @ORM\Column(type="boolean")
      * @Groups("fil_actu")
      */

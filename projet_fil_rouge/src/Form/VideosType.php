@@ -17,7 +17,7 @@ class VideosType extends AbstractType
         $builder
             ->add('titre')
             ->add('description')
-            ->add('video',FileType::class,[
+            ->add('mediaFile',FileType::class,[
                 'label' => 'Vidéo',
                 'multiple' => true,
                 'mapped' => false,
