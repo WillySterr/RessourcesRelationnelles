@@ -204,11 +204,8 @@ class Articles
         return $this->video;
     }
 
-    /**
-     * @param string|null $video
-     * @return $this
-     */
-    public function setVideo(string $video): self
+    public function setVideo($video): self
+
     {
         $this->video = $video;
 
@@ -225,11 +222,8 @@ class Articles
     }
 
 
-    /**
-     * @param string|null $photo
-     * @return $this
-     */
-    public function setPhoto(string $photo): self
+   
+    public function setPhoto($photo): self
     {
         $this->photo = $photo;
 

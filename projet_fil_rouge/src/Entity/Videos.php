@@ -70,11 +70,17 @@ class Videos
      */
     private $updatedAt;
 
+  
+    /**
+     * @var File
+     * @Vich\UploadableField(mapping="vichFiles", fileNameProperty="mediaFile")
+     */
+    private $vichFile;
+
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups("fil_actu")
      */
-    private $video;
+    private $mediaFile;
 
 
     public function __construct()
@@ -195,27 +201,42 @@ class Videos
 
         return $this;
     }
-
-    /**
-     * @return string|null
+  
+        /**
+     * @return File|null
      */
-    public function getVideo(): ?string
+    public function getVichFile(): ?File
     {
-        return $this->video;
+        return $this->vichFile;
     }
 
     /**
-     * @param string|null $video
-     * @return $this
+     * @param File|null $vichFile
      */
-    public function setVideo(string $video): self
+    public function setVichFile(?File $vichFile = null)
     {
-        $this->video = $video;
+        $this->vichFile = $vichFile;
+
+        if ($vichFile !== null) {
+              $this->updatedAt = new \DateTime('now');
+        }
 
         return $this;
     }
 
     public function __toString(){
         return $this->titre;
+    }
+
+    public function getMediaFile(): ?string
+    {
+        return $this->mediaFile;
+    }
+
+    public function setMediaFile($mediaFile): self
+    {
+        $this->mediaFile = $mediaFile;
+
+        return $this;
     }
 }

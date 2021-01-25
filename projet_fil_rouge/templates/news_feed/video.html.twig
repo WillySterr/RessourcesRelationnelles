@@ -52,7 +52,7 @@
                 <p>{{ new.ressource.video.description }}</p>
                 <div class="card-text text-center">
                     <div class="embed-responsive embed-responsive-16by9">
-                        <video class="embed-responsive-item" controls><source src="{{ asset('/uploads/'~new.ressource.video.video) }}" type="video/mp4"></video>
+                        <video class="embed-responsive-item" controls><source src="{{ asset('/uploads/'~new.ressource.video.mediaFile) }}" type="video/mp4"></video>
                     </div>
                     <div class="post-description">
 
@@ -138,7 +138,7 @@
          <p>{{ new.video.description }}</p>
     <div class="card-text text-center">
             <div class="embed-responsive embed-responsive-16by9">
-                 <video class="embed-responsive-item" controls><source src="{{ asset('/uploads/'~new.video.video) }}" type="video/mp4"></video>
+                 <video class="embed-responsive-item" controls><source src="{{ asset('/uploads/'~new.video.mediaFile) }}" type="video/mp4"></video>
             </div>
             <div class="post-description">
            

@@ -42,7 +42,7 @@ class VideosController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $videos = $form->get('video')->getData();
+            $videos = $form->get('mediaFile')->getData();
 
 
             foreach ($videos as $item) {
@@ -54,7 +54,7 @@ class VideosController extends AbstractController
                     $file
                 );
 
-                $video->setVideo($file);
+                $video->setMediaFile($file);
             }
 
             $ressource = new Ressources();
@@ -105,13 +105,13 @@ class VideosController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $item = $video->getVideo();
+            $item = $video->getMediaFile();
 
             if ($this->getParameter('videos_directory') . '/' . $item != true) {
                 unlink($this->getParameter('videos_directory') . '/' . $item);
             }
 
-            $files = $form->get('video')->getData();
+            $files = $form->get('mediaFile')->getData();
 
 
             foreach ($files as $file) {
@@ -120,13 +120,13 @@ class VideosController extends AbstractController
 
                 // On copie le fichier dans le dossier uploads
                 $file->move(
-                    $this->getParameter('images_directory'),
+                    $this->getParameter('videos_directory'),
                     $newVideo
                 );
 
                 // On crée l'image dans la base de données
 
-                $video->setVideo($newVideo);
+                $video->setMediaFile($newVideo);
             }
 
 
@@ -154,10 +154,10 @@ class VideosController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete' . $video->getId(), $request->request->get('_token'))) {
             $videoFile = null;
-            if($video->getVideo()){
-                $videoFile = $video->getVideo();
-            }
+            if($video->getMediaFile()){
+                $videoFile = $video->getMediaFile();
 
+            }
 
             $entityManager = $this->getDoctrine()->getManager();
             $ressource = $ressourcesRepository->findOneBy(["video" => $video->getId()]);
