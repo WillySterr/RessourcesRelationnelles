@@ -38,20 +38,89 @@ class RessourcesRepository extends ServiceEntityRepository
             ->getQuery()
             ->setMaxResults(5)
             ->getResult();
-
     }
 
-    public function findRessourcesByString($str){
+    public function findRessourcesByString($str)
+    {
         return $this->getEntityManager()
             ->createQuery(
                 'SELECT e
                 FROM App:Ressources e
                 WHERE e.title LIKE :str'
             )
-            ->setParameter('str', '%'.$str.'%')
+            ->setParameter('str', '%' . $str . '%')
             ->setMaxResults(8)
             ->getResult();
     }
+
+    //TRI DES RESSOURCES
+
+    public function getRessourcesByDesc()
+    {
+        return $this->createQueryBuilder('r')
+            ->orderBy('r.updatedAt', 'DESC')
+            ->addOrderBy('r.createdAt', 'DESC')
+
+            ->getQuery()
+            ->getResult();
+    }
+    public function getRessourcesByAsc()
+    {
+        return $this->createQueryBuilder('r')
+            ->orderBy('r.updatedAt', 'ASC')
+            ->addOrderBy('r.createdAt', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+    public function getRessourcesByCat($cat)
+    {
+        $em = $this->getEntityManager();
+
+        $queryText  = "SELECT s FROM App:Ressources s ";
+        $queryText .= "WHERE :category MEMBER OF s.category";
+
+        $query = $em->createQuery($queryText);
+        $query->setParameter('category', $cat);
+
+        return $query->getResult();
+    }
+
+
+
+    public function getRessourcesByTriAndFilterAsc($cat)
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere(':category MEMBER OF c.category')
+            ->setParameter('category', $cat)
+            ->orderBy('c.updatedAt', 'ASC')
+            ->addOrderBy('c.createdAt', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+
+
+    public function getRessourcesByTriAndFilterDesc($cat)
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere(':category MEMBER OF c.category')
+            ->setParameter('category', $cat)
+            ->orderBy('c.updatedAt', 'DESC')
+            ->addOrderBy('c.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+    // public function getOldRessources()
+    // {
+    //     return $this->createQueryBuilder('r')
+    //         ->addOrderBy('r.createdAt', 'ASC')
+    //         ->andWhere('r.cat = :cat')
+    //         ->getQuery()
+    //         ->getResult();
+    // }
+
+
+
     // /**
     //  * @return Ressources[] Returns an array of Ressources objects
     //  */
