@@ -252,10 +252,6 @@
             xhr.send();
         }
 
-
-
-
-
     // ENVOIE DE FILTRES
         function sendFilters(requestParams, ressourcesBox){
             const xhr = new XMLHttpRequest();
@@ -279,73 +275,128 @@
             for(let i = 0; i< data.length; i++){
                  
                 if(data[i].video !== null){
+                    let categoryOfRessource = '<div class="category">';
+
+                    for (let j = 0; j < data[i].category.length; j++){
+                        categoryOfRessource += '<span class="badge badge-primary mr-2">'+data[i].category[j]+'</span>'
+                    }
+                    categoryOfRessource += '</div>';
+
                     let eachVideo = document.createElement("div");
-                    eachVideo.setAttribute('class', 'card w-75  my-5');
-                    eachVideo.innerHTML = `<div class="card-header">
-                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="rounded-circle avatar a" style="width: 10%" alt="user profile image">
-                <p class="a ml-2"><a href="#">${data[i].user.firstName} ${data[i].user.lastName} </a></p>
-                <div class="favoris a">
-                </div>
-            </div>
-            <div class="card-body">
-                <h5 class="card-title">${data[i].video.titre}</h5>
-                <p>${data[i].video.description}</p>
-                <div class="card-text text-center">
-                    <div class="embed-responsive embed-responsive-16by9">
-                        <video class="embed-responsive-item" controls><source src="../uploads/${data[i].video.video}" type="video/mp4"></video>
-                    </div>
-                    <div class="post-description">
-                    </div>
-                </div>
+                    eachVideo.setAttribute('class', 'col-sm-12 col-md-6 mb-2');
+                    eachVideo.innerHTML = `<div class="card">
+                        <div class="card-header">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="mr-2">
+                                        <img class="rounded-circle" width="45" src="/uploads/avatars/${data[i].user.avatarIcon}" alt="">
+                                    </div>
+                                    <div class="ml-2">
+                                        <div class="h5 m-0">${data[i].user.firstName} ${data[i].user.lastName}</div>
+                                        <div id="Created" class="text-muted h7"> <i class="far fa-clock"></i>10 min ago</div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <i class="far fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body d-flex flex-column justify-content-between">
+                            <div class="title-description">
+                                <a class="card-link" href="#">
+                                    <h5 class="card-title">${data[i].video.titre}</h5>
+                                </a>
+                                <p class="card-text">
+                                    ${data[i].video.description}
+                                </p>
+                            </div>
+                            <div class="img">
+                                <video width="500" height="360" controls>
+                                    <source src="/images/vichFiles/${data[i].video.video}" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                            </div>
+                            ${categoryOfRessource}
+                        </div>
+                        <div class="card-footer">
 
-            </div>
-            <div class="card-footer">
-                    <input id="comments-${data[i].video.id}" class="form-control comments_contenu w-75 all-comments" name="comments" type="text" placeholder="Saisissez votre commentaire">
+                            <button class="btn btn-primary comments-link" id="1" onclick="getRessourceComment(${data[i].id});"><i class="far fa-comment"></i> Comment</button>
 
+                            <div id="block-comments-${data[i].id}" style="display: none; color:#FFF;">
+                                <div class="d-flex justify-content-between">
+                                     <input type="text" class="form-control" onkeypress="sendComments(event, ${data[i].id})" id="textarea-comments-${data[i].id}" placeholder="Tapez votre commentaire..."/>
+                                </div>
+                                <div class="commentaires">
+                                    <div class="commentaire" id="list-comments-${data[i].id}">
 
-                <div class="post-footer">
-
-                    <ul id="comments-box-${data[i].video.id}" class="comments-list">
-
-                    </ul>
-                </div>
-            </div>`
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`
              ressourcesBox.appendChild(eachVideo);
 
 
             }else if(data[i].photo !== null){
+
+                let categoryOfRessource = '<div class="category">';
+
+                for (let j = 0; j < data[i].category.length; j++){
+                    categoryOfRessource += '<span class="badge badge-primary mr-2">'+data[i].category[j]+'</span>'
+                }
+                categoryOfRessource += '</div>';
+
                 let eachPhoto = document.createElement("div");
-                eachPhoto.setAttribute('class', 'card w-75  my-5');
-                eachPhoto.innerHTML = `<div class="card-header">
-            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="rounded-circle avatar a" style="width: 10%" alt="user profile image">
-            <p class="a ml-2"><a href="#">${data[i].user.firstName} ${data[i].user.lastName} </a></p>
-            <div class="favoris a">
-            </div>
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">${data[i].photo.titre}</h5>
-            <p>${data[i].photo.description}</p>
-            <div class="card-text text-center">
-                <img class="img-fluid" src="../uploads/${data[i].photo.image}"/>
-                <div class="post-description">
-                </div>
-            </div>
+                eachPhoto.setAttribute('class', 'col-sm-12 col-md-6 mb-2');
+                eachPhoto.innerHTML = `<div class="card">
+                        <div class="card-header">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="mr-2">
+                                        <img class="rounded-circle" width="45" src="/uploads/avatars/${data[i].user.avatarIcon}" alt="">
+                                    </div>
+                                    <div class="ml-2">
+                                        <div class="h5 m-0">${data[i].user.firstName} ${data[i].user.lastName}</div>
+                                        <div id="Created" class="text-muted h7"> <i class="far fa-clock"></i>10 min ago</div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <i class="far fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body d-flex flex-column justify-content-between">
+                            <div class="title-description">
+                                <a class="card-link" href="#">
+                                    <h5 class="card-title">${data[i].photo.titre}</h5>
+                                </a>
+                                <p class="card-text">
+                                    ${data[i].photo.description}
+                                </p>
+                            </div>
+                            <div class="img">
+                                <img src="/images/vichFiles/${data[i].photo.image}" class="card-img" alt="photo">
+                            </div>
 
-        </div>
-        <div class="card-footer">
-                <input id="comments-${data[i].photo.id}" class="form-control comments_contenu w-75 all-comments" name="comments" type="text" placeholder="Saisissez votre commentaire">
+                            ${categoryOfRessource}
 
+                        </div>
+                        <div class="card-footer">
 
-            <div class="post-footer">
+                            <button class="btn btn-primary comments-link" id="1" onclick="getRessourceComment(${data[i].id});"><i class="far fa-comment"></i> Comment</button>
 
-                <ul id="comments-box-${data[i].photo.id}" class="comments-list">
+                            <div id="block-comments-${data[i].id}" style="display: none; color:#FFF;">
+                                <div class="d-flex justify-content-between">
+                                     <input type="text" class="form-control" onkeypress="sendComments(event, ${data[i].id})" id="textarea-comments-${data[i].id}" placeholder="Tapez votre commentaire..."/>
+                                </div>
+                                <div class="commentaires">
+                                    <div class="commentaire" id="list-comments-${data[i].id}">
 
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
-        </div>`  
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`
         ressourcesBox.appendChild(eachPhoto);
  
          //EVENEMENT
@@ -358,88 +409,120 @@
                 date2 = date2.toLocaleDateString();
                 heure1 = heure1.toLocaleTimeString();
                 heure2 = heure2.toLocaleTimeString();
-                
+
+                    let categoryOfRessource = '<div class="category">';
+
+                    for (let j = 0; j < data[i].category.length; j++){
+                        categoryOfRessource += '<span class="badge badge-primary mr-2">'+data[i].category[j]+'</span>'
+                    }
+                    categoryOfRessource += '</div>';
                 let eachEvenement = document.createElement("div");
-                eachEvenement.setAttribute('class', 'card w-75  my-5');
-                eachEvenement.innerHTML = `<div class="card-header">
-                 <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="rounded-circle avatar a" style="width: 10%" alt="user profile image">
-                 <p class="a ml-2"><a href="#">${data[i].user.firstName} ${data[i].user.lastName}</a></p>
-                 <div class="favoris a">
-                 </div>
-             </div>
-             <div class="card-body">
-                 <h5 class="card-title">${data[i].evenement.titre}</h5>
-                 <p>${data[i].evenement.description}</p>
-                 <div class="card-text text-center">
-                     <table class="table">
-                         <thead>
-                         <tr>
-                             <th>
-                                 Date de début
-                             </th>
-                             <th>
-                                 Heure de début
-                             </th>
-                             <th>
-                                 Date de fin
-                             </th>
-                             <th>
-                                 Heure de fin
-                             </th>
-                         </tr>
-                         </thead>
-                         <tbody>
-                         <tr>
-                             <td>${date1}</td>
-                             <td>${heure1}</td>
-                             <td>${date2}</td>
-                             <td>${heure2}</td>
-                         </tr>
-                         </tbody>
-                     </table>
-                 </div>
+                eachEvenement.setAttribute('class', 'col-sm-12 col-md-6 mb-2');
+                eachEvenement.innerHTML = `<div class="card">
+                         <div class="card-header">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="mr-2">
+                                        <img class="rounded-circle" width="45" src="/uploads/avatars/${data[i].user.avatarIcon}" alt="">
+                                    </div>
+                                    <div class="ml-2">
+                                        <div class="h5 m-0">${data[i].user.firstName} ${data[i].user.lastName}</div>
+                                        <div id="Created" class="text-muted h7"> <i class="far fa-clock"></i>10 min ago</div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <i class="far fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body d-flex flex-column justify-content-between">
+                            <div class="title-description">
+                                <div id="DateEvent" class="text-muted h7 mb-2"> <i class="far fa-clock"></i>l'Evènement se déroulera du ${date1} à ${heure1} et se terminera le ${date2} à ${heure2}</div>
+                                <a class="card-link" href="#">
+                                    <h5 class="card-title">${data[i].evenement.titre}</h5>
+                                </a>
+                            </div>
+                            <div class="text">
+                                <p class="card-text">
+                                   ${data[i].evenement.description}
+                                </p>
+                            </div>
+                           ${categoryOfRessource}
+                        </div>
+                        <div class="card-footer">
 
-             </div>
-             <div class="card-footer">
-                     <input id="comments-${data[i].evenement.id}" class="form-control comments_contenu w-75 all-comments" name="comments" type="text" placeholder="Saisissez votre commentaire">
-                 <div class="post-footer">
-                     <ul id="comments-box-${data[i].evenement.id}" class="comments-list">
+                            <button class="btn btn-primary comments-link" id="1" onclick="getRessourceComment(${data[i].id});"><i class="far fa-comment"></i> Comment</button>
 
-                     </ul>
-                 </div>
-             </div>`
+                            <div id="block-comments-${data[i].id}" style="display: none; color:#FFF;">
+                                <div class="d-flex justify-content-between">
+                                     <input type="text" class="form-control" onkeypress="sendComments(event, ${data[i].id})" id="textarea-comments-${data[i].id}" placeholder="Tapez votre commentaire..."/>
+                                </div>
+                                <div class="commentaires">
+                                    <div class="commentaire" id="list-comments-${data[i].id}">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`
              ressourcesBox.appendChild(eachEvenement);
 
-            }else if( data[i].information !== null){
+            }else if(data[i].information !== null){
+                    let categoryOfRessource = '<div class="category">';
+
+                    for (let j = 0; j < data[i].category.length; j++){
+                        categoryOfRessource += '<span class="badge badge-primary mr-2">'+data[i].category[j]+'</span>'
+                    }
+
+                    categoryOfRessource += '</div>';
                 let eachInformation = document.createElement("div");
-                eachInformation.setAttribute('class', 'card w-75  my-5');
-                eachInformation.innerHTML =`<div class="card-header">
-                 <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="rounded-circle avatar a" style="width: 10%" alt="user profile image">
-                 <p class="a ml-2"><a href="#">${data[i].user.firstName} ${data[i].user.lastName} </a></p>
-                 <div class="favoris a">
-                 </div>
-             </div>
-             <div class="card-body">
-                 <h5 class="card-title">${data[i].information.titre}</h5>
-                 <h6 class="card-subtitle"></h6>
-                 <div class="card-text">
-                     <p>${data[i].information.description}</p>
-                     <p>${data[i].information.contenu}</p>
-                 </div>
+                eachInformation.setAttribute('class', 'col-sm-12 col-md-6 mb-2');
+                eachInformation.innerHTML =` <div class="card">
+                       <div class="card-header">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="mr-2">
+                                        <img class="rounded-circle" width="45" src="/uploads/avatars/${data[i].user.avatarIcon}" alt="">
+                                    </div>
+                                    <div class="ml-2">
+                                        <div class="h5 m-0">${data[i].user.firstName} ${data[i].user.lastName}</div>
+                                        <div id="Created" class="text-muted h7"> <i class="far fa-clock"></i>10 min ago</div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <i class="far fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body d-flex flex-column justify-content-between">
+                            <div class="title">
+                                <a class="card-link" href="#">
+                                    <h5 class="card-title">${data[i].information.titre}</h5>
+                                </a>
+                            </div>
+                            <div class="description">
+                                <p class="card-text">
+                                    ${data[i].information.contenu}
+                                </p>
+                            </div>
+                            ${categoryOfRessource}
+                        </div>
+                         <div class="card-footer">
 
-             </div>
-             <div class="card-footer">
+                            <button class="btn btn-primary comments-link" id="1" onclick="getRessourceComment(${data[i].id});"><i class="far fa-comment"></i> Comment</button>
 
-                     <input id="comments-${data[i].information.id}" class="form-control comments_contenu w-75 all-comments" name="comments" type="text" placeholder="Saisissez votre commentaire">
+                            <div id="block-comments-${data[i].id}" style="display: none; color:#FFF;">
+                                <div class="d-flex justify-content-between">
+                                     <input type="text" class="form-control" onkeypress="sendComments(event, ${data[i].id})" id="textarea-comments-${data[i].id}" placeholder="Tapez votre commentaire..."/>
+                                </div>
+                                <div class="commentaires">
+                                    <div class="commentaire" id="list-comments-${data[i].id}">
 
-
-                 <div class="post-footer">
-
-                     <ul id="comments-box-${data[i].information.id}" class="comments-list">
-
-                     </ul>
-                 </div>
-             </div>`
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`
              ressourcesBox.appendChild(eachInformation);
             }else if(data[i].article !== null){
                     let categoryOfRessource = '<div class="category">';
@@ -451,7 +534,7 @@
                     categoryOfRessource += '</div>';
 
                 let eachArticle = document.createElement("div");
-                eachArticle.setAttribute('class', 'col-6');
+                eachArticle.setAttribute('class', 'col-sm-12 col-md-6 mb-2');
                     eachArticle.innerHTML = `<div class="card">
                         <div class="card-header">
                             <div class="d-flex justify-content-between align-items-center">
@@ -495,8 +578,7 @@
 
                             <div id="block-comments-${data[i].id}" style="display: none; color:#FFF;">
                                 <div class="d-flex justify-content-between">
-                                    <textarea onkeypress="sendComments(event, ${data[i].id})" id="textarea-comments-${data[i].id}" rows="1" placeholder="Tapez votre commentaire..."></textarea>
-                                    <button id="-1" class="btn btn-primary comment-button"><i class="fas fa-paper-plane"></i>Post</button>
+                                     <input type="text" class="form-control" onkeypress="sendComments(event, ${data[i].id})" id="textarea-comments-${data[i].id}" placeholder="Tapez votre commentaire..."/>
                                 </div>
                                 <div class="commentaires">
                                     <div class="commentaire" id="list-comments-${data[i].id}">
@@ -605,6 +687,7 @@
                 xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
                 xhr.onreadystatechange = function() { //Appelle une fonction au changement d'état.
                     if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                        inputComments.value = "";
                         listCommentsOfCurrentRessource.innerHTML = '';
                         let data = xhr.response;
                         loadData(data, listCommentsOfCurrentRessource);
@@ -620,7 +703,7 @@
         // Function to load comments on the correct box
 
         function loadData(data, commentsBox){
-
+            commentsBox.innerHTML = "";
             for (let i = 0; i < data.length; i++) {
                 let eachComment = document.createElement("div");
                 eachComment.setAttribute('class', 'd-flex')
