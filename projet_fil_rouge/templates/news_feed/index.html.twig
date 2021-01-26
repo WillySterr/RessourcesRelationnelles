@@ -282,6 +282,15 @@
                     }
                     categoryOfRessource += '</div>';
 
+                    let checkFav = '<i ';
+                    if(data[i].favoriId){
+                        checkFav += 'class="fas fa-star" onclick="removeFav('+data[i].favoriId+')">'
+                    }
+                    else{
+                        checkFav += 'class="far fa-star" onclick="addFav('+data[i].id+')">'
+                    }
+                    checkFav += '</i>';
+
                     let eachVideo = document.createElement("div");
                     eachVideo.setAttribute('class', 'col-sm-12 col-md-6 mb-2');
                     eachVideo.innerHTML = `<div class="card">
@@ -297,7 +306,7 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <i class="far fa-star"></i>
+                                    ${checkFav}
                                 </div>
                             </div>
                         </div>
@@ -340,11 +349,21 @@
             }else if(data[i].photo !== null){
 
                 let categoryOfRessource = '<div class="category">';
+                let checkFav = '<i ';
+                if(data[i].favoriId){
+                    checkFav += 'class="fas fa-star" onclick="removeFav('+data[i].favoriId+')">'
+                }
+                else{
+                    checkFav += 'class="far fa-star" onclick="addFav('+data[i].id+')">'
+                }
+                checkFav += '</i>';
+
 
                 for (let j = 0; j < data[i].category.length; j++){
                     categoryOfRessource += '<span class="badge badge-primary mr-2">'+data[i].category[j]+'</span>'
                 }
                 categoryOfRessource += '</div>';
+
 
                 let eachPhoto = document.createElement("div");
                 eachPhoto.setAttribute('class', 'col-sm-12 col-md-6 mb-2');
@@ -361,7 +380,7 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <i class="far fa-star"></i>
+                                    ${checkFav}
                                 </div>
                             </div>
                         </div>
@@ -410,6 +429,15 @@
                 heure1 = heure1.toLocaleTimeString();
                 heure2 = heure2.toLocaleTimeString();
 
+                    let checkFav = '<i ';
+                    if(data[i].favoriId){
+                        checkFav += 'class="fas fa-star" onclick="removeFav('+data[i].favoriId+')">'
+                    }
+                    else{
+                        checkFav += 'class="far fa-star" onclick="addFav('+data[i].id+')">'
+                    }
+                    checkFav += '</i>';
+
                     let categoryOfRessource = '<div class="category">';
 
                     for (let j = 0; j < data[i].category.length; j++){
@@ -431,7 +459,7 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <i class="far fa-star"></i>
+                                    ${checkFav}
                                 </div>
                             </div>
                         </div>
@@ -469,6 +497,14 @@
 
             }else if(data[i].information !== null){
                     let categoryOfRessource = '<div class="category">';
+                    let checkFav = '<i ';
+                    if(data[i].favoriId){
+                        checkFav += 'class="fas fa-star" onclick="removeFav('+data[i].favoriId+')">'
+                    }
+                    else{
+                        checkFav += 'class="far fa-star" onclick="addFav('+data[i].id+')">'
+                    }
+                    checkFav += '</i>';
 
                     for (let j = 0; j < data[i].category.length; j++){
                         categoryOfRessource += '<span class="badge badge-primary mr-2">'+data[i].category[j]+'</span>'
@@ -490,7 +526,7 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <i class="far fa-star"></i>
+                                    ${checkFav}
                                 </div>
                             </div>
                         </div>
@@ -526,6 +562,14 @@
              ressourcesBox.appendChild(eachInformation);
             }else if(data[i].article !== null){
                     let categoryOfRessource = '<div class="category">';
+                    let checkFav = '<i ';
+                    if(data[i].favoriId){
+                        checkFav += 'class="fas fa-star" onclick="removeFav('+data[i].favoriId+')">'
+                    }
+                    else{
+                        checkFav += 'class="far fa-star" onclick="addFav('+data[i].id+')">'
+                    }
+                    checkFav += '</i>';
 
                     for (let j = 0; j < data[i].category.length; j++){
                         categoryOfRessource += '<span class="badge badge-primary">'+data[i].category[j]+'</span>'
@@ -548,7 +592,7 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <i class="far fa-star"></i>
+                                    ${checkFav}
                                 </div>
                             </div>
                         </div>
@@ -702,6 +746,47 @@
 
         // Function to load comments on the correct box
 
+        function addFav(ressourceId){
+            let ressourcesBox = document.querySelector('#boxFilActu');
+            let requestParams = {
+                idCheck : [],
+                idTri: []
+            }
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '{{ path('add_fav') }}', true);
+            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+            xhr.onreadystatechange = function() { //Appelle une fonction au changement d'état.
+                if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                    if(xhr.response === true){
+                        sendFilters(requestParams, ressourcesBox)
+                    }
+                }
+            }
+            xhr.responseType = 'json';
+            xhr.send(ressourceId);
+        }
+
+        function removeFav(favId){
+            let ressourcesBox = document.querySelector('#boxFilActu');
+            let requestParams = {
+                idCheck : [],
+                idTri: []
+            }
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '{{ path('remove_fav') }}', true);
+            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+            xhr.onreadystatechange = function() { //Appelle une fonction au changement d'état.
+                if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                    if(xhr.response === true){
+                        sendFilters(requestParams, ressourcesBox)
+                    }
+                }
+            }
+            xhr.responseType = 'json';
+            xhr.send(favId);
+
+        }
+
         function loadData(data, commentsBox){
             commentsBox.innerHTML = "";
             for (let i = 0; i < data.length; i++) {
@@ -720,15 +805,8 @@
                                             </div>
                                         </div>
           `;
-
                 commentsBox.appendChild(eachComment);
             }
         }
-
-
-
-
-
-        
     </script>
 {% endblock %}
