@@ -211,7 +211,6 @@ class NewsFeedController extends AbstractController
         foreach ($ressourcesFilters as $ressourceFilter) {
             $categoryRessource = [];
             foreach ($ressourceFilter->getCategory()->getValues() as $category){
-                dump($category->getName());
                 array_push($categoryRessource, $category->getName());
             }
             $ressource[] = array(
