@@ -19,6 +19,16 @@ class FavorisRepository extends ServiceEntityRepository
         parent::__construct($registry, Favoris::class);
     }
 
+    public function checkFavorisWithUser($user, $ressource){
+        return $this->createQueryBuilder('c')
+            ->andWhere(':user = c.user')
+            ->andWhere(':ressource = c.ressource')
+            ->setParameter('user', $user)
+            ->setParameter('ressource', $ressource)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     public function getFavorisAboutUser($user){
         return $this->createQueryBuilder('q')
             ->andWhere('q.user = :user')

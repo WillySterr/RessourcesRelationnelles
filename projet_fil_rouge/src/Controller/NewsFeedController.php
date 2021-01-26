@@ -169,8 +169,11 @@ class NewsFeedController extends AbstractController
     /**
      * @Route("/ressources/filtre", name="filtre")
      */
-    public function ressourceFilter(RessourcesRepository $ressources, Request $request)
+    public function ressourceFilter(RessourcesRepository $ressources, Request $request, Security $security, FavorisRepository $favorisRepository)
     {
+
+
+        $user = $security->getUser();
         // On récupere les données envoyées de JS
         $requete = json_decode($request->getContent(), true);
 
@@ -208,11 +211,13 @@ class NewsFeedController extends AbstractController
 
         //
         $ressource = [];
+
         foreach ($ressourcesFilters as $ressourceFilter) {
             $categoryRessource = [];
             foreach ($ressourceFilter->getCategory()->getValues() as $category){
                 array_push($categoryRessource, $category->getName());
             }
+
             $ressource[] = array(
                 'id' => $ressourceFilter->getId(),
                 'user' => [
@@ -257,10 +262,44 @@ class NewsFeedController extends AbstractController
                     'description' => $ressourceFilter->getVideo()->getDescription(),
                 ] : null,
                 "datePubli" => $ressourceFilter->getUpdatedAt() ?  $ressourceFilter->getUpdatedAt() :  $ressourceFilter->getCreatedAt(),
-                "category" => $categoryRessource
+                "category" => $categoryRessource,
+                'favoriId' => $favorisRepository->checkFavorisWithUser($user, $ressourceFilter) !== null ? $favorisRepository->checkFavorisWithUser($user, $ressourceFilter)->getId() : null
             );
         }
         $response = new Response(json_encode($ressource));
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+    }
+    /**
+     * @Route("/delete/fav", name="remove_fav")
+     */
+    public function removeFav(Request $request, FavorisRepository $favorisRepository, EntityManagerInterface $entityManager): Response
+    {
+       $favId = json_decode($request->getContent(), true);
+        $favoris = $favorisRepository->findOneBy(["id" => $favId]);
+        $entityManager->remove($favoris);
+        $entityManager->flush();
+
+        $response = new Response(json_encode(true));
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+    }
+
+    /**
+     * @Route("add/fav", name="add_fav")
+     */
+    public function addFav(Request $request, Security $security, RessourcesRepository $ressourcesRepository, EntityManagerInterface $entityManager){
+        $ressourceId = json_decode($request->getContent(), true);
+
+        $favori = new Favoris();
+        $favori->setUser($security->getUser())
+            ->setRessource($ressourcesRepository->findOneBy(["id" => $ressourceId]));
+        $entityManager->persist($favori);
+        $entityManager->flush();
+
+        $response = new Response(json_encode(true));
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
