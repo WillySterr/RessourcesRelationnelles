@@ -53,7 +53,8 @@ class CommentsController extends AbstractController
                 'user' => [
                     "id" => $comment->getUser()->getId(),
                     "lastName" => $comment->getUser()->getLastName(),
-                    "firstName" => $comment->getUser()->getFirstName()
+                    "firstName" => $comment->getUser()->getFirstName(),
+                    "avatar" => $comment->getUser()->getAvatar()->getAvatarIcon()
                 ],
                 'contenu' => $comment->getContenu(),
                 'date' => $comment->getUpdatedAt() ? $comment->getUpdatedAt() : $comment->getCreatedAt()
@@ -93,7 +94,8 @@ class CommentsController extends AbstractController
                 'user' => [
                     "id" => $comment->getUser()->getId(),
                     "lastName" => $comment->getUser()->getLastName(),
-                    "firstName" => $comment->getUser()->getFirstName()
+                    "firstName" => $comment->getUser()->getFirstName(),
+                    "avatar" => $comment->getUser()->getAvatar()->getAvatarIcon()
                 ],
                 'contenu' => $comment->getContenu(),
                 'date' => $comment->getUpdatedAt() ? $comment->getUpdatedAt() : $comment->getCreatedAt()
@@ -134,4 +136,6 @@ class CommentsController extends AbstractController
         return $response;
 
     }
+
+
 }

@@ -133,6 +133,7 @@
             sendFilters(requestParams, ressourcesBox);
             initCommentsNewFeed();
 
+
             comments.forEach(comment => comment.addEventListener('click', function(e){
                 let ressourceId = this.id.split('-');
                 id = parseInt(ressourceId[1]);
@@ -192,6 +193,7 @@
             sendFilters(requestParams, ressourcesBox);
 
         }));
+
         })
 
         function loadDataForNewsFeed(data, commentsBox){
@@ -489,69 +491,21 @@
                         </div>
                         <div class="card-footer">
 
-                            <button class="btn btn-primary comments-link" id="1"><i class="far fa-comment"></i> Comment</button>
+                            <button class="btn btn-primary comments-link" id="1" onclick="getRessourceComment(${data[i].id});"><i class="far fa-comment"></i> Comment</button>
 
-                            <div id="block-comments-1" style="display: none; color:#FFF;">
+                            <div id="block-comments-${data[i].id}" style="display: none; color:#FFF;">
                                 <div class="d-flex justify-content-between">
-                                    <textarea id="textarea-comments-1" rows="1" placeholder="Tapez votre commentaire..."></textarea>
+                                    <textarea onkeypress="sendComments(event, ${data[i].id})" id="textarea-comments-${data[i].id}" rows="1" placeholder="Tapez votre commentaire..."></textarea>
                                     <button id="-1" class="btn btn-primary comment-button"><i class="fas fa-paper-plane"></i>Post</button>
                                 </div>
                                 <div class="commentaires">
-                                    <div class="commentaire d-flex justify-content-between">
-                                        <div class="mr-2" style="height: 100%; vertical-align: middle;">
-                                            <img class="rounded-circle" width="25" src="https://picsum.photos/50/50" alt="">
-                                        </div>
-                                        <div class="text-commentaire d-flex flex-column justify-content-between" style="width: 100%;">
-                                            <div class="ml-2 d-flex">
-                                                <div class="h5 m-0">Auteur</div>
-                                                <div id="Created" class="text-muted h7" style="margin: 5px;"><i class="far fa-clock"></i>10 min ago</div>
-                                                <div id="Updated" style="display: none;" class="text-muted h7 mb-2"> <i class="far fa-clock"></i>10 min ago (modifier)</div>
-                                            </div>
-                                            <div style="width: 100%; vertical-align: middle;">
-                                                <p>Un commentaire random !</p>
-                                            </div>
-                                        </div>
+                                    <div class="commentaire" id="list-comments-${data[i].id}">
+
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>`
-                /*eachArticle.innerHTML =`               <div class="card-header">
-                    <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="rounded-circle avatar a" style="width: 10%" alt="user profile image">
-                    <p class="a ml-2"><a href="#">${data[i].user.firstName} ${data[i].user.lastName}</a></p>
-                    <div class="favoris a">
-                    </div>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">${data[i].article.titre}</h5>
-                    <h6 class="card-subtitle">${data[i].article.description}</h6>
-                    <div class="card-text">
-                        <div class="row">
-                            <div class="col-5">
-                                    <img src="../uploads/${data[i].article.photo}" class="image img-fluid" alt="ancienne image" >
-                            </div>
-                            <div class="col-7">
-                                    <div class="embed-responsive embed-responsive-16by9">
-                                        <video class="embed-responsive-item" controls><source src="../uploads/${data[i].article.video}" type="video/mp4"></video>
-                                    </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="card-footer">
-
-
-                        <input id="comments-${data[i].article.id}" class="form-control comments_contenu w-75 all-comments" type="text" placeholder="Saisissez votre commentaire">
-
-
-                    <div class="post-footer">
-
-                        <ul id="comments-box-${data[i].article.id}" class="comments-list">
-
-                        </ul>
-                    </div>
-                </div>`*/
              ressourcesBox.appendChild(eachArticle);
 
                 
@@ -588,6 +542,107 @@
             xhr.responseType = 'json';
             xhr.send();
         }
+
+
+
+        // Function call when click on "Comment"
+        function getRessourceComment(id){
+            // Recup ID Ressource
+            let idRessource = id;
+
+            //Recup bloc ressources
+            let blocCommentOfRessource = document.querySelector('#block-comments-'+id);
+
+            // Recup bloc contains list of comments
+
+            let listCommentsOfCurrentRessource = document.querySelector('#list-comments-'+id);
+
+            if(blocCommentOfRessource.style.display === "block"){
+                blocCommentOfRessource.style.display = "none";
+            }
+            else{
+                blocCommentOfRessource.style.display = "block";
+            }
+
+            const requestParams = {
+                "idRessource" : idRessource
+            }
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '{{ path('get_comments') }}', true);
+            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+            xhr.onreadystatechange = function() { //Appelle une fonction au changement d'état.
+                if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+
+                    let data = xhr.response;
+
+                    loadData(data, listCommentsOfCurrentRessource);
+                }
+            }
+            xhr.responseType = 'json';
+            xhr.send(JSON.stringify(requestParams));
+
+
+
+        }
+        // Function to send comments
+
+        function sendComments(event, id){
+
+
+            let inputComments = document.querySelector('#textarea-comments-'+id);
+            let listCommentsOfCurrentRessource = document.querySelector('#list-comments-'+id);
+
+            const requestParamsAddComments = {
+                "idRessource" : id,
+                "comments": inputComments.value
+            }
+
+            const xhr = new XMLHttpRequest();
+
+            if(event.key === "Enter"){
+
+                xhr.open('POST', '{{ path('new_comments') }}', true);
+                xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+                xhr.onreadystatechange = function() { //Appelle une fonction au changement d'état.
+                    if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                        listCommentsOfCurrentRessource.innerHTML = '';
+                        let data = xhr.response;
+                        loadData(data, listCommentsOfCurrentRessource);
+                    }
+                }
+                xhr.responseType = 'json';
+                xhr.send(JSON.stringify(requestParamsAddComments));
+
+            }
+
+        }
+
+        // Function to load comments on the correct box
+
+        function loadData(data, commentsBox){
+
+            for (let i = 0; i < data.length; i++) {
+                let eachComment = document.createElement("div");
+                eachComment.setAttribute('class', 'd-flex')
+                eachComment.innerHTML = ` <div class="mr-2" style="height: 100%; vertical-align: middle;">
+                                            <img class="rounded-circle" width="25" src="/uploads/avatars/${data[i].user.avatar}" alt="">
+                                        </div>
+                                        <div class="text-commentaire d-flex flex-column justify-content-between" style="width: 100%;">
+                                            <div class="ml-2 d-flex">
+                                                <div class="h5 m-0">${data[i].user.firstName} ${data[i].user.lastName} </div>
+                                                <div id="Created" class="text-muted h7" style="margin: 5px;"><i class="far fa-clock"></i>10 min ago</div>
+                                            </div>
+                                            <div style="width: 100%; vertical-align: middle;">
+                                                <p>${data[i].contenu}</p>
+                                            </div>
+                                        </div>
+          `;
+
+                commentsBox.appendChild(eachComment);
+            }
+        }
+
+
 
 
 
