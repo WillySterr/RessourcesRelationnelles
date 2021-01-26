@@ -252,10 +252,6 @@
             xhr.send();
         }
 
-
-
-
-
     // ENVOIE DE FILTRES
         function sendFilters(requestParams, ressourcesBox){
             const xhr = new XMLHttpRequest();
@@ -287,7 +283,7 @@
                     categoryOfRessource += '</div>';
 
                     let eachVideo = document.createElement("div");
-                    eachVideo.setAttribute('class', 'col-6 mb-2');
+                    eachVideo.setAttribute('class', 'col-sm-12 col-md-6 mb-2');
                     eachVideo.innerHTML = `<div class="card">
                         <div class="card-header">
                             <div class="d-flex justify-content-between align-items-center">
@@ -328,8 +324,7 @@
 
                             <div id="block-comments-${data[i].id}" style="display: none; color:#FFF;">
                                 <div class="d-flex justify-content-between">
-                                    <textarea onkeypress="sendComments(event, ${data[i].id})" id="textarea-comments-${data[i].id}" rows="1" placeholder="Tapez votre commentaire..."></textarea>
-                                    <button id="-1" class="btn btn-primary comment-button"><i class="fas fa-paper-plane"></i>Post</button>
+                                     <input type="text" class="form-control" onkeypress="sendComments(event, ${data[i].id})" id="textarea-comments-${data[i].id}" placeholder="Tapez votre commentaire..."/>
                                 </div>
                                 <div class="commentaires">
                                     <div class="commentaire" id="list-comments-${data[i].id}">
@@ -352,7 +347,7 @@
                 categoryOfRessource += '</div>';
 
                 let eachPhoto = document.createElement("div");
-                eachPhoto.setAttribute('class', 'col-6 mb-2');
+                eachPhoto.setAttribute('class', 'col-sm-12 col-md-6 mb-2');
                 eachPhoto.innerHTML = `<div class="card">
                         <div class="card-header">
                             <div class="d-flex justify-content-between align-items-center">
@@ -392,8 +387,7 @@
 
                             <div id="block-comments-${data[i].id}" style="display: none; color:#FFF;">
                                 <div class="d-flex justify-content-between">
-                                    <textarea onkeypress="sendComments(event, ${data[i].id})" id="textarea-comments-${data[i].id}" rows="1" placeholder="Tapez votre commentaire..."></textarea>
-                                    <button id="-1" class="btn btn-primary comment-button"><i class="fas fa-paper-plane"></i>Post</button>
+                                     <input type="text" class="form-control" onkeypress="sendComments(event, ${data[i].id})" id="textarea-comments-${data[i].id}" placeholder="Tapez votre commentaire..."/>
                                 </div>
                                 <div class="commentaires">
                                     <div class="commentaire" id="list-comments-${data[i].id}">
@@ -423,7 +417,7 @@
                     }
                     categoryOfRessource += '</div>';
                 let eachEvenement = document.createElement("div");
-                eachEvenement.setAttribute('class', 'col-6 mb-2');
+                eachEvenement.setAttribute('class', 'col-sm-12 col-md-6 mb-2');
                 eachEvenement.innerHTML = `<div class="card">
                          <div class="card-header">
                             <div class="d-flex justify-content-between align-items-center">
@@ -461,8 +455,7 @@
 
                             <div id="block-comments-${data[i].id}" style="display: none; color:#FFF;">
                                 <div class="d-flex justify-content-between">
-                                    <textarea onkeypress="sendComments(event, ${data[i].id})" id="textarea-comments-${data[i].id}" rows="1" placeholder="Tapez votre commentaire..."></textarea>
-                                    <button id="-1" class="btn btn-primary comment-button"><i class="fas fa-paper-plane"></i>Post</button>
+                                     <input type="text" class="form-control" onkeypress="sendComments(event, ${data[i].id})" id="textarea-comments-${data[i].id}" placeholder="Tapez votre commentaire..."/>
                                 </div>
                                 <div class="commentaires">
                                     <div class="commentaire" id="list-comments-${data[i].id}">
@@ -483,7 +476,7 @@
 
                     categoryOfRessource += '</div>';
                 let eachInformation = document.createElement("div");
-                eachInformation.setAttribute('class', 'col-6 mb-2');
+                eachInformation.setAttribute('class', 'col-sm-12 col-md-6 mb-2');
                 eachInformation.innerHTML =` <div class="card">
                        <div class="card-header">
                             <div class="d-flex justify-content-between align-items-center">
@@ -520,8 +513,7 @@
 
                             <div id="block-comments-${data[i].id}" style="display: none; color:#FFF;">
                                 <div class="d-flex justify-content-between">
-                                    <textarea onkeypress="sendComments(event, ${data[i].id})" id="textarea-comments-${data[i].id}" rows="1" placeholder="Tapez votre commentaire..."></textarea>
-                                    <button id="-1" class="btn btn-primary comment-button"><i class="fas fa-paper-plane"></i>Post</button>
+                                     <input type="text" class="form-control" onkeypress="sendComments(event, ${data[i].id})" id="textarea-comments-${data[i].id}" placeholder="Tapez votre commentaire..."/>
                                 </div>
                                 <div class="commentaires">
                                     <div class="commentaire" id="list-comments-${data[i].id}">
@@ -542,7 +534,7 @@
                     categoryOfRessource += '</div>';
 
                 let eachArticle = document.createElement("div");
-                eachArticle.setAttribute('class', 'col-6 mb-2');
+                eachArticle.setAttribute('class', 'col-sm-12 col-md-6 mb-2');
                     eachArticle.innerHTML = `<div class="card">
                         <div class="card-header">
                             <div class="d-flex justify-content-between align-items-center">
@@ -586,8 +578,7 @@
 
                             <div id="block-comments-${data[i].id}" style="display: none; color:#FFF;">
                                 <div class="d-flex justify-content-between">
-                                    <textarea onkeypress="sendComments(event, ${data[i].id})" id="textarea-comments-${data[i].id}" rows="1" placeholder="Tapez votre commentaire..."></textarea>
-                                    <button id="-1" class="btn btn-primary comment-button"><i class="fas fa-paper-plane"></i>Post</button>
+                                     <input type="text" class="form-control" onkeypress="sendComments(event, ${data[i].id})" id="textarea-comments-${data[i].id}" placeholder="Tapez votre commentaire..."/>
                                 </div>
                                 <div class="commentaires">
                                     <div class="commentaire" id="list-comments-${data[i].id}">
@@ -696,6 +687,7 @@
                 xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
                 xhr.onreadystatechange = function() { //Appelle une fonction au changement d'état.
                     if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                        inputComments.value = "";
                         listCommentsOfCurrentRessource.innerHTML = '';
                         let data = xhr.response;
                         loadData(data, listCommentsOfCurrentRessource);
@@ -711,7 +703,7 @@
         // Function to load comments on the correct box
 
         function loadData(data, commentsBox){
-
+            commentsBox.innerHTML = "";
             for (let i = 0; i < data.length; i++) {
                 let eachComment = document.createElement("div");
                 eachComment.setAttribute('class', 'd-flex')
