@@ -79,6 +79,7 @@ class Videos
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("fil_actu")
      */
     private $mediaFile;
 
