@@ -2,12 +2,19 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\CommentsRepository;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=CommentsRepository::class)
+ * @ApiResource( subresourceOperations={
+ *           "api_ressources_ressource_get_comments" = {
+ *               "normalization_context" = {"groups" = {"ressource_comments"}}
+ *     }
+ *     })
  */
 class Comments
 {
@@ -15,11 +22,13 @@ class Comments
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("ressource_comments")
      */
     private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=Users::class, inversedBy="comments")
+     * @Groups("ressource_comments")
      */
     private $user;
 
@@ -30,18 +39,21 @@ class Comments
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups("ressource_comments")
      * @var DateTime
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Groups("ressource_comments")
      * @var DateTime
      */
     private $updatedAt;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("ressource_comments")
      */
     private $contenu;
 
@@ -62,6 +74,9 @@ class Comments
         return $this;
     }
 
+    /**
+     *  @Groups("ressource_comments")
+     */
     public function getRessource(): ?Ressources
     {
         return $this->ressource;

@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use App\Repository\RessourcesRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -15,7 +16,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity(repositoryClass=RessourcesRepository::class)
  * @ORM\HasLifecycleCallbacks()
- * @ApiResource(normalizationContext={"groups"={"fil_actu"}}, attributes={"order"={"createdAt": "DESC"}})
+ * @ApiResource(normalizationContext={"groups"={"fil_actu"}}, attributes={"order"={"createdAt": "DESC"}},
+ *      subresourceOperations={
+ *           "ressource_get_comments" = {"path" = "/ressources/{id}/comments"}
+ *     },
+ *     )
  */
 class Ressources
 {
@@ -93,6 +98,9 @@ class Ressources
 
     /**
      * @ORM\OneToMany(targetEntity=Comments::class, mappedBy="ressource", cascade={"persist", "remove"})
+     * @ApiSubresource(
+     *
+     * )
      */
     private $comments;
 
