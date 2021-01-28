@@ -98,9 +98,7 @@ class Ressources
 
     /**
      * @ORM\OneToMany(targetEntity=Comments::class, mappedBy="ressource", cascade={"persist", "remove"})
-     * @ApiSubresource(
-     *
-     * )
+     * @ApiSubresource()
      */
     private $comments;
 

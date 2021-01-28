@@ -10,8 +10,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=CommentsRepository::class)
- * @ApiResource( subresourceOperations={
- *           "api_ressources_ressource_get_comments" = {
+ * @ApiResource(subresourceOperations={
+ *           "api_ressources_comments_get_subresource" = {
  *               "normalization_context" = {"groups" = {"ressource_comments"}}
  *     }
  *     })
@@ -28,7 +28,6 @@ class Comments
 
     /**
      * @ORM\ManyToOne(targetEntity=Users::class, inversedBy="comments")
-     * @Groups("ressource_comments")
      */
     private $user;
 
@@ -62,6 +61,15 @@ class Comments
         return $this->id;
     }
 
+    /**
+     *  @Groups("ressource_comments")
+     */
+    public function getCommentUser()
+    {
+        return $this->getUser();
+    }
+
+
     public function getUser(): ?Users
     {
         return $this->user;
@@ -74,9 +82,6 @@ class Comments
         return $this;
     }
 
-    /**
-     *  @Groups("ressource_comments")
-     */
     public function getRessource(): ?Ressources
     {
         return $this->ressource;
