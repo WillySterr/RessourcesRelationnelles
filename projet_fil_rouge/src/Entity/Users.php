@@ -29,12 +29,14 @@ class Users implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups("fil_actu")
+     * @Groups("ressource_comments")
      */
     private $lastName;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups("fil_actu")
+     * @Groups("ressource_comments")
      */
     private $firstName;
 
@@ -131,6 +133,7 @@ class Users implements UserInterface
     /**
      * @ORM\ManyToOne(targetEntity=Avatars::class, inversedBy="users")
      * @Groups("fil_actu")
+     * @Groups("ressource_comments")
      */
     private $avatar;
 
