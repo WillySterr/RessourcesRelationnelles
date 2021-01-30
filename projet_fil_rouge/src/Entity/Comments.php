@@ -14,7 +14,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *           "api_ressources_comments_get_subresource" = {
  *               "normalization_context" = {"groups" = {"ressource_comments"}}
  *     }
- *     })
+ *     }, attributes={"order"={"createdAt": "DESC"}})
  */
 class Comments
 {
@@ -68,7 +68,6 @@ class Comments
     {
         return $this->getUser();
     }
-
 
     public function getUser(): ?Users
     {
