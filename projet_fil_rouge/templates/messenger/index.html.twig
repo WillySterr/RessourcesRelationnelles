@@ -2,6 +2,7 @@
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('css/messenger.css') }}">
 {% endblock %}
+
 {% block title %}Messenger{% endblock %}
 
 {% block body %}
@@ -14,20 +15,10 @@
 
 
     <div class="container py-5 px-4">
-        <!-- For demo purpose-->
-        <header class="text-center">
-            <h1 class="display-4 text-white">Bootstrap Chat</h1>
-            <p class="text-white lead mb-0">An elegant chat widget compatible with Bootstrap 4</p>
-            <p class="text-white lead mb-4">Snippet by
-                <a href="https://bootstrapious.com" class="text-white">
-                    <u>Bootstrapious</u></a>
-            </p>
-        </header>
-
         <div class="row rounded-lg overflow-hidden shadow">
             <input id="currentUserId" type="hidden" name="conversationId" value="{{ app.user.id }}">
             <!-- Users box-->
-            <div class="col-5 px-0">
+            <div class="col-12 col-lg-5 px-0">
                 <div class="bg-white">
 
                     <div class="bg-gray px-4 py-2 bg-light d-flex justify-content-between align-items-center">
@@ -44,7 +35,7 @@
                 </div>
             </div>
             <!-- Chat Box-->
-            <div class="col-7 px-0">
+            <div class="col-12 col-lg-7 px-0">
                 <div id="blocMessages" class="px-4 py-5 chat-box bg-white">
 
 
@@ -193,7 +184,7 @@
                 eachBlocConversation.setAttribute('id', "btn-"+data[i].id);
                 eachBlocConversation.innerHTML = `
 
-                                            <div class="media"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
+                                            <div class="media"><img src="/uploads/avatars/${data[i].avatar}" alt="user" width="50" class="rounded-circle">
                                                 <div class="media-body ml-4">
                                                     <div class="d-flex align-items-center justify-content-between mb-1">
                                                         <h6 class="mb-0">
@@ -249,7 +240,7 @@
                         xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
                         xhr.onreadystatechange = function() { //Appelle une fonction au changement d'état.
                             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-
+                                blocMessages.innerHTML = "";
                                 let data = xhr.response;
 
                                 getConversationMessages(data, date, blocMessages, currentUserId);
@@ -269,6 +260,7 @@
         }
 
         function getConversationMessages(data, date, blocMessages, currentUserId){
+            blocMessages.innerHTML = "";
 
             for (let i = 0; i < data.length; i++){
                 if(data[i].user.id === currentUserId){
@@ -296,7 +288,7 @@
                     userDistant.setAttribute('class', 'media w-50 mb-3')
                     userDistant.innerHTML = `
                                                          <div class="media w-50 mb-3">
-                                                              <img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
+                                                              <img src="/uploads/avatars/${data[i].user.avatar}" alt="user" width="50" class="rounded-circle">
                                                             <div class="media-body ml-3">
                                                                 <div class="bg-light rounded py-2 px-3 mb-2">
                                                                     <p class="text-small mb-0 text-muted">${data[i].message}</p>
