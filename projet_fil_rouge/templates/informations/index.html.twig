@@ -15,7 +15,7 @@
 
  
       <!--Grid column-->
-      <div class="col-md-4 mb-4">
+      <div class="col-md-6 mb-4">
         <!--Card-->
         <div class="card">
           <!--Card content-->
@@ -36,7 +36,7 @@
             <p class="font-weight-bold dark-grey-text mb-1">
                 {{ information.contenu }}
             </p>
-            <div class="d-flex">
+            <div class="btn-group" role="group">
                     <a class="btn btn-sm btn-success mb-0" href="{{ path('informations_show', {'id': information.id}) }}"><i class="fas fa-eye"></i></a>
                     <a class="btn btn-sm btn-warning mb-0" href="{{ path('informations_edit', {'id': information.id}) }}"><i class="fas fa-pen"></i></a>
                     <form method="post" action="{{ path('informations_delete', {'id': information.id}) }}" onsubmit="return confirm('Etes vous sûr de vouloir supprimer?');">

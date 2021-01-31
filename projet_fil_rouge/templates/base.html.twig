@@ -20,7 +20,7 @@
   gtag('config', 'G-M81L14BZFN');
 </script>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="user-scalable=no, initial-scale=1, height=device-height"/>
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
@@ -36,9 +36,15 @@
 
     
         {% block body %}
+
         {% endblock %}
- 
-        {% block javascripts %}{% endblock %}
+    {% include 'footer.html.twig' %}
+
+    {% block javascripts %}
+
+
+
+    {% endblock %}
 
 
         <script src="{{ asset('js/mdb/jquery.min.js') }}"></script>

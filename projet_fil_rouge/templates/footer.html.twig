@@ -1,0 +1,30 @@
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
+{% endblock %}
+
+<footer class="footer">
+
+    <!--<div class="container">
+      <div class="row">
+        <div class="col-md-8 col-sm-6 col-xs-12">
+          <h6>Documentation</h6>
+          <a href="">CGU</a><br>
+          <a href="">RGPD</a>
+        </div>
+      </div>
+    </div>-->
+    <div class="container">
+        <div class="row d-flex justify-content-between">
+            <div id="divdecompensation"></div>
+            <div id="textFooter" class="d-flex justify-content-center">
+                <p class="copyright-text">Copyright &copy; 2021 Tout Droit Réservé Pour
+                    <a href="#">Resources Relationnelles</a>
+                </p>
+            </div>
+            <div class="icons d-flex justify-content-flex-end">
+                <a href=""><img src={{ asset('/images/android.png') }} /></a>
+                <a href=""><img src={{ asset('/images/ios.png') }} /></a>
+            </div>
+        </div>
+    </div>
+</footer>

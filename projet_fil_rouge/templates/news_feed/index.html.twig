@@ -13,10 +13,6 @@
             font-size: 0.8rem;
         }
 
-        .card{
-            width: 35rem;
-        }
-
         .container{
             width: 100%;
         }
@@ -74,28 +70,82 @@
         .card-title{
             color: #007bff !important;
         }
+
+    .sidenav {
+  width: 0; /* 0 width - change this with JavaScript */
+  z-index: 1; /* Stay on top */
+  top: 0; /* Stay at the top */
+  left: 0;
+  position: fixed;
+  background-color:#1b2838; /* Black*/
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 60px; /* Place content 60px from the top */
+  transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+}
+
+/* The navigation menu links */
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+.sidenav h3{
+    color: white;
+    text-align: center;
+}
+/* When you mouse over the navigation links, change their color */
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+/* Position and style the close button (top right corner) */
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+.main {
+  transition: margin-left .1s;
+  padding: 20px;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
     </style>
 {% endblock %}
-{% block body %}
 
-<div class="container mt-5">
-        <div class="my-5 pb-3">
-        
-            <h5>Filtrer les ressources</h5>
-            <ul class="list-group">
+
+{% block body %}
+    <!-- Sidebar -->
+  <div id="mySidenav" class="sidenav">
+            <h3>Filtres et Tris</h3>
+          <a href="javascript:void(0)" class="closebtn" id="closeTri">&times;</a>
+            <ul class="list-group list-unstyled components">
             {% for category in categories %}
                 <li class="list-group-item"><input id="checkbox-{{ category.id }}" class="form-check-input filters" type="checkbox"><label class="form-check-label" for="checkbox-{{category.id}}">{{ category.name }} </label></li>
             {% endfor %}
             </ul>
-            <h5 class="mt-3">Trier les ressources</h5>
             <select class="form-control" id="tri">
                 <option class="tries" disabled selected>Sélectionnez un tri</option>
                 <option class="tries" value="decroissant">Du + récent au - récent</option>    
                 <option class="tries" value="croissant">Du - récent au + récent</option>    
             </select>
-        </div>
 
-    <div id="boxFilActu" class="row justify-content-center">
+</div>
+<div  class="container mt-5">
+                <button id='triButton' class="btn btn-sm btn-dark"><i class="fas fa-filter"></i></button>
+
+    <div id="boxFilActu" class="row justify-content-center main">
     
     {# {% for new in news %}
 
@@ -119,7 +169,7 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script>
+<script>
 
         document.addEventListener('DOMContentLoaded', function(){
             const xhr = new XMLHttpRequest();
@@ -133,6 +183,16 @@
             sendFilters(requestParams, ressourcesBox);
             initCommentsNewFeed();
 
+                    /* Set the width of the side navigation to 250px */
+            document.querySelector("#triButton").addEventListener('click', function(){
+
+                     document.querySelector("#mySidenav").style.width = "200px";
+            })
+            document.querySelector("#closeTri").addEventListener('click', function(){
+
+                document.querySelector("#mySidenav").style.width = "0";
+            })
+            
 
             comments.forEach(comment => comment.addEventListener('click', function(e){
                 let ressourceId = this.id.split('-');
@@ -319,7 +379,7 @@
                                     ${data[i].video.description}
                                 </p>
                             </div>
-                            <div class="img">
+                            <div class="embed-responsive embed-responsive-16by9">
                                 <video width="500" height="360" controls>
                                     <source src="/images/vichFiles/${data[i].video.video}" type="video/mp4">
                                     Your browser does not support the video tag.
@@ -801,5 +861,7 @@
                 commentsBox.appendChild(eachComment);
             }
         }
-    </script>
+
+</script>
 {% endblock %}
+            

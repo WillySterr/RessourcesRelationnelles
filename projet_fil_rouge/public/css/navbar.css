@@ -1,194 +1,270 @@
 body {
-    background: white;
-    font-family: 'Varela Round', sans-serif;
-    scroll-behavior: smooth;
-    z-index: 1;
+  background: white;
+  font-family: "Varela Round", sans-serif;
+  scroll-behavior: smooth;
+  z-index: 1;
 }
 
 .navbar {
-    background-color: #1b2838 !important;
-    color: #fff;
-    padding: 5px 16px;
-    border-radius: 0;
-    border: none;
-    box-shadow: 0 0 4px rgba(0, 0, 0, .1);
+  background-color: #1b2838 !important;
+  color: #fff;
+  padding: 5px 16px;
+  border-radius: 0;
+  border: none;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
 }
-nav{
-    position: fixed;
+nav {
+  position: fixed;
 }
 .navbar img {
-    border-radius: 50%;
-    width: 36px;
-    height: 36px;
-    margin-right: 10px;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  margin-right: 10px;
 }
 
 .navbar .navbar-brand {
-    color: #FFF;
-    padding-left: 0;
-    padding-right: 25px;
-    font-size: 24px;
+  color: #fff;
+  padding-left: 0;
+  padding-right: 25px;
+  font-size: 24px;
 }
 
 .navbar .navbar-brand i {
-    font-size: 25px;
-    margin-right: 5px;
+  font-size: 25px;
+  margin-right: 5px;
 }
 
 .search-box {
-    position: relative;
+  position: relative;
 }
 
 .search-box input {
-    padding-right: 35px;
-    min-height: 38px;
-    border: none;
-    background: #faf7fd;
-    border-radius: 3px !important;
+  padding-right: 35px;
+  min-height: 38px;
+  border: none;
+  background: #faf7fd;
+  border-radius: 3px !important;
 }
 
 .search-box input:focus {
-    background: #fff;
-    box-shadow: none;
+  background: #fff;
+  box-shadow: none;
 }
 
 .search-box .input-group-addon {
-    min-width: 35px;
-    border: none;
-    background: transparent;
-    position: absolute;
-    right: 0;
-    z-index: 9;
-    padding: 10px 7px;
-    height: 100%;
+  min-width: 35px;
+  border: none;
+  background: transparent;
+  position: absolute;
+  right: 0;
+  z-index: 9;
+  padding: 10px 7px;
+  height: 100%;
 }
 
 .search-box i {
-    color: #a0a5b1;
-    font-size: 19px;
+  color: #a0a5b1;
+  font-size: 19px;
 }
 
 .navbar .nav-item i {
-    font-size: 18px;
+  font-size: 18px;
 }
 
 .navbar .nav-item span {
-    position: relative;
-    top: 3px;
+  position: relative;
+  top: 3px;
 }
 
-.navbar .navbar-nav>a {
-    color: #FFF;
-    padding: 8px 15px;
-    font-size: 14px;
+.navbar .navbar-nav > a {
+  color: #fff;
+  padding: 8px 15px;
+  font-size: 14px;
 }
 
-.white-text, .dropdown .dropdown-menu .dropdown-item:hover, .dropdown .dropdown-menu .dropdown-item:active, .dropup .dropdown-menu .dropdown-item:hover, .dropup .dropdown-menu .dropdown-item:active, .dropleft .dropdown-menu .dropdown-item:hover, .dropleft .dropdown-menu .dropdown-item:active, .dropright .dropdown-menu .dropdown-item:hover, .dropright .dropdown-menu .dropdown-item:active, .side-nav, .side-nav .search-form .form-control, .side-nav2, .side-nav2 .search-form .form-control, .md-toast-message a, .md-toast-message label, .md-toast-close-button, #toast-container>div, .clockpicker_container.clockpicker .picker__box .clockpicker-am-pm-block .active, .picker__list-item--selected, .picker__list-item--selected:hover, .picker--focused .picker__list-item--selected, .picker--time .picker__button--clear:hover, .picker--time .picker__button--clear:focus, .picker--time .picker__button--clear:hover::before, .picker--time .picker__button--clear:focus::before, .picker__date-display, .picker__date-display .clockpicker-display .clockpicker-display-column .clockpicker-span-hours.text-primary, .picker__date-display .clockpicker-display .clockpicker-display-column .clockpicker-span-minutes.text-primary, .picker__date-display .clockpicker-display .clockpicker-display-column #click-am.text-primary, .picker__date-display .clockpicker-display .clockpicker-display-column #click-pm.text-primary, .clockpicker-display .clockpicker-display-column .clockpicker-span-hours.text-primary, .clockpicker-display .clockpicker-display-column .clockpicker-span-minutes.text-primary, .clockpicker-display .clockpicker-display-column #click-am.text-primary, .clockpicker-display .clockpicker-display-column #click-pm.text-primary, .darktheme .picker__box .picker__date-display .clockpicker-display, .darktheme .picker__box .picker__date-display .clockpicker-display .clockpicker-span-am-pm, .darktheme .picker__box .picker__calendar-container .clockpicker-plate .clockpicker-tick, .darktheme .picker__box .picker__footer button, .picker__box .picker__header .picker__date-display, .picker__box .picker__table .picker__day--outfocus, .picker__box .picker__table .picker__day--selected, .picker__box .picker__table .picker__day--selected:hover, .picker__box .picker__table .picker--focused{
-    color: #777 !important;
+.white-text,
+.dropdown .dropdown-menu .dropdown-item:hover,
+.dropdown .dropdown-menu .dropdown-item:active,
+.dropup .dropdown-menu .dropdown-item:hover,
+.dropup .dropdown-menu .dropdown-item:active,
+.dropleft .dropdown-menu .dropdown-item:hover,
+.dropleft .dropdown-menu .dropdown-item:active,
+.dropright .dropdown-menu .dropdown-item:hover,
+.dropright .dropdown-menu .dropdown-item:active,
+.side-nav,
+.side-nav .search-form .form-control,
+.side-nav2,
+.side-nav2 .search-form .form-control,
+.md-toast-message a,
+.md-toast-message label,
+.md-toast-close-button,
+#toast-container > div,
+.clockpicker_container.clockpicker
+  .picker__box
+  .clockpicker-am-pm-block
+  .active,
+.picker__list-item--selected,
+.picker__list-item--selected:hover,
+.picker--focused .picker__list-item--selected,
+.picker--time .picker__button--clear:hover,
+.picker--time .picker__button--clear:focus,
+.picker--time .picker__button--clear:hover::before,
+.picker--time .picker__button--clear:focus::before,
+.picker__date-display,
+.picker__date-display
+  .clockpicker-display
+  .clockpicker-display-column
+  .clockpicker-span-hours.text-primary,
+.picker__date-display
+  .clockpicker-display
+  .clockpicker-display-column
+  .clockpicker-span-minutes.text-primary,
+.picker__date-display
+  .clockpicker-display
+  .clockpicker-display-column
+  #click-am.text-primary,
+.picker__date-display
+  .clockpicker-display
+  .clockpicker-display-column
+  #click-pm.text-primary,
+.clockpicker-display
+  .clockpicker-display-column
+  .clockpicker-span-hours.text-primary,
+.clockpicker-display
+  .clockpicker-display-column
+  .clockpicker-span-minutes.text-primary,
+.clockpicker-display .clockpicker-display-column #click-am.text-primary,
+.clockpicker-display .clockpicker-display-column #click-pm.text-primary,
+.darktheme .picker__box .picker__date-display .clockpicker-display,
+.darktheme
+  .picker__box
+  .picker__date-display
+  .clockpicker-display
+  .clockpicker-span-am-pm,
+.darktheme
+  .picker__box
+  .picker__calendar-container
+  .clockpicker-plate
+  .clockpicker-tick,
+.darktheme .picker__box .picker__footer button,
+.picker__box .picker__header .picker__date-display,
+.picker__box .picker__table .picker__day--outfocus,
+.picker__box .picker__table .picker__day--selected,
+.picker__box .picker__table .picker__day--selected:hover,
+.picker__box .picker__table .picker--focused {
+  color: #777 !important;
 }
 
-.navbar .navbar-nav>a>i {
-    display: block;
-    text-align: center;
+.navbar .navbar-nav > a > i {
+  display: block;
+  text-align: center;
 }
 
 .navbar .dropdown-item i {
-    font-size: 16px;
-    min-width: 22px;
+  font-size: 16px;
+  min-width: 22px;
 }
 
 .navbar .dropdown-item .material-icons {
-    font-size: 21px;
-    line-height: 16px;
-    vertical-align: middle;
-    margin-top: -2px;
+  font-size: 21px;
+  line-height: 16px;
+  vertical-align: middle;
+  margin-top: -2px;
 }
 
 .navbar .nav-item .user-action {
-    color: #fff;
+  color: #fff;
 }
 
-
 .navbar .dropdown-menu {
-    border-radius: 1px;
-    border-color: #e5e5e5;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, .05);
+  border-radius: 1px;
+  border-color: #e5e5e5;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .navbar .dropdown-menu a {
-    color: #777 !important;
-    padding: 8px 20px;
-    line-height: normal;
-    font-size: 15px;
+  color: #777 !important;
+  padding: 8px 20px;
+  line-height: normal;
+  font-size: 15px;
 }
-
-.dropdown .dropdown-menu .dropdown-item:hover, .dropdown .dropdown-menu .dropdown-item:active, .dropup .dropdown-menu .dropdown-item:hover, .dropup .dropdown-menu .dropdown-item:active, .dropleft .dropdown-menu .dropdown-item:hover, .dropleft .dropdown-menu .dropdown-item:active, .dropright .dropdown-menu .dropdown-item:hover, .dropright .dropdown-menu .dropdown-item:active {
-    background-color: transparent !important;
+button > .fa-bars {
+  color: white !important;
+}
+.dropdown .dropdown-menu .dropdown-item:hover,
+.dropdown .dropdown-menu .dropdown-item:active,
+.dropup .dropdown-menu .dropdown-item:hover,
+.dropup .dropdown-menu .dropdown-item:active,
+.dropleft .dropdown-menu .dropdown-item:hover,
+.dropleft .dropdown-menu .dropdown-item:active,
+.dropright .dropdown-menu .dropdown-item:hover,
+.dropright .dropdown-menu .dropdown-item:active {
+  background-color: transparent !important;
 }
 
 .navbar .navbar-nav .user-action {
-    padding: 9px 15px;
-    font-size: 15px;
+  padding: 9px 15px;
+  font-size: 15px;
 }
 
 .navbar .navbar-toggle {
-    border-color: #fff;
+  border-color: #fff;
 }
 
 .navbar .navbar-toggle .icon-bar {
-    background: #fff;
+  background: #fff;
 }
 
-
 .navbar .navbar-nav .open .dropdown-menu {
-    background: #faf7fd;
-    border-radius: 1px;
-    border-color: #faf7fd;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, .05);
+  background: #faf7fd;
+  border-radius: 1px;
+  border-color: #faf7fd;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .navbar .divider {
-    background-color: #e9ecef !important;
+  background-color: #e9ecef !important;
 }
 
 @media (min-width: 1200px) {
-    .form-inline .input-group {
-        width: 350px;
-        margin-left: 30px;
-    }
+  .form-inline .input-group {
+    width: 350px;
+    margin-left: 30px;
+  }
 }
 
 @media (max-width: 1199px) {
-    .navbar .navbar-nav>a>i {
-        display: inline-block;
-        text-align: left;
-        min-width: 30px;
-        position: relative;
-        top: 4px;
-    }
+  .navbar .navbar-nav > a > i {
+    display: inline-block;
+    text-align: left;
+    min-width: 30px;
+    position: relative;
+    top: 4px;
+  }
 
-    .navbar .navbar-collapse {
-        border: none;
-        box-shadow: none;
-        padding: 0;
-    }
+  .navbar .navbar-collapse {
+    border: none;
+    box-shadow: none;
+    padding: 0;
+  }
 
-    .navbar .navbar-form {
-        border: none;
-        display: block;
-        margin: 10px 0;
-        padding: 0;
-    }
+  .navbar .navbar-form {
+    border: none;
+    display: block;
+    margin: 10px 0;
+    padding: 0;
+  }
 
-    .navbar .navbar-nav {
-        margin: 8px 0;
-    }
+  .navbar .navbar-nav {
+    margin: 8px 0;
+  }
 
-    .navbar .navbar-toggle {
-        margin-right: 0;
-    }
+  .navbar .navbar-toggle {
+    margin-right: 0;
+  }
 
-    .input-group {
-        width: 100%;
-    }
+  .input-group {
+    width: 100%;
+  }
 }
