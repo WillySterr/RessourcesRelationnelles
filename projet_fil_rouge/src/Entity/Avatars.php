@@ -27,6 +27,7 @@ class Avatars
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups("fil_actu")
+     * @Groups("ressource_comments")
      */
     private $avatarIcon;
 

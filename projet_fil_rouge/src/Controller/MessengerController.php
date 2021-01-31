@@ -85,7 +85,8 @@ class MessengerController extends AbstractController
                 'user' => [
                     "id" => $message->getUser()->getId(),
                     "lastName" => $message->getUser()->getLastName(),
-                    "firstName" => $message->getUser()->getFirstName()
+                    "firstName" => $message->getUser()->getFirstName(),
+                    "avatar" => $message->getUser()->getAvatar()->getAvatarIcon()
                 ],
                 'message' => $message->getMessage(),
                 'conversation' => [
@@ -145,7 +146,8 @@ class MessengerController extends AbstractController
                 'user' => [
                     "id" => $message->getUser()->getId(),
                     "lastName" => $message->getUser()->getLastName(),
-                    "firstName" => $message->getUser()->getFirstName()
+                    "firstName" => $message->getUser()->getFirstName(),
+                    "avatar" => $message->getUser()->getAvatar()->getAvatarIcon()
                 ],
                 'message' => $message->getMessage(),
                 'conversation' => [
@@ -180,8 +182,9 @@ class MessengerController extends AbstractController
                 'lastMessage' => $conversation->getLastMessage(),
                 'lastMessageDate' => $conversation->getLastMessageDate(),
                 'userLastName' => $user->getLastName(),
-                'userFirstName' => $user->getFirstName()
-            );
+                'userFirstName' => $user->getFirstName(),
+                "avatar" => $user->getAvatar()->getAvatarIcon()
+                );
                 }
 
             }
