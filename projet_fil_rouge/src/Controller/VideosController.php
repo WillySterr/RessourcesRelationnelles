@@ -46,8 +46,7 @@ class VideosController extends AbstractController
 
 
             foreach ($videos as $item) {
-
-                if($item->getMimeType() != "application/mp4" || $item->getMimeType() != "application/avi"){
+                if($item->getMimeType() != "application/mp4" && $item->getMimeType() != "application/avi" && $item->getMimeType() != "video/mp4" && $item->getMimeType() != "video/avi"){
                     $this->addFlash('danger', 'Veuillez insérer une video au format "mp4" ou "avi"');
 
                 return $this->redirectToRoute('videos_new'); ;
@@ -123,7 +122,7 @@ class VideosController extends AbstractController
 
             foreach ($files as $file) {
 
-                if($file->getMimeType() != "application/mp4" || $file->getMimeType() != "application/avi"){
+                if($file->getMimeType() != "application/mp4" && $file->getMimeType() != "application/avi" && $file->getMimeType() != "video/mp4" && $file->getMimeType() != "video/avi"){
                     $this->addFlash('danger', 'Veuillez insérer une image au format "mp4" ou "avi"');
 
                 return $this->redirectToRoute('videos_edit'); ;
