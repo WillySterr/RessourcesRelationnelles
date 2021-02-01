@@ -370,6 +370,8 @@
                         checkFav += 'class="far fa-star" onclick="addFav('+data[i].id+')">'
                     }
                     checkFav += '</i>';
+                    let date = new Date(data[i].datePubli.date)
+                    date = date.toISOString().replace(/T/, ' ').replace(/\..+/, '');
 
                     let eachVideo = document.createElement("div");
                     eachVideo.setAttribute('class', 'col-sm-12 col-md-6 mb-2');
@@ -382,7 +384,7 @@
                                     </div>
                                     <div class="ml-2">
                                         <div class="h5 m-0">${data[i].user.firstName} ${data[i].user.lastName}</div>
-                                        <div id="Created" class="text-muted h7"> <i class="far fa-clock"></i>10 min ago</div>
+                                        <div id="Created" class="text-muted h7"> <i class="far fa-clock mr-1"></i>${date}</div>
                                     </div>
                                 </div>
                                 <div>
@@ -437,6 +439,8 @@
                     checkFav += 'class="far fa-star" onclick="addFav('+data[i].id+')">'
                 }
                 checkFav += '</i>';
+                let date = new Date(data[i].datePubli.date)
+                date = date.toISOString().replace(/T/, ' ').replace(/\..+/, '');
 
 
                 for (let j = 0; j < data[i].category.length; j++){
@@ -456,7 +460,7 @@
                                     </div>
                                     <div class="ml-2">
                                         <div class="h5 m-0">${data[i].user.firstName} ${data[i].user.lastName}</div>
-                                        <div id="Created" class="text-muted h7"> <i class="far fa-clock"></i>10 min ago</div>
+                                        <div id="Created" class="text-muted h7"> <i class="far fa-clock mr-1"></i>${date}</div>
                                     </div>
                                 </div>
                                 <div>
@@ -504,6 +508,8 @@
                 let date2 = new Date(data[i].evenement.dateFin.date);
                 let heure1 = new Date(data[i].evenement.heureDebut.date)
                 let heure2 = new Date(data[i].evenement.heureFin.date)
+                let date = new Date(data[i].datePubli.date)
+                date = date.toISOString().replace(/T/, ' ').replace(/\..+/, '');
                 date1 = date1.toLocaleDateString();
                 date2 = date2.toLocaleDateString();
                 heure1 = heure1.toLocaleTimeString();
@@ -535,7 +541,7 @@
                                     </div>
                                     <div class="ml-2">
                                         <div class="h5 m-0">${data[i].user.firstName} ${data[i].user.lastName}</div>
-                                        <div id="Created" class="text-muted h7"> <i class="far fa-clock"></i>10 min ago</div>
+                                        <div id="Created" class="text-muted h7"> <i class="far fa-clock mr-1"></i>${date}</div>
                                     </div>
                                 </div>
                                 <div>
@@ -591,6 +597,8 @@
                     }
 
                     categoryOfRessource += '</div>';
+                    let date = new Date(data[i].datePubli.date)
+                    date = date.toISOString().replace(/T/, ' ').replace(/\..+/, '');
                 let eachInformation = document.createElement("div");
                 eachInformation.setAttribute('class', 'col-sm-12 col-md-6 mb-2');
                 eachInformation.innerHTML =` <div class="card">
@@ -602,7 +610,7 @@
                                     </div>
                                     <div class="ml-2">
                                         <div class="h5 m-0">${data[i].user.firstName} ${data[i].user.lastName}</div>
-                                        <div id="Created" class="text-muted h7"> <i class="far fa-clock"></i>10 min ago</div>
+                                        <div id="Created" class="text-muted h7"> <i class="far fa-clock mr-1"></i>${date}</div>
                                     </div>
                                 </div>
                                 <div>
@@ -656,6 +664,8 @@
                     }
 
                     categoryOfRessource += '</div>';
+                    let date = new Date(data[i].datePubli.date)
+                    date = date.toISOString().replace(/T/, ' ').replace(/\..+/, '');
 
                 let eachArticle = document.createElement("div");
                 eachArticle.setAttribute('class', 'col-sm-12 col-md-6 mb-2');
@@ -668,7 +678,7 @@
                                     </div>
                                     <div class="ml-2">
                                         <div class="h5 m-0">${data[i].user.firstName} ${data[i].user.lastName}</div>
-                                        <div id="Created" class="text-muted h7"> <i class="far fa-clock"></i>10 min ago</div>
+                                        <div id="Created" class="text-muted h7"> <i class="far fa-clock mr-1"></i>${date}</div>
                                     </div>
                                 </div>
                                 <div>
@@ -734,8 +744,6 @@
                             //loadDataFiltered(data, document.querySelector('.boxFilActu-'+data[i].ressource));
                         }
                     }
-
-                    // data.forEach(comment => loadDataForNewsFeed(data, document.querySelector('#comments-box-'+comment.ressource)))
                 }
             }
             xhr.responseType = 'json';
@@ -864,6 +872,8 @@
             commentsBox.innerHTML = "";
             for (let i = 0; i < data.length; i++) {
                 let eachComment = document.createElement("div");
+                let date = new Date(data[i].date.date)
+                date = date.toISOString().replace(/T/, ' ').replace(/\..+/, '');
                 eachComment.setAttribute('class', 'd-flex')
                 eachComment.innerHTML = ` <div class="mr-2" style="height: 100%; vertical-align: middle;">
                                             <img class="rounded-circle" width="25" src="/uploads/avatars/${data[i].user.avatar}" alt="">
@@ -871,7 +881,7 @@
                                         <div class="text-commentaire d-flex flex-column justify-content-between" style="width: 100%;">
                                             <div class="ml-2 d-flex">
                                                 <div class="h5 m-0">${data[i].user.firstName} ${data[i].user.lastName} </div>
-                                                <div id="Created" class="text-muted h7" style="margin: 5px;"><i class="far fa-clock"></i>10 min ago</div>
+                                                <div id="Created" class="text-muted h7" style="margin: 5px;"><i class="far fa-clock mr-1"></i>${date}</div>
                                             </div>
                                             <div style="width: 100%; vertical-align: middle;">
                                                 <p>${data[i].contenu}</p>

@@ -41,7 +41,7 @@ class CommentsController extends AbstractController
 
         // On récupère les commentaires de cette ressource
 
-        $commentsOfRessource = $commentsRepository->findBy(["ressource" => $data['idRessource']]);
+        $commentsOfRessource = $commentsRepository->getCommentsByRessource($ressource);
 
         // On construit le tableau de commentaires
 
@@ -70,7 +70,7 @@ class CommentsController extends AbstractController
     /**
      * @Route("/comments/get", name="get_comments")
      */
-    public function getArticleComments(Request $request, CommentsRepository $commentsRepository){
+    public function getArticleComments(Request $request, CommentsRepository $commentsRepository, RessourcesRepository $ressourcesRepository){
 
         // On récupère les données de la requete ajax
 
@@ -82,7 +82,9 @@ class CommentsController extends AbstractController
 
         // On récupère les commentaires de la ressource
 
-        $comments = $commentsRepository->findBy(["ressource" => $ressourceId]);
+        $ressource = $ressourcesRepository->findOneBy(["id" => $ressourceId]);
+
+        $comments = $commentsRepository->getCommentsByRessource($ressource);
 
         // On construit le tableau de commentaires
 
