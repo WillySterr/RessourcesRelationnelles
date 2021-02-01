@@ -28,7 +28,8 @@
         <link rel="stylesheet" href="{{ asset('css/mdb/mdb.min.css') }}">
         <link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
         <link rel="stylesheet" href="{{ asset('css/fil.css') }}">
-        {% block stylesheets %}{% endblock %}
+        {% block stylesheets %}
+        {% endblock %}
     </head>
     <body>
 
@@ -36,7 +37,6 @@
 
     
         {% block body %}
-
         {% endblock %}
 
     {% include 'footer.html.twig' %}
