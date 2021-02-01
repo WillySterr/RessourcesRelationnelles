@@ -7,7 +7,6 @@ parameters:
     upload_destination: '%kernel.project_dir%/public/uploads/vichFiles'
     images_directory: '%kernel.project_dir%/public/images/vichFiles'
     videos_directory: '%kernel.project_dir%/public/images/vichFiles'
-    avatarIcons_directory: '%kernel.project_dir%/public/uploads/avatars'
 
 services:
     # default configuration for services in *this* file
