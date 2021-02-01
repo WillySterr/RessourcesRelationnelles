@@ -33,7 +33,8 @@ class Users implements UserInterface
      * @ORM\Column(type="string", length=255)
      * @Groups("fil_actu")
      * @Assert\NotNull
-	 * @Assert\NotBlank
+	   * @Assert\NotBlank
+     * @Groups("ressource_comments")
      */
     private $lastName;
 
@@ -41,7 +42,8 @@ class Users implements UserInterface
      * @ORM\Column(type="string", length=255)
      * @Groups("fil_actu")
      * @Assert\NotNull
-	 * @Assert\NotBlank
+	   * @Assert\NotBlank
+     * @Groups("ressource_comments")
      */
     private $firstName;
 
@@ -163,7 +165,8 @@ class Users implements UserInterface
      * @ORM\ManyToOne(targetEntity=Avatars::class, inversedBy="users")
      * @Groups("fil_actu")
      * @Assert\NotNull
-	 * @Assert\NotBlank
+	   * @Assert\NotBlank
+     * @Groups("ressource_comments")
      */
     private $avatar;
 
