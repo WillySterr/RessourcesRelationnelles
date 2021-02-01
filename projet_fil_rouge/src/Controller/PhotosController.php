@@ -52,8 +52,8 @@ class PhotosController extends AbstractController
 
             // On boucle sur les images
             foreach ($images as $image) {
-                
-                if($image->getMimeType() != "application/jpg" || $image->getMimeType() != "application/png"){
+                //dd($image->getMimeType());
+                if($image->getMimeType() != "application/jpg" && $image->getMimeType() != "application/png" && $image->getMimeType() != "image/png" && $image->getMimeType() != "image/jpg"){
                     $this->addFlash('danger', 'Veuillez insérer une image au format "jpg" ou "png"');
 
                 return $this->redirectToRoute('photos_new'); ;
@@ -134,7 +134,7 @@ class PhotosController extends AbstractController
             // On boucle sur les images
             foreach ($images as $image) {
 
-                if($image->getMimeType() != "application/jpg" || $image->getMimeType() != "application/png"){
+                if($image->getMimeType() != "application/jpg" && $image->getMimeType() != "application/png" && $image->getMimeType() != "image/png" && $image->getMimeType() != "image/jpg"){
                     $this->addFlash('danger', 'Veuillez insérer une image au format "jpg" ou "png"');
 
                 return $this->redirectToRoute('photos_edit'); ;
