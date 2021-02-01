@@ -3,7 +3,7 @@
 
         <div class="card w-75  my-5">
             <div class="card-header">
-                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="rounded-circle avatar a" style="width: 10%" alt="user profile image">
+                <img src="{{ asset('/images/vichFiles/'~new.ressource.photo.user.avatar.avatarIcon) }}" class="rounded-circle avatar a" style="width: 10%" alt="user profile image">
                 <p class="a ml-2"><a href="#">{{ new.ressource.video.user.firstName }} {{ new.ressource.video.user.lastName }} </a></p>
                 <div class="favoris a">
 
@@ -52,7 +52,7 @@
                 <p>{{ new.ressource.video.description }}</p>
                 <div class="card-text text-center">
                     <div class="embed-responsive embed-responsive-16by9">
-                        <video class="embed-responsive-item" controls><source src="{{ asset('/uploads/'~new.ressource.video.mediaFile) }}" type="video/mp4"></video>
+                        <video class="embed-responsive-item" controls><source src="{{ asset('/images/vichFiles/'~new.ressource.video.mediaFile) }}" type="video/mp4"></video>
                     </div>
                     <div class="post-description">
 
@@ -138,7 +138,7 @@
          <p>{{ new.video.description }}</p>
     <div class="card-text text-center">
             <div class="embed-responsive embed-responsive-16by9">
-                 <video class="embed-responsive-item" controls><source src="{{ asset('/uploads/'~new.video.mediaFile) }}" type="video/mp4"></video>
+                 <video class="embed-responsive-item" controls><source src="{{ asset('/images/vichFiles/'~new.video.mediaFile) }}" type="video/mp4"></video>
             </div>
             <div class="post-description">
            
