@@ -1,170 +1,99 @@
 {% if app.request.attributes.get('_route') == 'get_favoris_user' %}
     {% if new.ressource.video is not null %}
 
-        <div class="card w-75  my-5">
-            <div class="card-header">
-                <img src="{{ asset('/images/vichFiles/'~new.ressource.photo.user.avatar.avatarIcon) }}" class="rounded-circle avatar a" style="width: 10%" alt="user profile image">
-                <p class="a ml-2"><a href="#">{{ new.ressource.video.user.firstName }} {{ new.ressource.video.user.lastName }} </a></p>
-                <div class="favoris a">
+        <div class="col-sm-12 col-md-6 mb-2">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="mr-2">
+                                <img class="rounded-circle" width="45" src="{{ asset('/images/vichFiles/'~new.ressource.video.user.avatar.avatarIcon) }}" alt="">
+                            </div>
+                            <div class="ml-2">
+                                <div class="h5 m-0">{{ new.ressource.video.user.firstName }} {{ new.ressource.video.user.lastName }}</div>
+                                <div id="Created" class="text-muted h7"> <i class="far fa-clock mr-1"></i> {{ new.ressource.createdAt|format_datetime('short', 'short', locale='fr') }}</div>
+                            </div>
+                        </div>
+                        <div>
+
+                            {% set flag, favId = 0, 0 %}
 
 
-                    {% set flag, favId = 0, 0 %}
-
-
-                    {% if favoList is empty %}
-
-                        {% set flag = 0 %}
-
-                    {% else %}
-
-                        {% for fav in favoList %}
-
-                            {% if (fav.ressource.id) == (new.ressource.id) %}
-
-                                {% set favId = fav.id %}
-                                {% set flag = 1 %}
-
-                            {% elseif (fav.ressource.id) == (new.ressource.id) and flag != 1 %}
+                            {% if favoList is empty %}
 
                                 {% set flag = 0 %}
+
+                            {% else %}
+
+                                {% for fav in favoList %}
+
+                                    {% if (fav.ressource.id) == (new.ressource.id) %}
+
+                                        {% set favId = fav.id %}
+                                        {% set flag = 1 %}
+
+                                    {% elseif (fav.ressource.id) == (new.ressource.id) and flag != 1 %}
+
+                                        {% set flag = 0 %}
+
+                                    {% endif %}
+
+
+                                {% endfor %}
+
 
                             {% endif %}
 
 
-                        {% endfor %}
 
-
-                    {% endif %}
-
-
-
-                    {% if flag == 0 %}
-                        <a href="{{ path('add_favoris', {'id': new.ressource.id}) }}"><i class="far fa-star fa-lg ml-5"></i></a>
-                    {% else %}
-                        <a href="{{ path('remove_favoris', {'id': favId}) }}"><i class="fas fa-star fa-lg ml-5"></i></a>
-                    {% endif %}
-
-
+                            {% if flag == 0 %}
+                                <a href="{{ path('add_favoris', {'id': new.ressource.id}) }}"><i class="far fa-star fa-lg ml-5"></i></a>
+                            {% else %}
+                                <a href="{{ path('remove_favoris', {'id': favId}) }}"><i class="fas fa-star fa-lg ml-5"></i></a>
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="card-body">
-                <h5 class="card-title">{{ new.ressource.video.titre }}</h5>
-                <p>{{ new.ressource.video.description }}</p>
-                <div class="card-text text-center">
+                <div class="card-body d-flex flex-column justify-content-between">
+                    <div class="title-description">
+                        <a class="card-link" href="#">
+                            <h5 style="color: #007bff !important;" class="card-title">{{ new.ressource.video.titre }}</h5>
+                        </a>
+                        <p class="card-text">
+                            {{ new.ressource.video.titre }}
+                        </p>
+                    </div>
                     <div class="embed-responsive embed-responsive-16by9">
-                        <video class="embed-responsive-item" controls><source src="{{ asset('/images/vichFiles/'~new.ressource.video.mediaFile) }}" type="video/mp4"></video>
+                        <video width="500" height="360" controls>
+                            <source src="{{ asset('/images/vichFiles/'~new.ressource.video.mediaFile) }}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
                     </div>
-                    <div class="post-description">
-
-                        {#  <div class="stats">
-                                <a href="javascript:void(0);" class="btn btn-default stat-item">
-                                    <i class="fa fa-thumbs-up icon"></i>228
-                                </a>
-                                <a href="javascript:void(0);" class="btn btn-default stat-item">
-                                    <i class="fa fa-share icon"></i>128
-                                </a>
-                            </div>#}
+                    <div class="category">
+                        {% for category in new.ressource.category %}
+                            <span style="background-color: #1B2838 !important;" class="badge badge-primary mr-2">{{ category.name }}</span>
+                        {% endfor %}
                     </div>
                 </div>
+                <div class="card-footer">
 
-            </div>
-            <div class="card-footer">
-                    <input id="comments-{{ new.ressource.id }}" class="form-control comments_contenu w-75 all-comments" name="comments" type="text" placeholder="Saisissez votre commentaire">
+                    <button id="button-comments-{{ new.ressource.id }}" class="btn btn-primary comments-link"><i class="far fa-comment"></i> Comment</button>
 
+                    <div id="block-comments-{{ new.ressource.id }}" style="display: none; color:#FFF;">
+                        <div class="d-flex justify-content-between">
+                            <input type="text" class="form-control block-comments-fav" id="textarea-comments-{{ new.ressource.id }}" placeholder="Tapez votre commentaire..."/>
+                        </div>
+                        <div class="commentaires">
+                            <div class="commentaire" id="list-comments-{{ new.ressource.id }}">
 
-                <div class="post-footer">
-
-                    <ul id="comments-box-{{ new.ressource.id }}" class="comments-list">
-
-                    </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+
         </div>
+
+
     {% endif %}
-
-{% else %}
-
-{% if new.video is not null %}
-
-<div class="card w-75  my-5">
-  <div class="card-header">
-      <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="rounded-circle avatar a" style="width: 10%" alt="user profile image">
-    <p class="a ml-2"><a href="#">{{ new.video.user.firstName }} {{ new.video.user.lastName }} </a></p>
-        <div class="favoris a">
-
-
-
-            {% set flag, favId = 0, 0 %}
-
-
-            {% if favoList is empty %}
-
-            {% set flag = 0 %}
-
-            {% else %}
-
-                {% for fav in favoList %}
-
-                    {% if (fav.ressource.id) == (new.id) %}
-
-                        {% set favId = fav.id %}
-                        {% set flag = 1 %}
-
-                    {% elseif (fav.ressource.id) == (new.id) and flag != 1 %}
-
-                        {% set flag = 0 %}
-
-                    {% endif %}
-
-
-                {% endfor %}
-
-
-            {% endif %}
-
-
-
-            {% if flag == 0 %}
-                <a href="{{ path('add_favoris', {'id': new.id}) }}"><i class="far fa-star fa-lg ml-5"></i></a>
-            {% else %}
-                 <a href="{{ path('remove_favoris', {'id': favId}) }}"><i class="fas fa-star fa-lg ml-5"></i></a>
-            {% endif %}
-
-
-    </div>
-  </div>
-  <div class="card-body">
-    <h5 class="card-title">{{ new.video.titre }}</h5>
-         <p>{{ new.video.description }}</p>
-    <div class="card-text text-center">
-            <div class="embed-responsive embed-responsive-16by9">
-                 <video class="embed-responsive-item" controls><source src="{{ asset('/images/vichFiles/'~new.video.mediaFile) }}" type="video/mp4"></video>
-            </div>
-            <div class="post-description">
-           
-                                            {#  <div class="stats">
-                                <a href="javascript:void(0);" class="btn btn-default stat-item">
-                                    <i class="fa fa-thumbs-up icon"></i>228
-                                </a>
-                                <a href="javascript:void(0);" class="btn btn-default stat-item">
-                                    <i class="fa fa-share icon"></i>128
-                                </a>
-                            </div>#}
-            </div>    
-    </div>
-
-  </div>
-  <div class="card-footer">
-                    <input id="comments-{{ new.id }}" class="form-control comments_contenu w-75 all-comments" name="comments" type="text" placeholder="Saisissez votre commentaire">
-
-
-                <div class="post-footer">
-
-                    <ul id="comments-box-{{ new.id }}" class="comments-list">
-
-                    </ul>
-                </div>
-  </div>
-</div>
-{% endif %}
 {% endif %}
