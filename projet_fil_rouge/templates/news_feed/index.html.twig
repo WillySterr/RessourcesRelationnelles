@@ -276,6 +276,11 @@
 
         })
 
+
+
+
+
+
         function loadDataForNewsFeed(data, commentsBox){
             let commentsBoxDatas = commentsBox.id.split('-');
             let boxId = parseInt(commentsBoxDatas[2]);
@@ -331,6 +336,14 @@
             xhr.responseType = 'json';
             xhr.send();
         }
+
+
+
+
+
+
+
+
 
     // ENVOIE DE FILTRES
         function sendFilters(requestParams, ressourcesBox){
@@ -892,10 +905,6 @@
             }
         }
 
-</script>
-
-
-    <script>
         //Get the button
         let myButton = document.getElementById("btnTop");
 
@@ -918,6 +927,7 @@
         myButton.addEventListener('click', function(){
             topFunction();
         })
-    </script>
+
+</script>
 {% endblock %}
             

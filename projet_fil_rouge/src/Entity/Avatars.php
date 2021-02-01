@@ -175,6 +175,6 @@ class Avatars
     }
 
     public function __toString(){
-        return '<img src="{{asset("uploads/avatars/'.$this->avatarIcon.'")}}"/>';
+        return '<img src="{{asset("images/vichFiles/'.$this->avatarIcon.'")}}"/>';
     }
 }
