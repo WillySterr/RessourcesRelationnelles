@@ -44,11 +44,20 @@ class PhotosController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // On récupère les photos transmises
             $images = $form->get('image')->getData();
+            // if($images[]->getMimeType() = "application/pdf"){
+                
+            // }
 
 
 
             // On boucle sur les images
             foreach ($images as $image) {
+                
+                if($image->getMimeType() != "application/jpg" || $image->getMimeType() != "application/png"){
+                    $this->addFlash('danger', 'Veuillez insérer une image au format "jpg" ou "png"');
+
+                return $this->redirectToRoute('photos_new'); ;
+                }
                 // On génère un nouveau nom de fichier
                 $fichier = md5(uniqid()) . '.' . $image->guessExtension();
 
@@ -124,6 +133,12 @@ class PhotosController extends AbstractController
 
             // On boucle sur les images
             foreach ($images as $image) {
+
+                if($image->getMimeType() != "application/jpg" || $image->getMimeType() != "application/png"){
+                    $this->addFlash('danger', 'Veuillez insérer une image au format "jpg" ou "png"');
+
+                return $this->redirectToRoute('photos_edit'); ;
+                }
                 // On génère un nouveau nom de fichier
                 $fichier = md5(uniqid()) . '.' . $image->guessExtension();
 

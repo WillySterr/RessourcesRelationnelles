@@ -13,6 +13,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Gedmo\Mapping\Annotation as Gedmo;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 
@@ -45,12 +46,16 @@ class Photos
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups("fil_actu")
+     * @Assert\NotNull
+	 * @Assert\NotBlank
      */
     private $titre;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups("fil_actu")
+     * @Assert\NotNull
+	 * @Assert\NotBlank
      */
     private $description;
 
@@ -63,6 +68,7 @@ class Photos
     /**
      * @var Datetime
      * @ORM\Column(type="datetime")
+     * @Assert\DateTime
      */
     private $createdAt;
 
@@ -81,6 +87,11 @@ class Photos
     /**
      * @var File
      * @Vich\UploadableField(mapping="vichFiles", fileNameProperty="image")
+     * @Assert\File(
+     *      maxSize = "1500K",
+     *      mimeTypes = {"image/jpg", "image/png", "image/jpeg", "application/jpg", "application/jpeg", "application/png"},
+     *      mimeTypesMessage = "Veuillez sélectionner une image au format 'jpg' ou 'png'.",
+     * )
      */
     private $vichFile;
 

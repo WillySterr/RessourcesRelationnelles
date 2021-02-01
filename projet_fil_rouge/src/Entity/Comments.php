@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\CommentsRepository;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
@@ -52,6 +53,8 @@ class Comments
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotNull
+	   * @Assert\NotBlank
      * @Groups("ressource_comments")
      */
     private $contenu;

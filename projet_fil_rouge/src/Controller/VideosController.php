@@ -46,6 +46,13 @@ class VideosController extends AbstractController
 
 
             foreach ($videos as $item) {
+
+                if($item->getMimeType() != "application/mp4" || $item->getMimeType() != "application/avi"){
+                    $this->addFlash('danger', 'Veuillez insérer une video au format "mp4" ou "avi"');
+
+                return $this->redirectToRoute('videos_new'); ;
+                }
+
                 $file = md5(uniqid()) . '.' . $item->guessExtension();
 
                 // On copie le fichier dans le dossier uploads
@@ -115,6 +122,12 @@ class VideosController extends AbstractController
 
 
             foreach ($files as $file) {
+
+                if($file->getMimeType() != "application/mp4" || $file->getMimeType() != "application/avi"){
+                    $this->addFlash('danger', 'Veuillez insérer une image au format "mp4" ou "avi"');
+
+                return $this->redirectToRoute('videos_edit'); ;
+                }
                 // On génère un nouveau nom de fichier
                 $newVideo = md5(uniqid()) . '.' . $file->guessExtension();
 
