@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
@@ -41,12 +42,16 @@ class Articles
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotNull
+	 * @Assert\NotBlank
      */
     private $titre;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups("fil_actu")
+     * @Assert\NotNull
+	 * @Assert\NotBlank
      */
     private $description;
 
@@ -79,6 +84,28 @@ class Articles
      * @Groups("fil_actu")
      */
     private $photo;
+
+    /**
+     * @var File
+     * @Vich\UploadableField(mapping="vichFiles", fileNameProperty="photo")
+     * @Assert\File(
+     *      maxSize = "1500k",
+     *      mimeTypes = {"application/jpg", "application/jpeg", "application.png"},
+     *      mimeTypesMessage = "Veuillez sélectionner une image au format 'jpg' ou 'png'."
+     * )
+     */
+    private $photoFile;
+
+    /**
+     * @var File
+     * @Vich\UploadableField(mapping="vichFiles", fileNameProperty="video")
+     * @Assert\File(
+     *      maxSize = "5M",
+     *      mimeTypes = {"application/mp4", "application/avi"},
+     *      mimeTypesMessage = "Veuillez sélectionner une image au format 'mp4' ou 'avi'."
+     * )
+     */
+    private $videoFile;
 
 
     public function __construct()
@@ -122,7 +149,7 @@ class Articles
     public function setTitre(string $titre): self
     {
         $this->titre = $titre;
-
+  
         return $this;
     }
 
@@ -226,6 +253,50 @@ class Articles
     public function setPhoto($photo): self
     {
         $this->photo = $photo;
+
+        return $this;
+    }
+
+    /**
+     * @return File|null
+     */
+    public function getphotoFile(): ?File
+    {
+        return $this->photoFile;
+    }
+
+    /**
+     * @param File|null $photoFile
+     */
+    public function setphotoFile(?File $photoFile = null)
+    {
+        $this->photoFile = $photoFile;
+
+        if ($photoFile !== null) {
+              $this->updatedAt = new \DateTime('now');
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return File|null
+     */
+    public function getvideoFile(): ?File
+    {
+        return $this->videoFile;
+    }
+
+    /**
+     * @param File|null $videoFile
+     */
+    public function setvideoFile(?File $videoFile = null)
+    {
+        $this->videoFile = $videoFile;
+
+        if ($videoFile !== null) {
+              $this->updatedAt = new \DateTime('now');
+        }
 
         return $this;
     }

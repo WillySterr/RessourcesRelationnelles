@@ -10,6 +10,7 @@ use DateTime;
 use Gedmo\Mapping\Annotation as Gedmo;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 
@@ -40,13 +41,17 @@ class Evenements
 
     /**
      * @ORM\Column(type="string", length=255)
-     *  @Groups("fil_actu")
+     * @Groups("fil_actu")
+     * @Assert\NotNull
+	 * @Assert\NotBlank
      */
     private $titre;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups("fil_actu")
+     * @Assert\NotNull
+	 * @Assert\NotBlank
      */
     private $description;
 
@@ -58,25 +63,42 @@ class Evenements
 
     /**
      * @ORM\Column(type="date")
-     *  @Groups("fil_actu")
+     * @Groups("fil_actu")
+     * @Assert\GreaterThan("today", message="La date demandée est antérieure à celle du jour")
+     * @Assert\NotNull
+	 * @Assert\NotBlank
+     * @Assert\Date
      */
     private $dateDebut;
 
     /**
      * @ORM\Column(type="date")
-     *  @Groups("fil_actu")
+     * @Groups("fil_actu")
+     * @Assert\Expression(
+	 *     "this.getDateDebut() < this.getDateFin()",
+	 *     message="La date fin ne doit pas être antérieure à la date début"
+	 * )
+     * @Assert\Date
+     * @Assert\NotNull
+	 * @Assert\NotBlank
      */
     private $dateFin;
 
     /**
      * @ORM\Column(type="time")
-     *  @Groups("fil_actu")
+     * @Groups("fil_actu")
+     * @Assert\Time
+     * @Assert\NotNull
+	 * @Assert\NotBlank
      */
     private $heureDebut;
 
     /**
      * @ORM\Column(type="time")
-     *  @Groups("fil_actu")
+     * @Groups("fil_actu")
+     * @Assert\Time
+     * @Assert\NotNull
+	 * @Assert\NotBlank
      */
     private $heureFin;
 
