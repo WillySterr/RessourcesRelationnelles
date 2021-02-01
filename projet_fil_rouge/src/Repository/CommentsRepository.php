@@ -19,6 +19,16 @@ class CommentsRepository extends ServiceEntityRepository
         parent::__construct($registry, Comments::class);
     }
 
+    public function getCommentsByRessource($ressource)
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.ressource = :ressource')
+            ->setParameter('ressource', $ressource)
+            ->addOrderBy('c.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Comments[] Returns an array of Comments objects
     //  */
