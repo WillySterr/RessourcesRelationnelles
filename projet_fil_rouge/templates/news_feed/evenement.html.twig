@@ -1,187 +1,95 @@
 {% if app.request.attributes.get('_route') == 'get_favoris_user' %}
      {% if new.ressource.evenement is not null %}
 
-
-         <div class="card w-75 my-5">
-             <div class="card-header">
-                 <img src="{{ asset('/images/vichFiles/'~new.ressource.photo.user.avatar.avatarIcon) }}" class="rounded-circle avatar a" style="width: 10%" alt="user profile image">
-                 <p class="a ml-2"><a href="#">{{ new.ressource.evenement.user.firstName }} {{ new.ressource.evenement.user.lastName }}</a></p>
-                 <div class="favoris a">
-                     {% set flag, favId = 0, 0 %}
-
-
-                     {% if favoList is empty %}
-
-                         {% set flag = 0 %}
-
-                     {% else %}
-
-                         {% for fav in favoList %}
-
-                             {% if (fav.id) == (new.ressource.id) %}
-
-                                 {% set favId = fav.id %}
-                                 {% set flag = 1 %}
-
-                             {% elseif (fav.id) == (new.ressource.id) and flag != 1 %}
-
-                                 {% set flag = 0 %}
-
-                             {% endif %}
+<div class="col-sm-12 col-md-6 mb-2">
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="mr-2">
+                        <img class="rounded-circle" width="45" src="{{ asset('/images/vichFiles/'~new.ressource.evenement.user.avatar.avatarIcon) }}" alt="">
+                    </div>
+                    <div class="ml-2">
+                        <div class="h5 m-0">{{ new.ressource.evenement.user.firstName }} {{ new.ressource.evenement.user.lastName }}</div>
+                        <div id="Created" class="text-muted h7"> <i class="far fa-clock mr-1"></i> {{ new.ressource.createdAt|format_datetime('short', 'short', locale='fr') }}</div>
+                    </div>
+                </div>
+                <div>
+                    {% set flag, favId = 0, 0 %}
 
 
-                         {% endfor %}
-
-
-                     {% endif %}
-
-
-
-                     {% if flag == 0 %}
-                         <a href="{{ path('add_favoris', {'id': new.ressource.id}) }}"><i class="far fa-star fa-lg ml-5"></i></a>
-                     {% else %}
-                         <a href="{{ path('remove_favoris', {'id': favId}) }}"><i class="fas fa-star fa-lg ml-5"></i></a>
-                     {% endif %}
-
-                 </div>
-             </div>
-             <div class="card-body">
-                 <h5 class="card-title">{{ new.ressource.evenement.titre }}</h5>
-                 <p>{{ new.ressource.evenement.description }}</p>
-                 <div class="card-text text-center">
-                     <table class="table">
-                         <thead>
-                         <tr>
-                             <th>
-                                 Date de début
-                             </th>
-                             <th>
-                                 Heure de début
-                             </th>
-                             <th>
-                                 Date de fin
-                             </th>
-                             <th>
-                                 Heure de fin
-                             </th>
-                         </tr>
-                         </thead>
-                         <tbody>
-                         <tr>
-                             <td>{{ new.ressource.evenement.dateDebut ? new.ressource.evenement.dateDebut|date('d-m-Y') : '' }}</td>
-                             <td>{{ new.ressource.evenement.heureDebut ? new.ressource.evenement.heureDebut|date('H:i:s') : '' }}</td>
-                             <td>{{ new.ressource.evenement.dateFin ? new.ressource.evenement.dateFin|date('d-m-Y') : '' }}</td>
-                             <td>{{ new.ressource.evenement.heureFin ? new.ressource.evenement.heureFin|date('H:i:s') : '' }}</td>
-                         </tr>
-                         </tbody>
-                     </table>
-                 </div>
-
-             </div>
-             <div class="card-footer">
-                     <input id="comments-{{ new.ressource.id }}" class="form-control comments_contenu w-75 all-comments" name="comments" type="text" placeholder="Saisissez votre commentaire">
-                 <div class="post-footer">
-                     <ul id="comments-box-{{ new.ressource.id }}" class="comments-list">
-
-                     </ul>
-                 </div>
-             </div>
-         </div>
-
-
-    {% endif %}
-
-{% else %}
-                {% if new.evenement is not null %}
-
-
-<div class="card w-75 my-5">
-  <div class="card-header">
-      <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="rounded-circle avatar a" style="width: 10%" alt="user profile image">
-    <p class="a ml-2"><a href="#">{{ new.evenement.user.firstName }} {{ new.evenement.user.lastName }}</a></p>
-        <div class="favoris a">
-            {% set flag, favId = 0, 0 %}
-
-
-            {% if favoList is empty %}
-
-                {% set flag = 0 %}
-
-            {% else %}
-
-                {% for fav in favoList %}
-
-                    {% if (fav.ressource.id) == (new.id) %}
-
-                        {% set favId = fav.id %}
-                        {% set flag = 1 %}
-
-                    {% elseif (fav.ressource.id) == (new.id) and flag != 1 %}
+                    {% if favoList is empty %}
 
                         {% set flag = 0 %}
+
+                    {% else %}
+
+                        {% for fav in favoList %}
+
+                            {% if (fav.id) == (new.ressource.id) %}
+
+                                {% set favId = fav.id %}
+                                {% set flag = 1 %}
+
+                            {% elseif (fav.id) == (new.ressource.id) and flag != 1 %}
+
+                                {% set flag = 0 %}
+
+                            {% endif %}
+
+
+                        {% endfor %}
+
 
                     {% endif %}
 
 
-                {% endfor %}
 
-
-            {% endif %}
-
-
-
-            {% if flag == 0 %}
-                <a href="{{ path('add_favoris', {'id': new.id}) }}"><i class="far fa-star fa-lg ml-5"></i></a>
-            {% else %}
-                <a href="{{ path('remove_favoris', {'id': favId}) }}"><i class="fas fa-star fa-lg ml-5"></i></a>
-            {% endif %}
-    
-    </div>
-  </div>
-  <div class="card-body">
-    <h5 class="card-title">{{ new.evenement.titre }}</h5>
-    <p>{{ new.evenement.description }}</p>
-    <div class="card-text text-center">
-                    <table class="table">
-                <thead>
-                <tr>
-                    <th>
-                        Date de début
-                    </th>
-                    <th>
-                        Heure de début
-                    </th>
-                    <th>
-                        Date de fin
-                    </th>
-                    <th>
-                        Heure de fin
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>{{ new.evenement.dateDebut ? new.evenement.dateDebut|date('d-m-Y') : '' }}</td>
-                    <td>{{ new.evenement.heureDebut ? new.evenement.heureDebut|date('H:i:s') : '' }}</td>
-                    <td>{{ new.evenement.dateFin ? new.evenement.dateFin|date('d-m-Y') : '' }}</td>
-                    <td>{{ new.evenement.heureFin ? new.evenement.heureFin|date('H:i:s') : '' }}</td>
-                </tr>
-                </tbody>
-            </table>
-    </div>
-
-  </div>
-  <div class="card-footer">
-
-                    <input id="comments-{{ new.id }}" class="form-control comments_contenu w-75 all-comments" name="comments" type="text" placeholder="Saisissez votre commentaire">
-
-                <div class="post-footer">
-                    <ul id="comments-box-{{ new.id }}" class="comments-list">
-
-                    </ul>
+                    {% if flag == 0 %}
+                        <a href="{{ path('add_favoris', {'id': new.ressource.id}) }}"><i class="far fa-star fa-lg ml-5"></i></a>
+                    {% else %}
+                        <a href="{{ path('remove_favoris', {'id': favId}) }}"><i class="fas fa-star fa-lg ml-5"></i></a>
+                    {% endif %}
                 </div>
             </div>
         </div>
-                {% endif %}
+        <div class="card-body d-flex flex-column justify-content-between">
+            <div class="title-description">
+                <div id="DateEvent" class="text-muted h7 mb-2"> <i class="far fa-clock"></i>l'Evenement se déroulera du {{ new.ressource.evenement.dateDebut|format_datetime('short', 'none', locale='fr') }} à {{ new.ressource.evenement.heureDebut|format_datetime('none', 'short', locale='fr') }} et se terminera le {{ new.ressource.evenement.dateFin|format_datetime('short', 'none', locale='fr') }} à {{ new.ressource.evenement.heureFin|format_datetime('none', 'short', locale='fr') }}</div>
+                <a class="card-link" href="#">
+                    <h5 style="color: #007bff !important;" class="card-title">{{ new.ressource.evenement.titre }}</h5>
+                </a>
+            </div>
+            <div class="text">
+                <p class="card-text">
+                    {{ new.ressource.evenement.description }}
+                </p>
+            </div>
+            <div class="category">
+                {% for category in new.ressource.category %}
+                    <span style="background-color: #1B2838 !important;" class="badge badge-primary mr-2">{{ category.name }}</span>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="card-footer">
+
+            <button id="button-comments-{{ new.ressource.id }}" class="btn btn-primary comments-link"><i class="far fa-comment"></i> Comment</button>
+
+            <div id="block-comments-{{ new.ressource.id }}" style="display: none; color:#FFF;">
+                <div class="d-flex justify-content-between">
+                    <input type="text" class="form-control block-comments-fav" id="textarea-comments-{{ new.ressource.id }}" placeholder="Tapez votre commentaire..."/>
+                </div>
+                <div class="commentaires">
+                    <div class="commentaire" id="list-comments-{{ new.ressource.id }}">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    {% endif %}
 {% endif %}
+
 
