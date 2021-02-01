@@ -29,7 +29,7 @@ class Articles
      * @Groups("fil_actu")
      */
     private $id;
-
+ 
     /**
      * @ORM\ManyToOne(targetEntity=Users::class, inversedBy="articles")
      */
