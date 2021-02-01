@@ -149,7 +149,7 @@ class Articles
     public function setTitre(string $titre): self
     {
         $this->titre = $titre;
- 
+  
         return $this;
     }
 
