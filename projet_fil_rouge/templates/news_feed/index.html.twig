@@ -165,19 +165,7 @@
 
     <div id="boxFilActu" class="row justify-content-center main">
     
-    {# {% for new in news %}
 
-         {% include 'news_feed/photo.html.twig' %}
-
-         {% include 'news_feed/articles.html.twig' %}
-
-         {% include 'news_feed/video.html.twig' %}
-
-         {% include 'news_feed/informations.html.twig' %}
-
-         {% include 'news_feed/evenement.html.twig' %}
-      
-    {% endfor %} #}
 
     </div>
 
@@ -191,7 +179,7 @@
 {% block javascripts %}
 <script>
 
-        document.addEventListener('DOMContentLoaded', function(){
+        window.addEventListener('DOMContentLoaded', function(){
             const xhr = new XMLHttpRequest();
             let comments = document.querySelectorAll('.all-comments');
             let ressourcesBox = document.querySelector('#boxFilActu');
@@ -212,7 +200,8 @@
 
                 document.querySelector("#mySidenav").style.width = "0";
             })
-            
+
+
 
             comments.forEach(comment => comment.addEventListener('click', function(e){
                 let ressourceId = this.id.split('-');
@@ -254,10 +243,10 @@
                     }
                     sendFilters(requestParams, ressourcesBox)
             });
-            
 
 
-    //GESTION DES FILTRES 
+
+    //GESTION DES FILTRES
         let checkboxes = document.querySelectorAll('.filters');
 
         checkboxes.forEach(checkbox => checkbox.addEventListener('click', function(e){
@@ -356,17 +345,17 @@
             loadDataFiltered(xhr.response, ressourcesBox)
             }
 
-           
+
            }
              xhr.responseType = 'json';
-            xhr.send(JSON.stringify(requestParams));    
+            xhr.send(JSON.stringify(requestParams));
         }
 
     // CHARGEMENT DES DONNEES FILTREES
         function loadDataFiltered(data, ressourcesBox){
             ressourcesBox.innerHTML = '';
             for(let i = 0; i< data.length; i++){
-                 
+
                 if(data[i].video !== null){
                     let categoryOfRessource = '<div class="category">';
 
@@ -514,7 +503,7 @@
                         </div>
                     </div>`
         ressourcesBox.appendChild(eachPhoto);
- 
+
          //EVENEMENT
             }else if(data[i].evenement !== null){
                 let date1 = new Date(data[i].evenement.dateDebut.date);
@@ -739,7 +728,7 @@
             }
             }
 
-            
+
         }
 
 
@@ -766,44 +755,7 @@
 
 
         // Function call when click on "Comment"
-        function getRessourceComment(id){
-            // Recup ID Ressource
-            let idRessource = id;
 
-            //Recup bloc ressources
-            let blocCommentOfRessource = document.querySelector('#block-comments-'+id);
-
-            // Recup bloc contains list of comments
-
-            let listCommentsOfCurrentRessource = document.querySelector('#list-comments-'+id);
-
-            if(blocCommentOfRessource.style.display === "block"){
-                blocCommentOfRessource.style.display = "none";
-            }
-            else{
-                blocCommentOfRessource.style.display = "block";
-            }
-
-            const requestParams = {
-                "idRessource" : idRessource
-            }
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', '{{ path('get_comments') }}', true);
-            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-            xhr.onreadystatechange = function() { //Appelle une fonction au changement d'état.
-                if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-
-                    let data = xhr.response;
-
-                    loadData(data, listCommentsOfCurrentRessource);
-                }
-            }
-            xhr.responseType = 'json';
-            xhr.send(JSON.stringify(requestParams));
-
-
-
-        }
         // Function to send comments
 
         function sendComments(event, id){
@@ -905,6 +857,43 @@
             }
         }
 
+        function getRessourceComment(id){
+            // Recup ID Ressource
+            let idRessource = id;
+
+            //Recup bloc ressources
+            let blocCommentOfRessource = document.querySelector('#block-comments-'+id);
+
+            // Recup bloc contains list of comments
+
+            let listCommentsOfCurrentRessource = document.querySelector('#list-comments-'+id);
+
+            if(blocCommentOfRessource.style.display === "block"){
+                blocCommentOfRessource.style.display = "none";
+            }
+            else{
+                blocCommentOfRessource.style.display = "block";
+            }
+
+            const requestParams = {
+                "idRessource" : idRessource
+            }
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '{{ path('get_comments') }}', true);
+            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+            xhr.onreadystatechange = function() { //Appelle une fonction au changement d'état.
+                if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+
+                    let data = xhr.response;
+
+                    loadData(data, listCommentsOfCurrentRessource);
+                }
+            }
+            xhr.responseType = 'json';
+            xhr.send(JSON.stringify(requestParams));
+        }
+
+
         //Get the button
         let myButton = document.getElementById("btnTop");
 
@@ -930,4 +919,3 @@
 
 </script>
 {% endblock %}
-            

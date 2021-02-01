@@ -1,7 +1,145 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Favoris{% endblock %}
+{% block stylesheets %}
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        #btnTop{
+            display: none;
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            z-index: 99;
+            background-color: #1b2838;
+            font-size: 15px;
+            border: none;
+            outline: none;
+            color: white;
+            cursor: pointer;
+        }
 
+        ul{
+            list-style-type: none;
+        }
+        body{
+            background-color: #eee;
+        }
+        .h7 {
+            font-size: 0.8rem;
+        }
+
+        .container{
+            width: 100%;
+        }
+
+        .card-body{
+            overflow-y: scroll;
+            scroll-behavior: smooth;
+            height: 40rem;
+        }
+        .card-text{
+            text-overflow: ellipsis;
+        }
+
+        .card-header{
+            background-color: #1b2838 !important;
+            color: #eee;
+        }
+
+        .card-footer{
+            background-color: #1b2838 !important;
+        }
+
+        .card-footer button{
+            background-color: #1b2838 !important;
+            border: solid 0px;
+        }
+
+        .badge-primary{
+            background-color: #1b2838 !important;
+        }
+
+        textarea{
+            overflow: hidden;
+            width:100%;
+        }
+
+        .commentaire{
+            margin: 20px 5px;
+        }
+
+        .comemntaire div{
+            margin: 5px;
+        }
+
+        .card-footer textarea{
+            padding: 8px;
+            border-radius: 5px;
+        }
+
+        .commentaires{
+            max-height: 200px;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+        }
+        .card-title{
+            color: #007bff !important;
+        }
+
+        .sidenav {
+            width: 0; /* 0 width - change this with JavaScript */
+            z-index: 1; /* Stay on top */
+            top: 0; /* Stay at the top */
+            left: 0;
+            position: fixed;
+            background-color:#1b2838; /* Black*/
+            overflow-x: hidden; /* Disable horizontal scroll */
+            padding-top: 60px; /* Place content 60px from the top */
+            transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+        }
+
+        /* The navigation menu links */
+        .sidenav a {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #818181;
+            display: block;
+            transition: 0.3s;
+        }
+        .sidenav h3{
+            color: white;
+            text-align: center;
+        }
+        /* When you mouse over the navigation links, change their color */
+        .sidenav a:hover {
+            color: #f1f1f1;
+        }
+
+        /* Position and style the close button (top right corner) */
+        .sidenav .closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+        }
+
+        /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+        .main {
+            transition: margin-left .1s;
+            padding: 20px;
+        }
+
+        /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+        @media screen and (max-height: 450px) {
+            .sidenav {padding-top: 15px;}
+            .sidenav a {font-size: 18px;}
+        }
+    </style>
+{% endblock %}
 {% block body %}
     <div class="container mt-5">
 
@@ -29,97 +167,113 @@
     </div>
 {% endblock %}
 {% block javascripts %}
-    <script>
+    <script defer>
 
-        document.addEventListener('DOMContentLoaded', function(){
-            var xhr = new XMLHttpRequest();
-            let comments = document.querySelectorAll('.all-comments');
-            let id, commentBox;
+        document.addEventListener('DOMContentLoaded', function() {
+            let buttonComment = document.querySelectorAll('.comments-link');
+            let blockCommentFav = document.querySelectorAll('.block-comments-fav');
 
-            initCommentsNewFeed(xhr);
-
-
-            comments.forEach(comment => comment.addEventListener('click', function(e){
-                let ressourceId = this.id.split('-');
-                id = parseInt(ressourceId[1]);
-                commentBox = document.querySelector('#comments-box-'+id);
+            buttonComment.forEach(button => button.addEventListener('click', function(e){
+                let idRessource = this.id.split('-');
+                id = parseInt(idRessource[2]);
+                getRessourceComment(id);
             }))
-            comments.forEach(comment => comment.addEventListener('keypress', function(e){
-                if(e.key === "Enter"){
-                    const requestParams = {
-                        "idRessource" : id,
-                        "comments": comment.value
+
+            blockCommentFav.forEach(bloc => bloc.addEventListener('keypress', function(e){
+                let idRessource = this.id.split('-');
+                id = parseInt(idRessource[2]);
+                sendComments(e, id);
+            }))
+
+            function getRessourceComment(id) {
+                // Recup ID Ressource
+                let idRessource = id;
+
+                //Recup bloc ressources
+                let blocCommentOfRessource = document.querySelector('#block-comments-' + id);
+
+                // Recup bloc contains list of comments
+
+                let listCommentsOfCurrentRessource = document.querySelector('#list-comments-' + id);
+
+                if (blocCommentOfRessource.style.display === "block") {
+                    blocCommentOfRessource.style.display = "none";
+                } else {
+                    blocCommentOfRessource.style.display = "block";
+                }
+
+                const requestParams = {
+                    "idRessource": idRessource
+                }
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', '{{ path('get_comments') }}', true);
+                xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+                xhr.onreadystatechange = function () { //Appelle une fonction au changement d'état.
+                    if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+
+                        let data = xhr.response;
+
+                        loadData(data, listCommentsOfCurrentRessource);
                     }
+                }
+                xhr.responseType = 'json';
+                xhr.send(JSON.stringify(requestParams));
+            }
+            function sendComments(event, id){
+
+
+                let inputComments = document.querySelector('#textarea-comments-'+id);
+                let listCommentsOfCurrentRessource = document.querySelector('#list-comments-'+id);
+
+                const requestParamsAddComments = {
+                    "idRessource" : id,
+                    "comments": inputComments.value
+                }
+
+                const xhr = new XMLHttpRequest();
+
+                if(event.key === "Enter"){
 
                     xhr.open('POST', '{{ path('new_comments') }}', true);
                     xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
                     xhr.onreadystatechange = function() { //Appelle une fonction au changement d'état.
                         if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-                            initCommentsNewFeed(xhr);
-                            comment.value = "";
+                            inputComments.value = "";
+                            listCommentsOfCurrentRessource.innerHTML = '';
+                            let data = xhr.response;
+                            loadData(data, listCommentsOfCurrentRessource);
                         }
                     }
                     xhr.responseType = 'json';
-                    xhr.send(JSON.stringify(requestParams));
+                    xhr.send(JSON.stringify(requestParamsAddComments));
+
                 }
-            }))
-        })
 
-        function loadDataForNewsFeed(data, commentsBox){
-            let commentsBoxDatas = commentsBox.id.split('-');
-            let boxId = parseInt(commentsBoxDatas[2]);
-            commentsBox.innerHTML = "";
-
-
-            for (let i = 0; i < data.length; i++) {
-                if(boxId === data[i].ressource){
-
-
-                    let eachComment = document.createElement("li");
-                    eachComment.setAttribute('class', 'comment mt-2')
-                    eachComment.innerHTML = `<a class="pull-left" href="javascript:void(0);">
-              <img class="avatar rounded-circle" src="https://bootdey.com/img/Content/avatar/avatar1.png" style="width: 5%"alt="avatar">
-            </a>
-            <h5 class="user a">${data[i].user.firstName} ${data[i].user.lastName}  a commenté</h5><a href="#"><i class="fas fa-reply ml-2"></i></a>
-             {#<p class="time">#}
-             {#                               {% if comments.updatedAt is not null %}#}
-             {#                                   {{ comments.updatedAt|date('Y-m-d H:i:s')  }}#}
-             {#                               {% else %}#}
-             {#                                   {{ comments.createdAt|date('Y-m-d H:i:s')  }}#}
-             {#                               {% endif %}#}
-             {#                           </p>#}
-            <div class="comment-body">
-              <div>
-                <p>${data[i].contenu}</p>
-              </div>
-            </div>
+            }
+            function loadData(data, commentsBox){
+                commentsBox.innerHTML = "";
+                for (let i = 0; i < data.length; i++) {
+                    let eachComment = document.createElement("div");
+                    let date = new Date(data[i].date.date)
+                    date = date.toISOString().replace(/T/, ' ').replace(/\..+/, '');
+                    eachComment.setAttribute('class', 'd-flex')
+                    eachComment.innerHTML = ` <div class="mr-2" style="height: 100%; vertical-align: middle;">
+                                            <img class="rounded-circle" width="25" src="/images/vichFiles/${data[i].user.avatar}" alt="">
+                                        </div>
+                                        <div class="text-commentaire d-flex flex-column justify-content-between" style="width: 100%;">
+                                            <div class="ml-2 d-flex">
+                                                <div class="h5 m-0">${data[i].user.firstName} ${data[i].user.lastName} </div>
+                                                <div id="Created" class="text-muted h7" style="margin: 5px;"><i class="far fa-clock mr-1"></i>${date}</div>
+                                            </div>
+                                            <div style="width: 100%; vertical-align: middle;">
+                                                <p>${data[i].contenu}</p>
+                                            </div>
+                                        </div>
           `;
-
                     commentsBox.appendChild(eachComment);
                 }
             }
-
-        }
-
-        function initCommentsNewFeed(xhr){
-            xhr.open('GET', '{{ path('get_all_comments') }}', true);
-            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-            xhr.onreadystatechange = function() { //Appelle une fonction au changement d'état.
-                if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-
-                    let data = xhr.response;
-
-                    for (let i = 0; i < data.length; i++){
-                        if(document.querySelector('#comments-box-'+data[i].ressource) !== null){
-                            loadDataForNewsFeed(data, document.querySelector('#comments-box-'+data[i].ressource))
-                        }
-                    }
-
-                }
-            }
-            xhr.responseType = 'json';
-            xhr.send();
-        }
+        })
 
     </script>
 {% endblock %}
