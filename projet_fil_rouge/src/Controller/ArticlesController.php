@@ -50,7 +50,7 @@ class ArticlesController extends AbstractController
             // On boucle sur les images
             foreach ($images as $image) {
 
-                if($image->getMimeType() != "application/jpg" || $image->getMimeType() != "application/png"){
+                if($image->getMimeType() != "application/jpg" && $image->getMimeType() != "application/png" && $image->getMimeType() != "image/png" && $image->getMimeType() != "image/jpg"){
                     $this->addFlash('danger', 'Veuillez insérer une image au format "jpg" ou "png"');
                 }
                 // On génère un nouveau nom de fichier
@@ -66,7 +66,7 @@ class ArticlesController extends AbstractController
             }
 
             foreach ($videos as $video) {
-                if($video->getMimeType() != "application/mp4" || $video->getMimeType() != "application/avi"){
+                if($video->getMimeType() != "application/mp4" && $video->getMimeType() != "application/avi" && $video->getMimeType() != "video/mp4" && $video->getMimeType() != "video/avi"){
                     $this->addFlash('danger', 'Veuillez insérer une vidéo au format "mp4" ou "avi"');
 
                 return $this->redirectToRoute('articles_new'); ;
@@ -158,7 +158,7 @@ class ArticlesController extends AbstractController
 
             foreach ($files as $file) {
 
-                if($file->getMimeType() != "application/mp4" || $file->getMimeType() != "application/avi"){
+                if($file->getMimeType() != "application/mp4" && $file->getMimeType() != "application/avi" && $file->getMimeType() != "video/mp4" && $file->getMimeType() != "video/avi"){
                     $this->addFlash('danger', 'Veuillez insérer une vidéo au format "mp4" ou "avi"');
 
                 }
@@ -180,7 +180,7 @@ class ArticlesController extends AbstractController
             // On boucle sur les images
             foreach ($images as $image) {
 
-                if($image->getMimeType() != "application/jpg" || $image->getMimeType() != "application/png"){
+                if($image->getMimeType() != "application/jpg" && $image->getMimeType() != "application/png" && $image->getMimeType() != "image/png" && $image->getMimeType() != "image/jpg"){
                     $this->addFlash('danger', 'Veuillez insérer une image au format "jpg" ou "png"');
 
                 return $this->redirectToRoute('articles_edit'); ;

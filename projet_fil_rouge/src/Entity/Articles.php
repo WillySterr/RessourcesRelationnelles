@@ -29,7 +29,7 @@ class Articles
      * @Groups("fil_actu")
      */
     private $id;
-
+ 
     /**
      * @ORM\ManyToOne(targetEntity=Users::class, inversedBy="articles")
      */
@@ -90,7 +90,7 @@ class Articles
      * @Vich\UploadableField(mapping="vichFiles", fileNameProperty="photo")
      * @Assert\File(
      *      maxSize = "1500k",
-     *      mimeTypes = {"application/jpg", "application/jpeg", "application.png"},
+     *      mimeTypes = {"application/jpg", "application/jpeg", "application/png"},
      *      mimeTypesMessage = "Veuillez sélectionner une image au format 'jpg' ou 'png'."
      * )
      */
@@ -260,7 +260,7 @@ class Articles
     /**
      * @return File|null
      */
-    public function getphotoFile(): ?File
+    public function getPhotoFile(): ?File
     {
         return $this->photoFile;
     }
@@ -268,7 +268,7 @@ class Articles
     /**
      * @param File|null $photoFile
      */
-    public function setphotoFile(?File $photoFile = null)
+    public function setPhotoFile(?File $photoFile = null)
     {
         $this->photoFile = $photoFile;
 
@@ -282,7 +282,7 @@ class Articles
     /**
      * @return File|null
      */
-    public function getvideoFile(): ?File
+    public function getVideoFile(): ?File
     {
         return $this->videoFile;
     }
@@ -290,7 +290,7 @@ class Articles
     /**
      * @param File|null $videoFile
      */
-    public function setvideoFile(?File $videoFile = null)
+    public function setVideoFile(?File $videoFile = null)
     {
         $this->videoFile = $videoFile;
 

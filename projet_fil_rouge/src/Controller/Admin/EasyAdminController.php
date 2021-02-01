@@ -90,8 +90,12 @@ class EasyAdminController extends AbstractDashboardController
         }
 
         if ($this->isGranted('ROLE_SUPERADMIN')) {
-            yield MenuItem::linkToCrud('Utilisateurs', 'fa fa-user', Users::class)
+            yield MenuItem::linkToCrud('Utilisateurs', 'fa fa-users', Users::class)
             ->setController(UsersCrudController::class);
+        }
+        if ($this->isGranted('ROLE_ADMIN') || $this->isGranted('ROLE_SUPERADMIN')) {
+            yield MenuItem::linkToCrud('Avatars', 'fa fa-user-circle', Avatars::class)
+            ->setController(AvatarsCrudController::class);
         }
 
       
