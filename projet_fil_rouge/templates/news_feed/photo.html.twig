@@ -3,7 +3,7 @@
 
     <div class="card w-75  my-5">
         <div class="card-header">
-            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="rounded-circle avatar a" style="width: 10%" alt="user profile image">
+            <img src="{{ asset('/images/vichFiles/'~new.ressource.photo.user.avatar.avatarIcon) }}" class="rounded-circle avatar a" style="width: 10%" alt="user profile image">
             <p class="a ml-2"><a href="#">{{ new.ressource.photo.user.firstName }} {{ new.ressource.photo.user.lastName }} </a></p>
             <div class="favoris a">
                 {% set flag, favId = 0, 0 %}
@@ -47,7 +47,7 @@
             <h5 class="card-title">{{ new.ressource.photo.titre }}</h5>
             <p>{{ new.ressource.photo.description }}</p>
             <div class="card-text text-center">
-                <img class="img-fluid" src="{{ asset('/uploads/'~new.ressource.photo.image) }}"/>
+                <img class="img-fluid" src="{{ asset('/images/vichFiles/'~new.ressource.photo.image) }}"/>
                 <div class="post-description">
 
                     {#  <div class="stats">
@@ -124,7 +124,7 @@
             <h5 class="card-title">{{ new.photo.titre }}</h5>
             <p>{{ new.photo.description }}</p>
             <div class="card-text text-center">
-                <img class="img-fluid" src="{{ asset('/uploads/'~new.photo.image) }}"/>
+                <img class="img-fluid" src="{{ asset('/images/vichFiles/'~new.photo.image) }}"/>
                 <div class="post-description">
 
                     {#  <div class="stats">
