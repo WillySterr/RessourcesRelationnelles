@@ -13,6 +13,8 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 
 /**
@@ -43,12 +45,16 @@ class Videos
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups("fil_actu")
+     * @Assert\NotNull
+	 * @Assert\NotBlank
      */
     private $titre;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups("fil_actu")
+     * @Assert\NotNull
+	 * @Assert\NotBlank
      */
     private $description;
 
@@ -74,6 +80,11 @@ class Videos
     /**
      * @var File
      * @Vich\UploadableField(mapping="vichFiles", fileNameProperty="mediaFile")
+     * @Assert\File(
+     *      maxSize = "5M",
+     *      mimeTypes = {"application/mp4", "application/avi"},
+     *      mimeTypesMessage = "Veuillez sélectionner une image au format 'mp4' ou 'avi'."
+     * )
      */
     private $vichFile;
 

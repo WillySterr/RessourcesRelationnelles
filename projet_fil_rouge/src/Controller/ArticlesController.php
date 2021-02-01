@@ -49,6 +49,10 @@ class ArticlesController extends AbstractController
 
             // On boucle sur les images
             foreach ($images as $image) {
+
+                if($image->getMimeType() != "application/jpg" || $image->getMimeType() != "application/png"){
+                    $this->addFlash('danger', 'Veuillez insérer une image au format "jpg" ou "png"');
+                }
                 // On génère un nouveau nom de fichier
                 $fichier = md5(uniqid()) . '.' . $image->guessExtension();
 
@@ -62,6 +66,11 @@ class ArticlesController extends AbstractController
             }
 
             foreach ($videos as $video) {
+                if($video->getMimeType() != "application/mp4" || $video->getMimeType() != "application/avi"){
+                    $this->addFlash('danger', 'Veuillez insérer une vidéo au format "mp4" ou "avi"');
+
+                return $this->redirectToRoute('articles_new'); ;
+                }
                 $file = md5(uniqid()) . '.' . $video->guessExtension();
 
                 // On copie le fichier dans le dossier uploads
@@ -148,6 +157,11 @@ class ArticlesController extends AbstractController
 
 
             foreach ($files as $file) {
+
+                if($file->getMimeType() != "application/mp4" || $file->getMimeType() != "application/avi"){
+                    $this->addFlash('danger', 'Veuillez insérer une vidéo au format "mp4" ou "avi"');
+
+                }
                 // On génère un nouveau nom de fichier
                 $newVideo = md5(uniqid()) . '.' . $file->guessExtension();
 
@@ -165,6 +179,12 @@ class ArticlesController extends AbstractController
 
             // On boucle sur les images
             foreach ($images as $image) {
+
+                if($image->getMimeType() != "application/jpg" || $image->getMimeType() != "application/png"){
+                    $this->addFlash('danger', 'Veuillez insérer une image au format "jpg" ou "png"');
+
+                return $this->redirectToRoute('articles_edit'); ;
+                }
                 // On génère un nouveau nom de fichier
                 $fichier = md5(uniqid()) . '.' . $image->guessExtension();
 

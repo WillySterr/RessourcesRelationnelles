@@ -10,11 +10,14 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 
 
 /**
  * @ORM\Entity(repositoryClass=UsersRepository::class)
  * @ApiResource(normalizationContext={"groups"={"fil_actu"}})
+ * @UniqueEntity("mail")
  */
 class Users implements UserInterface
 {
@@ -29,42 +32,70 @@ class Users implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups("fil_actu")
+     * @Assert\NotNull
+	 * @Assert\NotBlank
      */
     private $lastName;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups("fil_actu")
+     * @Assert\NotNull
+	 * @Assert\NotBlank
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Positive()
+     * @Assert\NotNull
+	 * @Assert\NotBlank
      */
     private $age;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Email(
+     * message = "L'email '{{ value }}' n'est pas un email valide."
+     * )
+     * @Assert\NotNull
+	 * @Assert\NotBlank
      */
     private $mail;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Regex(
+     *      pattern="/^((\+)33|0|0033)[1-9](\d{2}){4}$/g",
+     *      message="Veuillez renseigner un numéto de téléphone valide."
+     * )
+     * @Assert\NotNull
+	 * @Assert\NotBlank
      */
     private $phone;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\Regex(
+     *      pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,10}$",
+     *      message="Votre mot de passe doit contenir au moins 10 caractères, une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial. "
+     * )
+     * @Assert\NotNull
+	 * @Assert\NotBlank
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotNull
+	 * @Assert\NotBlank
      */
     private $description;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotNull
+	 * @Assert\NotBlank
      */
     private $job;
 
@@ -131,6 +162,8 @@ class Users implements UserInterface
     /**
      * @ORM\ManyToOne(targetEntity=Avatars::class, inversedBy="users")
      * @Groups("fil_actu")
+     * @Assert\NotNull
+	 * @Assert\NotBlank
      */
     private $avatar;
 

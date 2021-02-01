@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
@@ -27,11 +28,15 @@ class Category
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups("fil_actu")
+     * @Assert\NotNull
+	 * @Assert\NotBlank
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotNull
+	 * @Assert\NotBlank
      */
     private $description;
 

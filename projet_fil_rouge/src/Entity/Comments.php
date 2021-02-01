@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\CommentsRepository;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=CommentsRepository::class)
@@ -42,6 +43,8 @@ class Comments
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotNull
+	 * @Assert\NotBlank
      */
     private $contenu;
 
