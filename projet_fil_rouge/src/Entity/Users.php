@@ -67,10 +67,6 @@ class Users implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Regex(
-     *      pattern="/^((\+)33|0|0033)[1-9](\d{2}){4}$/g",
-     *      message="Veuillez renseigner un numéto de téléphone valide."
-     * )
      * @Assert\NotNull
 	 * @Assert\NotBlank
      */
@@ -78,10 +74,6 @@ class Users implements UserInterface
 
     /**
      * @ORM\Column(type="text")
-     * @Assert\Regex(
-     *      pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,10}$",
-     *      message="Votre mot de passe doit contenir au moins 10 caractères, une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial. "
-     * )
      * @Assert\NotNull
 	 * @Assert\NotBlank
      */
@@ -164,8 +156,6 @@ class Users implements UserInterface
     /**
      * @ORM\ManyToOne(targetEntity=Avatars::class, inversedBy="users")
      * @Groups("fil_actu")
-     * @Assert\NotNull
-	   * @Assert\NotBlank
      * @Groups("ressource_comments")
      */
     private $avatar;
@@ -192,7 +182,6 @@ class Users implements UserInterface
         $this->ressources = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->favoris = new ArrayCollection();
-        $this->secondUser = new ArrayCollection();
         $this->conversations = new ArrayCollection();
         $this->messages = new ArrayCollection();
     }
