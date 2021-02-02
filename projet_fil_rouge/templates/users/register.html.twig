@@ -6,8 +6,9 @@
     <link rel="stylesheet" href="{{ asset('css/login.css') }}">
 {% endblock %}
 
-{% block body %}
 
+{% block body %}
+    {% if not app.user %}
     <div class="global-container">
         <div class="card" style="width: 600px; margin: 20px;">
             <div class="card-body">
@@ -112,7 +113,7 @@
                             <input type="radio" name="avatar" id="radio-choice-{{avatar.id}}" value="{{avatar.id}}" />
                                 <label for="radio-choice-{{avatar.id}}"><img src="{{asset("images/vichFiles/"~avatar.avatarIcon)  }}"/></label>
 
-                        {% endfor %} 
+                        {% endfor %}
                         
                     </div>
                     <div class="form-group col-12">
@@ -127,5 +128,7 @@
             </div>
         </div>
     </div>
-
+    {% else %}
+        <script>window.location.href = "{{path('news_feed')}}" </script>
+    {% endif %}
 {% endblock %}

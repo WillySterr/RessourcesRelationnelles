@@ -26,12 +26,12 @@
 
                         {% for fav in favoList %}
 
-                            {% if (fav.id) == (new.ressource.id) %}
+                            {% if (fav.ressource.id) == (new.ressource.id) %}
 
                                 {% set favId = fav.id %}
                                 {% set flag = 1 %}
 
-                            {% elseif (fav.id) == (new.ressource.id) and flag != 1 %}
+                            {% elseif (fav.ressource.id) == (new.ressource.id) and flag != 1 %}
 
                                 {% set flag = 0 %}
 

@@ -34,6 +34,8 @@ class FavorisRepository extends ServiceEntityRepository
             ->andWhere('q.user = :user')
             ->setParameter('user', $user)
             ->addOrderBy('q.createdAt', 'DESC')
+            ->join('q.ressource', 'r')
+            ->andWhere('r.published = 1')
             ->getQuery()
             ->getResult();
     }

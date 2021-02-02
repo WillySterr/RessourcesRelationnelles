@@ -165,7 +165,7 @@ class Users implements UserInterface
      * @ORM\ManyToOne(targetEntity=Avatars::class, inversedBy="users")
      * @Groups("fil_actu")
      * @Assert\NotNull
-	   * @Assert\NotBlank
+     * @Assert\NotBlank
      * @Groups("ressource_comments")
      */
     private $avatar;
