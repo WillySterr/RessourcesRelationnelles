@@ -13,8 +13,6 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 
-
-
 /**
  * @ORM\Entity(repositoryClass=RessourcesRepository::class)
  * @ORM\HasLifecycleCallbacks()
