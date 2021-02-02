@@ -6,6 +6,7 @@ use App\Entity\Evenements;
 use App\Form\EvenementsType;
 use App\Repository\CommentsRepository;
 use App\Repository\EvenementsRepository;
+use App\Repository\FavorisRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -71,12 +72,17 @@ class EvenementsController extends AbstractController
     /**
      * @Route("/{id}", name="evenements_show", methods={"GET"})
      */
-    public function show($id, Evenements $evenement, RessourcesRepository $ressourcesRepository): Response
+    public function show($id, Evenements $evenement, RessourcesRepository $ressourcesRepository, Security $security, FavorisRepository $favorisRepository): Response
     {
         $ressource = $ressourcesRepository->findOneBy(["evenement" => $id]);
+
+        $userCo = $security->getUser();
+        $favoList = $favorisRepository->findByUser($userCo);
+
         return $this->render('evenements/show.html.twig', [
             'evenement' => $evenement,
-            'ressourceId' => $ressource->getId()
+            'ressourceId' => $ressource->getId(),
+            "favoList" => $favoList
         ]);
     }
 

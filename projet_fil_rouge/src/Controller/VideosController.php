@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Ressources;
 use App\Entity\Videos;
 use App\Form\VideosType;
+use App\Repository\FavorisRepository;
 use App\Repository\RessourcesRepository;
 use App\Repository\UsersRepository;
 use App\Repository\VideosRepository;
@@ -90,14 +91,17 @@ class VideosController extends AbstractController
     /**
      * @Route("/{id}", name="videos_show", methods={"GET"})
      */
-    public function show($id, Videos $video, RessourcesRepository $ressourcesRepository): Response
+    public function show($id, Videos $video, RessourcesRepository $ressourcesRepository, Security $security, FavorisRepository $favorisRepository): Response
     {
 
         $ressource = $ressourcesRepository->findOneBy(["video" => $id]);
+        $userCo = $security->getUser();
+        $favoList = $favorisRepository->findByUser($userCo);
 
         return $this->render('videos/show.html.twig', [
             'video' => $video,
-            'ressourceId' => $ressource->getId()
+            'ressourceId' => $ressource->getId(),
+            "favoList" => $favoList
         ]);
     }
 
