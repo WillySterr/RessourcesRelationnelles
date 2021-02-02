@@ -29,12 +29,15 @@ class UsersController extends AbstractController
      */
     public function register(Request $request, UserPasswordEncoderInterface $encoder, EntityManagerInterface $entityManager, AvatarsRepository $avatarsRepository)
     {
+        $cgu = file_get_contents($_SERVER['DOCUMENT_ROOT'].'cgu.txt');
         $user = new Users();
 
         $form = $this->createForm(RegisterType::class, $user);
 
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
+
+        if ($form->isSubmitted() && $form->isValid() && $request->request->get('cgu') && $request->request->get('cgu') === 'on') {
+
             $avatarId = intval($request->request->get('avatar'));
             $avatar = $avatarsRepository->findOneBy(["id" => $avatarId]);
 
@@ -50,7 +53,8 @@ class UsersController extends AbstractController
         $avatars = $avatarsRepository->findAll();
         return $this->render('users/register.html.twig', [
             'avatars'=>$avatars,
-            "form" => $form->createView()
+            "form" => $form->createView(),
+            'cgu' => $cgu
         ]);
     }
 
