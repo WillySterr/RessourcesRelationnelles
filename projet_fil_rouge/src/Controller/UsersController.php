@@ -21,6 +21,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
+use Symfony\Component\Validator\Constraints\Valid;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 
@@ -147,7 +148,7 @@ class UsersController extends AbstractController
     /**
      *  @Route("/edituser/{id}", name="edituser", methods={"GET", "POST"})
      */
-    public function edituser(Request $request, UsersRepository $usersRepository, Security $security, $id, AvatarsRepository $avatarsRepository)
+    public function edituser(Request $request, UsersRepository $usersRepository, Security $security, $id, AvatarsRepository $avatarsRepository, ValidatorInterface $validator, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $encoder)
     {
         $user = $usersRepository->findOneBy(["id" => $security->getUser()]);
         $avatars = $avatarsRepository->findAll();
@@ -155,13 +156,37 @@ class UsersController extends AbstractController
         $form = $this->createForm(EditUserType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $avatarId = intval($request->request->get('avatar'));
-            $avatar = $avatarsRepository->findOneBy(["id" => $avatarId]);
-            $user->setAvatar($avatar);
-            $this->getDoctrine()->getManager()->flush();
+        $errors = null;
 
-            return $this->redirectToRoute('profile');
+        if($user){
+            $errors = $validator->validate($user);
+        }
+
+        $checkAvatarIsChecked = $request->request->get('avatar');
+
+
+        if ($user && $form->isSubmitted()){
+
+            if($errors && count($errors) > 0 || !$checkAvatarIsChecked){
+                !$checkAvatarIsChecked ? $messageAvatar = "Vous devez sélectionner un avatar" : $messageAvatar = null;
+
+                return $this->render('users/useredit.html.twig', [
+                    "errors" => $errors,
+                    'messageAvatar' => $messageAvatar,
+                    'user' => $user,
+                    'avatars' => $avatars,
+                    'form' => $form->createView(),
+                ]);
+            }else{
+                $avatarId = intval($request->request->get('avatar'));
+                $avatar = $avatarsRepository->findOneBy(["id" => $avatarId]);
+                $user->setAvatar($avatar);
+
+                $entityManager->persist($user);
+                $entityManager->flush();
+
+                return $this->redirectToRoute('logout');
+            }
         }
 
         return $this->render('users/useredit.html.twig', [

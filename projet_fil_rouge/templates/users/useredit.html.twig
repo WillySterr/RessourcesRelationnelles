@@ -7,7 +7,23 @@
 {% endblock %}
 
 {% block body %}
-    {% if app.user.id is same as (user.id) %}
+
+    {% if app.user and app.user.id is same as (user.id) %}
+
+        {% if(errors is defined and errors is not null) %}
+            {% for error in errors %}
+                <div class="alert alert-danger m-0">
+                    {{ error.message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+
+        {% if(messageAvatar is defined and messageAvatar is not null) %}
+            <div class="alert alert-danger m-0">
+                {{ messageAvatar }}
+            </div>
+        {% endif %}
 
     <div class="global-container">
         <div class="card" style="width: 600px; margin: 20px;">
@@ -90,8 +106,15 @@
                         <label for="InputJob">Avatar</label>
 
                         {% for avatar in avatars %}
-                            <input type="radio" name="avatar" id="radio-choice-{{avatar.id}}" value="{{avatar.id}}" />
-                            <label for="radio-choice-{{avatar.id}}"><img src="{{asset("images/vichFiles/"~avatar.avatarIcon)  }}"/></label>
+                            {% if(avatar.id is same as (user.avatar.id)) %}
+                                <input type="radio" checked name="avatar" id="radio-choice-{{avatar.id}}" value="{{avatar.id}}" />
+                                <label for="radio-choice-{{avatar.id}}"><img class="rounded-circle" width="75" src="{{asset("images/vichFiles/"~avatar.avatarIcon)  }}"/></label>
+
+                            {% else %}
+                                <input type="radio" name="avatar" id="radio-choice-{{avatar.id}}" value="{{avatar.id}}" />
+                                <label for="radio-choice-{{avatar.id}}"><img class="rounded-circle" width="75" src="{{asset("images/vichFiles/"~avatar.avatarIcon)  }}"/></label>
+
+                            {% endif %}
 
                         {% endfor %}
 

@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Regex;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
@@ -26,7 +27,11 @@ class RegisterType extends AbstractType
             ->add('age', IntegerType::class)
             ->add('mail', EmailType::class)
             ->add('phone')
-            ->add('password', PasswordType::class)
+            ->add('password', PasswordType::class, [
+                'constraints' => [
+                    new Regex('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$/')
+                ]
+            ])
             ->add('passwordVerification', PasswordType::class)
             ->add('description', TextareaType::class)
             ->add('job');
