@@ -17,7 +17,11 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity(repositoryClass=UsersRepository::class)
  * @ApiResource(normalizationContext={"groups"={"fil_actu"}})
- * @UniqueEntity("mail")
+ * @UniqueEntity(
+ *   fields="mail",
+*     message="L'adresse mail {{ value }} existe déjà"
+ *
+ * )
  */
 class Users implements UserInterface
 {
@@ -69,7 +73,7 @@ class Users implements UserInterface
      * @ORM\Column(type="string", length=255)
      * @Assert\Regex(
      *      pattern="/^((\+)33|0|0033)[1-9](\d{2}){4}$/",
-     *      message="Veuillez renseigner un numéto de téléphone valide."
+     *      message="Veuillez renseigner un numéro de téléphone valide."
      * )
      * @Assert\NotNull
 	   * @Assert\NotBlank

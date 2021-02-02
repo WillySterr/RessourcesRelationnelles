@@ -21,36 +21,61 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+
 
 class UsersController extends AbstractController
 {
     /**
      * @Route("/register", name="register")
      */
-    public function register(Request $request, UserPasswordEncoderInterface $encoder, EntityManagerInterface $entityManager, AvatarsRepository $avatarsRepository)
+    public function register(Request $request, UserPasswordEncoderInterface $encoder, EntityManagerInterface $entityManager, AvatarsRepository $avatarsRepository, ValidatorInterface $validator)
     {
         $cgu = file_get_contents($_SERVER['DOCUMENT_ROOT'].'cgu.txt');
         $user = new Users();
+        $avatars = $avatarsRepository->findAll();
 
         $form = $this->createForm(RegisterType::class, $user);
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid() && $request->request->get('cgu') && $request->request->get('cgu') === 'on') {
+        $errors = $validator->validate($user);
 
-            $avatarId = intval($request->request->get('avatar'));
-            $avatar = $avatarsRepository->findOneBy(["id" => $avatarId]);
+        $checkAvatarIsChecked = $request->request->get('avatar');
 
-            $passwordEncrypt = $encoder->encodePassword($user, $user->getPassword());
-            $user->setPassword($passwordEncrypt)
-                ->setRoles("ROLE_USER")
-                ->setAvatar($avatar);
-            $entityManager->persist($user);
-            $entityManager->flush();
+        $checkCguIsChecked = false;
 
-            return $this->redirectToRoute("login");
+        $request->request->get('cgu') && $request->request->get('cgu') === 'on' ? $checkCguIsChecked = true : $checkCguIsChecked = false;
+
+        if ($form->isSubmitted()){
+            if(count($errors) > 0 || !$checkAvatarIsChecked || $checkCguIsChecked === false){
+                 !$checkAvatarIsChecked ? $messageAvatar = "Vous devez sélectionner un avatar" : $messageAvatar = null;
+                 !$checkCguIsChecked ? $messageCgu = "Vous devez lire et accepter les CGU" : $messageCgu = null;
+
+                return $this->render('users/register.html.twig', [
+                    "errors" => $errors,
+                    'avatars'=>$avatars,
+                    'messageAvatar' => $messageAvatar,
+                    'messageCgu' => $messageCgu,
+                    "form" => $form->createView(),
+                    'cgu' => $cgu
+                ]);
+            }
+            else{
+                $avatarId = intval($request->request->get('avatar'));
+                $avatar = $avatarsRepository->findOneBy(["id" => $avatarId]);
+
+                $passwordEncrypt = $encoder->encodePassword($user, $user->getPassword());
+                $user->setPassword($passwordEncrypt)
+                    ->setRoles("ROLE_USER")
+                    ->setAvatar($avatar);
+                $entityManager->persist($user);
+                $entityManager->flush();
+
+                return $this->redirectToRoute("login");
+            }
         }
-        $avatars = $avatarsRepository->findAll();
+
         return $this->render('users/register.html.twig', [
             'avatars'=>$avatars,
             "form" => $form->createView(),

@@ -9,6 +9,28 @@
 
 {% block body %}
     {% if not app.user %}
+
+        {% if(errors is defined and errors is not null) %}
+            {% for error in errors %}
+                <div class="alert alert-danger m-0">
+                    {{ error.message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+
+        {% if(messageAvatar is defined and messageAvatar is not null) %}
+            <div class="alert alert-danger m-0">
+                {{ messageAvatar }}
+            </div>
+        {% endif %}
+
+        {% if(messageCgu is defined and messageCgu is not null) %}
+            <div class="alert alert-danger m-0">
+                {{ messageCgu }}
+            </div>
+        {% endif %}
+
     <div class="global-container">
         <div class="card" style="width: 600px; margin: 20px;">
             <div class="card-body">
@@ -82,8 +104,8 @@
                         {{ form_widget(form.phone, {
                             "attr": {
                                 "class": "form-control form-control-sm",
-                                "id": "InputPhone"
-                            }
+                                "id": "InputPhone",
+                            },
                         }) }}
                     </div>
                     </div>
@@ -111,7 +133,7 @@
 
                         {% for avatar in avatars %}
                             <input type="radio" name="avatar" id="radio-choice-{{avatar.id}}" value="{{avatar.id}}" />
-                                <label for="radio-choice-{{avatar.id}}"><img src="{{asset("images/vichFiles/"~avatar.avatarIcon)  }}"/></label>
+                                <label for="radio-choice-{{avatar.id}}"><img class="rounded-circle" width="75" src="{{asset("images/vichFiles/"~avatar.avatarIcon)  }}"/></label>
 
                         {% endfor %}
                         
@@ -163,8 +185,9 @@
             </div>
         </div>
     </div>
+{% else %}
+    <script>window.location.href = "{{path('news_feed')}}" </script>
+{% endif %}
 {% endblock %}
-    {% else %}
-        <script>window.location.href = "{{path('news_feed')}}" </script>
-    {% endif %}
-{% endblock %}
+
+

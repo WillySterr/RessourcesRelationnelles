@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\Users;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -21,22 +23,14 @@ class RegisterType extends AbstractType
         $builder
             ->add('lastName')
             ->add('firstName')
-            ->add('age')
-            ->add('mail')
+            ->add('age', IntegerType::class)
+            ->add('mail', EmailType::class)
             ->add('phone')
             ->add('password', PasswordType::class)
             ->add('passwordVerification', PasswordType::class)
             ->add('description', TextareaType::class)
             ->add('job');
-            // ->add('avatar', EntityType::class, [
-            //     'class' => Avatars::class,
-            //     'choice_label' => function($avatar){
-            //         return $avatar;
-            //     },
-            //     "label" => "Avatar",
-            //     'multiple'=> false,
-            //     'expanded'=>true
-            // ]);
+
     }
 
     public function configureOptions(OptionsResolver $resolver)
