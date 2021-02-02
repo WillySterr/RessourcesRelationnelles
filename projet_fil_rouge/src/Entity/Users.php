@@ -72,7 +72,7 @@ class Users implements UserInterface
      *      message="Veuillez renseigner un numéto de téléphone valide."
      * )
      * @Assert\NotNull
-	 * @Assert\NotBlank
+	   * @Assert\NotBlank
      */
     private $phone;
 
@@ -83,7 +83,7 @@ class Users implements UserInterface
      *      message="Votre mot de passe doit contenir au moins 10 caractères, une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial. "
      * )
      * @Assert\NotNull
-	 * @Assert\NotBlank
+	  * @Assert\NotBlank
      */
     private $password;
 
@@ -190,7 +190,6 @@ class Users implements UserInterface
         $this->ressources = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->favoris = new ArrayCollection();
-        $this->secondUser = new ArrayCollection();
         $this->conversations = new ArrayCollection();
         $this->messages = new ArrayCollection();
     }

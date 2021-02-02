@@ -7,6 +7,7 @@
       {% endblock %}
 {% block body %}
 
+    {% if not app.user %}
 
     {% if error %}
 
@@ -41,6 +42,7 @@
                                 <input style="opacity: 1;" class="form-check" type="checkbox" id="remember_me" name="_remember_me" checked/>
                                 <label style="margin: 0 0 0 2rem;" for="remember_me">Rester connecté</label>
                             </div>
+
                             <button type="submit" style="background-color: #1b2838 !important;" class="btn btn-primary btn-block">Connexion</button>
 
                             <div class="sign-up">
@@ -56,5 +58,8 @@
 
 
     </form>
+    {% else %}
+        <script>window.location.href = "{{path('news_feed')}}" </script>
+    {% endif %}
 
 {% endblock %}

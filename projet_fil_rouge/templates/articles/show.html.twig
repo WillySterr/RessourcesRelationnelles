@@ -1,152 +1,194 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Articles{% endblock %}
-
+{% block stylesheets %}
+  <link rel="stylesheet" href="{{ asset('css/show.css') }}">
+{% endblock %}
 {% block body %}
+<div class="container py-5">
 
   {% if app.user.id is same as (article.user.id) or article.published == true %}
 
-
   <input id="ressource-id" type="hidden" value="{{ ressourceId }}">
- 
-    <!--Section: Content-->
-    <section class="px-md-5 my-5 mx-md-5 dark-grey-text text-center text-lg-left">
-
-      <!--Grid row-->
-      <div class="row">
-
-        <!--Grid column-->
-        <div class="col-lg-6 mb-4 mb-lg-0 d-flex align-items-center justify-content-center">
-          <img width="400" src="{{ asset('/images/vichFiles/'~article.photo) }}" class="img-fluid" alt="{{article.titre}}">
-
-        </div>
-        <video controls width="400"><source src="{{ asset('/images/vichFiles/'~article.video) }}" type="video/mp4"></video>
-
-        <!--Grid column-->
-
-        <!--Grid column-->
-        <div class="col-lg-6 mb-4 mb-lg-0 my-5 mx-5text-center">
-
-          <h3 class="font-weight-bold"> Titre de l'article : {{ article.titre}}</h3>
-
-          <p>Sa description : {{ article.description }}</p>
-          <div class="d-flex">
-          <a class="btn btn-indigo" href="{{ path('articles_index') }}">Retour</a><br/>
-          <a class="btn btn-deep-orange" href="{{ path('articles_edit', {'id': article.id}) }}">Modifier</a>
-          {{ include('articles/_delete_form.html.twig') }}
+  <div class="col-sm-12 col-md-6 mb-2 m-auto">
+    <div class="card">
+      <div class="card-header">
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="mr-2">
+              <img class="rounded-circle" width="45"  src="{{ asset('/images/vichFiles/'~article.user.avatar.avatarIcon) }}" alt="">
+            </div>
+            <div class="ml-2">
+              <div style="color: white;" class="h5 m-0">{{ article.user.firstName }} {{ article.user.lastName }}</div>
+              <div id="Created" class="text-muted h7"> <i class="far fa-clock mr-1"></i> {{ article.createdAt|format_datetime('short', 'short', locale='fr') }}</div>
+            </div>
           </div>
-
         </div>
-        <!--Grid column-->
+      </div>
+      <div class="card-body d-flex flex-column justify-content-between">
+        <div class="title-description">
+          <a class="card-link" href="#">
+            <h5 style="color: #007bff !important;" class="card-title">{{ article.titre }}</h5>
+          </a>
+          <p class="card-text">
+            {{ article.description }}
+          </p>
+        </div>
+        <div class="img-video">
+          <img src="{{ asset('/images/vichFiles/'~article.photo) }}" class="card-img img-fluid" alt="test">
+          <video class="card-img img-fluid" width="500" height="360" controls>
+            <source src="{{ asset('/images/vichFiles/'~article.video) }}" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+
+        <div class="category">
+          {% for category in article.category %}
+            <span style="background-color: #1B2838 !important;" class="badge badge-primary mr-2">{{ category.name }}</span>
+          {% endfor %}
+        </div>
 
       </div>
-      <!--Grid row-->
+      <div class="card-footer">
 
+        <button id="button-comments-{{ ressourceId }}" class="btn comments-link" style="background-color: #1b2838"><i class="far fa-comment"></i> Comment</button>
 
-      <input class="form-control comments_contenu w-75" id="comments-text" name="comments" type="text" placeholder="Saisissez votre commentaire">
+        <div id="block-comments-{{ ressourceId }}" style="display: none; color:#FFF;">
+          <div class="d-flex justify-content-between">
+            <input type="text" class="form-control block-comments-fav" id="textarea-comments-{{ ressourceId }}" placeholder="Tapez votre commentaire..."/>
+          </div>
+          <div class="commentaires">
+            <div class="commentaire" id="list-comments-{{ ressourceId }}">
 
-      <ul id="comments-box" class="comments-list">
-
-      </ul>
-
-
-    </section>
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-
-    var xhr = new XMLHttpRequest();
-    //On récupère la box dans laquelle on mettra les commentaires
-
-    let commentsBox = document.querySelector('#comments-box');
-
-    //On récupère l'id de la ressource
-
-    let ressourceId = document.querySelector('#ressource-id').value;
-
-    let commentsText = document.querySelector('#comments-text');
-
-
-
-    const requestParams = {
-      "idRessource" : ressourceId
-    }
-
-    ajaxRequestGetRessourceComments(xhr,requestParams, commentsBox);
-
-    commentsText.addEventListener('keypress', function(e){
-      if(e.key === "Enter"){
-        const requestParamsAddComments = {
-          "idRessource" : ressourceId,
-          "comments": commentsText.value
-        }
-        addNewComments(xhr, requestParamsAddComments, commentsBox);
-        commentsText.value = ""
-      }
-    })
-
-
-  });
-
-  function ajaxRequestGetRessourceComments(xhr, requestParams, commentsBox){
-
-    xhr.open('POST', '{{ path('get_comments') }}', true);
-    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-    xhr.onreadystatechange = function() { //Appelle une fonction au changement d'état.
-      if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-
-        let data = xhr.response;
-        loadData(data, commentsBox);
-      }
-    }
-    xhr.responseType = 'json';
-    xhr.send(JSON.stringify(requestParams));
-  }
-
-
-  function loadData(data, commentsBox){
-
-    for (let i = 0; i < data.length; i++) {
-      let eachComment = document.createElement("li");
-      eachComment.setAttribute('class', 'comment mt-2')
-      eachComment.innerHTML = `<a class="pull-left" href="javascript:void(0);">
-              <img class="avatar rounded-circle" src="https://bootdey.com/img/Content/avatar/avatar1.png" style="width: 5%"alt="avatar">
-            </a>
-            <h5 class="user a">${data[i].user.firstName} ${data[i].user.lastName}  a commenté</h5><a href="#"><i class="fas fa-reply ml-2"></i></a>
-             {#<p class="time">#}
-             {#                               {% if comments.updatedAt is not null %}#}
-             {#                                   {{ comments.updatedAt|date('Y-m-d H:i:s')  }}#}
-             {#                               {% else %}#}
-             {#                                   {{ comments.createdAt|date('Y-m-d H:i:s')  }}#}
-             {#                               {% endif %}#}
-             {#                           </p>#}
-            <div class="comment-body">
-              <div>
-                <p>${data[i].contenu}</p>
-              </div>
             </div>
-          `;
+          </div>
+        </div>
+      </div>
+      {% if app.user.id is same as (article.user.id) %}
+      <div class="d-flex flex-column flex-lg-row">
+        <a class="btn btn-indigo mr-0 ml-0 mt-1 mb-1 w-100" href="{{ path('articles_index') }}">Retour</a>
+        <a class="btn btn-warning mr-lg-1 ml-lg-1 mr-0 ml-0 mt-1 mb-1 w-100" href="{{ path('articles_edit', {'id': article.id}) }}">Modifier</a>
+        {{ include('articles/_delete_form.html.twig') }}
+      </div>
+    {% else %}
+      <div class="d-flex flex-column flex-lg-row">
+        <a class=""btn btn-indigo mr-0 ml-0 mt-1 mb-1 w-100" href="{{ path('news_feed') }}">Retour</a><br/>
+      </div>
+    {% endif %}
+     
+    </div>
 
-      commentsBox.appendChild(eachComment);
-    }
-  }
+</div>
+    <script>
+      let buttonComment = document.querySelector('.comments-link');
+      let blockCommentFav = document.querySelector('.block-comments-fav');
 
-  function addNewComments(xhr, requestParams, commentsBox){
 
-    xhr.open('POST', '{{ path('new_comments') }}', true);
-    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-    xhr.onreadystatechange = function() { //Appelle une fonction au changement d'état.
-      if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-        commentsBox.innerHTML = '';
-        let data = xhr.response;
-        loadData(data, commentsBox);
+
+
+      buttonComment.addEventListener('click', function(e){
+        let idRessource = this.id.split('-');
+        id = parseInt(idRessource[2]);
+        getRessourceComment(id);
+      })
+
+      blockCommentFav.addEventListener('keypress', function(e){
+        let idRessource = this.id.split('-');
+        id = parseInt(idRessource[2]);
+        sendComments(e, id);
+      })
+
+      function getRessourceComment(id) {
+        // Recup ID Ressource
+        let idRessource = id;
+
+        //Recup bloc ressources
+        let blocCommentOfRessource = document.querySelector('#block-comments-' + id);
+
+
+
+        // Recup bloc contains list of comments
+
+        let listCommentsOfCurrentRessource = document.querySelector('#list-comments-' + id);
+
+        if (blocCommentOfRessource.style.display === "block") {
+          blocCommentOfRessource.style.display = "none";
+        } else {
+          blocCommentOfRessource.style.display = "block";
+        }
+
+        const requestParams = {
+          "idRessource": idRessource
+        }
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', '{{ path('get_comments') }}', true);
+        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        xhr.onreadystatechange = function () { //Appelle une fonction au changement d'état.
+          if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+
+            let data = xhr.response;
+
+            loadData(data, listCommentsOfCurrentRessource);
+          }
+        }
+        xhr.responseType = 'json';
+        xhr.send(JSON.stringify(requestParams));
       }
-    }
-    xhr.responseType = 'json';
-    xhr.send(JSON.stringify(requestParams));
+      function sendComments(event, id){
 
 
-  }
-</script>
+        let inputComments = document.querySelector('#textarea-comments-'+id);
+        let listCommentsOfCurrentRessource = document.querySelector('#list-comments-'+id);
+
+        const requestParamsAddComments = {
+          "idRessource" : id,
+          "comments": inputComments.value
+        }
+
+        const xhr = new XMLHttpRequest();
+
+        if(event.key === "Enter"){
+
+          xhr.open('POST', '{{ path('new_comments') }}', true);
+          xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+          xhr.onreadystatechange = function() { //Appelle une fonction au changement d'état.
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+              inputComments.value = "";
+              listCommentsOfCurrentRessource.innerHTML = '';
+              let data = xhr.response;
+              loadData(data, listCommentsOfCurrentRessource);
+            }
+          }
+          xhr.responseType = 'json';
+          xhr.send(JSON.stringify(requestParamsAddComments));
+
+        }
+
+      }
+      function loadData(data, commentsBox){
+        commentsBox.innerHTML = "";
+        for (let i = 0; i < data.length; i++) {
+          let eachComment = document.createElement("div");
+          let date = new Date(data[i].date.date)
+          date = date.toISOString().replace(/T/, ' ').replace(/\..+/, '');
+          eachComment.setAttribute('class', 'd-flex')
+          eachComment.innerHTML = ` <div class="mr-2" style="height: 100%; vertical-align: middle;">
+                                            <img class="rounded-circle" width="25" src="/images/vichFiles/${data[i].user.avatar}" alt="">
+                                        </div>
+                                        <div class="text-commentaire d-flex flex-column justify-content-between" style="width: 100%;">
+                                            <div class="ml-2 d-flex">
+                                                <div class="h5 m-0">${data[i].user.firstName} ${data[i].user.lastName} </div>
+                                                <div id="Created" class="text-muted h7" style="margin: 5px;"><i class="far fa-clock mr-1"></i>${date}</div>
+                                            </div>
+                                            <div style="width: 100%; vertical-align: middle;">
+                                                <p>${data[i].contenu}</p>
+                                            </div>
+                                        </div>
+          `;
+          commentsBox.appendChild(eachComment);
+        }
+      }
+    </script>
   {% block javascript %}{% endblock %}
 
   {% else %}
