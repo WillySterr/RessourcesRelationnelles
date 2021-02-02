@@ -199,9 +199,8 @@
                 idTri: []
             }
             let id, commentBox;
-            let checkUserCo = document.querySelector('#currentUser').value;
 
-            sendFilters(requestParams, ressourcesBox, checkUserCo);
+            sendFilters(requestParams, ressourcesBox);
 
                     /* Set the width of the side navigation to 250px */
             document.querySelector("#triButton").addEventListener('click', function(){
@@ -253,7 +252,7 @@
                         requestParams.idTri.push(idTri);
 
                     }
-                    sendFilters(requestParams, ressourcesBox, checkUserCo)
+                    sendFilters(requestParams, ressourcesBox)
             });
 
 
@@ -271,7 +270,7 @@
            requestParams.idCheck = [...requestParams.idCheck, idCheck]
 
             }
-            sendFilters(requestParams, ressourcesBox, checkUserCo);
+            sendFilters(requestParams, ressourcesBox);
 
         }));
 
@@ -281,7 +280,8 @@
 
 
     // ENVOIE DE FILTRES
-        function sendFilters(requestParams, ressourcesBox, checkUserCo){
+        function sendFilters(requestParams, ressourcesBox){
+            let checkUserCo = document.querySelector('#currentUser').value;
             const xhr = new XMLHttpRequest();
             xhr.open('POST', '{{ path('filtre')}}', true);
             xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
@@ -737,9 +737,7 @@
             xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
             xhr.onreadystatechange = function() { //Appelle une fonction au changement d'état.
                 if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-                    if(xhr.response === true){
-                        sendFilters(requestParams, ressourcesBox, checkUserCo)
-                    }
+                        sendFilters(requestParams, ressourcesBox)
                 }
             }
             xhr.responseType = 'json';
@@ -757,9 +755,7 @@
             xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
             xhr.onreadystatechange = function() { //Appelle une fonction au changement d'état.
                 if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-                    if(xhr.response === true){
-                        sendFilters(requestParams, ressourcesBox, checkUserCo)
-                    }
+                        sendFilters(requestParams, ressourcesBox)
                 }
             }
             xhr.responseType = 'json';
