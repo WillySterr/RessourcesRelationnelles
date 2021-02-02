@@ -95,7 +95,6 @@ class UsersController extends AbstractController
             "favs" => $favs
         ]);
     }
-
     /**
      * @Route("/{id}/userandco_delete", name="userandco_delete", methods={"GET", "DELETE"})
      */

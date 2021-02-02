@@ -206,7 +206,7 @@ class NewsFeedController extends AbstractController
         }
         //Si il y'a rien
         else {
-            $ressourcesFilters = $ressources->findAll();
+            $ressourcesFilters = $ressources->getAllNewsFeed();
         };
 
         //

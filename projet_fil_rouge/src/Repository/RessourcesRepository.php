@@ -24,6 +24,7 @@ class RessourcesRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('r')
             ->addOrderBy('r.createdAt', 'DESC')
             ->addOrderBy('r.updatedAt', 'DESC')
+            ->andWhere('r.published = 1')
             ->getQuery()
             ->getResult();
     }
@@ -46,7 +47,8 @@ class RessourcesRepository extends ServiceEntityRepository
             ->createQuery(
                 'SELECT e
                 FROM App:Ressources e
-                WHERE e.title LIKE :str'
+                WHERE e.title LIKE :str AND e.published = 1
+                '
             )
             ->setParameter('str', '%' . $str . '%')
             ->setMaxResults(8)
@@ -60,7 +62,7 @@ class RessourcesRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('r')
             ->orderBy('r.updatedAt', 'DESC')
             ->addOrderBy('r.createdAt', 'DESC')
-
+            ->andWhere('r.published = 1')
             ->getQuery()
             ->getResult();
     }
@@ -69,6 +71,7 @@ class RessourcesRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('r')
             ->orderBy('r.updatedAt', 'ASC')
             ->addOrderBy('r.createdAt', 'ASC')
+            ->andWhere('r.published = 1')
             ->getQuery()
             ->getResult();
     }
@@ -77,7 +80,7 @@ class RessourcesRepository extends ServiceEntityRepository
         $em = $this->getEntityManager();
 
         $queryText  = "SELECT s FROM App:Ressources s ";
-        $queryText .= "WHERE :category MEMBER OF s.category";
+        $queryText .= "WHERE :category MEMBER OF s.category AND s.published = 1";
 
         $query = $em->createQuery($queryText);
         $query->setParameter('category', $cat);
@@ -91,6 +94,7 @@ class RessourcesRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('c')
             ->andWhere(':category MEMBER OF c.category')
+            ->andWhere('c.published = 1')
             ->setParameter('category', $cat)
             ->orderBy('c.updatedAt', 'ASC')
             ->addOrderBy('c.createdAt', 'ASC')
@@ -104,6 +108,7 @@ class RessourcesRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('c')
             ->andWhere(':category MEMBER OF c.category')
+            ->andWhere('c.published = 1')
             ->setParameter('category', $cat)
             ->orderBy('c.updatedAt', 'DESC')
             ->addOrderBy('c.createdAt', 'DESC')

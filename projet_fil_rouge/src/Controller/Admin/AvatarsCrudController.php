@@ -25,18 +25,16 @@ class AvatarsCrudController extends AbstractCrudController
     {
         return Avatars::class;
     }
-
     
     public function configureFields(string $pageName): iterable
     {
         return [
             IdField::new('id')->hideOnForm(),
-            ImageField::new('avatarIcon')->setBasePath('/images/vichFiles')->hideOnForm(),
+            ImageField::new('avatarIcon', "Avatar icône")->setBasePath('/images/vichFiles')->hideOnForm(),
             TextField::new('avatarsFile')->setFormType(VichImageType::class)->hideOnIndex(),
-            DateTimeField::new('createdAt')->hideOnForm(),
-            DateTimeField::new('updatedAt')->hideOnForm(),
+            DateTimeField::new('createdAt', 'Date de création')->hideOnForm(),
+            DateTimeField::new('updatedAt', 'Date de modification')->hideOnForm(),
 
         ];
     }
-    
 }

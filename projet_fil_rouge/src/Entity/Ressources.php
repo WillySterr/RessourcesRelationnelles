@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiSubresource;
 use App\Repository\RessourcesRepository;
 use DateTime;
@@ -10,6 +11,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 
 
 
@@ -21,6 +23,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *           "ressource_get_comments" = {"path" = "/ressources/{id}/comments"}
  *     },
  *     )
+ * @ApiFilter(BooleanFilter::class, properties={"published"})
  */
 class Ressources
 {
