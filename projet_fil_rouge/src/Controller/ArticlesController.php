@@ -7,6 +7,7 @@ use App\Entity\Ressources;
 use App\Form\ArticlesType;
 use App\Repository\ArticlesRepository;
 use App\Repository\CommentsRepository;
+use App\Repository\FavorisRepository;
 use App\Repository\RessourcesRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -110,7 +111,7 @@ class ArticlesController extends AbstractController
     /**
      * @Route("/{id}", name="articles_show", methods={"GET"})
      */
-    public function show($id, Articles $article, RessourcesRepository $ressourcesRepository, CommentsRepository $commentsRepository): Response
+    public function show($id, Articles $article, RessourcesRepository $ressourcesRepository, CommentsRepository $commentsRepository, Security $security, FavorisRepository $favorisRepository): Response
     {
 
         //Récupérer la ressource
@@ -121,11 +122,15 @@ class ArticlesController extends AbstractController
 
         $comments = $commentsRepository->findBy(["ressource" => $ressource->getId()]);
 
+        $userCo = $security->getUser();
+        $favoList = $favorisRepository->findByUser($userCo);
+
 
         return $this->render('articles/show.html.twig', [
             'article' => $article,
             'comments' => $comments,
-            'ressourceId' => $ressource->getId()
+            'ressourceId' => $ressource->getId(),
+            "favoList" => $favoList
         ]);
     }
 

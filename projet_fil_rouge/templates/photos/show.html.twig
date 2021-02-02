@@ -6,7 +6,7 @@
 {% endblock %}
 {% block body %}
 <div class="container py-5">
-  {% if app.user.id is same as (photo.user.id) or photo.published == true %}
+  {% if app.user and app.user.id is same as (photo.user.id) or photo.published == true %}
 
   <input id="ressource-id" type="hidden" value="{{ ressourceId }}">
     <div class="col-sm-12 col-md-6 mb-2 m-auto">
@@ -22,6 +22,46 @@
                 <div id="Created" class="text-muted h7"> <i class="far fa-clock mr-1"></i> {{ photo.createdAt|format_datetime('short', 'short', locale='fr') }}</div>
               </div>
           </div>
+            {% if app.user %}
+
+            {% set flag, favId = 0, 0 %}
+
+
+            {% if favoList is empty %}
+
+              {% set flag = 0 %}
+
+            {% else %}
+
+              {% for fav in favoList %}
+
+                {% if (fav.ressource.id) == (ressourceId) %}
+
+                  {% set favId = fav.id %}
+                  {% set flag = 1 %}
+
+                {% elseif (fav.ressource.id) == (ressourceId) and flag != 1 %}
+
+                  {% set flag = 0 %}
+
+                {% endif %}
+
+
+              {% endfor %}
+
+
+            {% endif %}
+
+
+
+            {% if flag == 0 %}
+              <a href="{{ path('add_favoris', {'id': ressourceId}) }}"><i class="far fa-star fa-lg ml-5"></i></a>
+            {% else %}
+              <a href="{{ path('remove_favoris', {'id': favId}) }}"><i class="fas fa-star fa-lg ml-5"></i></a>
+            {% endif %}
+
+            {% endif %}
+
           </div>
         </div>
         <div class="card-body d-flex flex-column justify-content-between">
@@ -49,7 +89,9 @@
 
           <div id="block-comments-{{ ressourceId }}" style="display: none; color:#FFF;">
             <div class="d-flex justify-content-between">
+              {% if app.user %}
               <input type="text" class="form-control block-comments-fav" id="textarea-comments-{{ ressourceId }}" placeholder="Tapez votre commentaire..."/>
+              {% endif %}
             </div>
             <div class="commentaires">
               <div class="commentaire" id="list-comments-{{ ressourceId }}">
@@ -59,7 +101,7 @@
           </div>
         </div>
         
-      {% if app.user.id is same as (photo.user.id) %}
+      {% if app.user and app.user.id is same as (photo.user.id) %}
          <div class="d-flex flex-column flex-lg-row">
         <a class="btn btn-indigo mr-0 ml-0 mt-1 mb-1 w-100" href="{{ path('photos_index') }}">Retour</a>
           <a class="btn btn-warning mr-lg-1 ml-lg-1 mr-0 ml-0 mt-1 mb-1 w-100" href="{{ path('photos_edit', {'id': photo.id}) }}">Modifier</a>

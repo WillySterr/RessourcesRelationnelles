@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Informations;
 use App\Form\InformationsType;
+use App\Repository\FavorisRepository;
 use App\Repository\InformationsRepository;
 use App\Repository\RessourcesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -70,12 +71,18 @@ class InformationsController extends AbstractController
     /**
      * @Route("/{id}", name="informations_show", methods={"GET"})
      */
-    public function show($id, Informations $information, RessourcesRepository $ressourcesRepository): Response
+    public function show($id, Informations $information, RessourcesRepository $ressourcesRepository, Security $security, FavorisRepository $favorisRepository): Response
     {
         $ressource = $ressourcesRepository->findOneBy(["information" => $id]);
+
+        $userCo = $security->getUser();
+        $favoList = $favorisRepository->findByUser($userCo);
+
+
         return $this->render('informations/show.html.twig', [
             'information' => $information,
-            'ressourceId' => $ressource->getId()
+            'ressourceId' => $ressource->getId(),
+            'favoList' => $favoList
         ]);
     }
 

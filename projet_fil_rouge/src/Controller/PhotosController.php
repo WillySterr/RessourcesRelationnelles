@@ -4,12 +4,12 @@ namespace App\Controller;
 
 use App\Entity\Photos;
 use App\Form\PhotosType;
+use App\Repository\FavorisRepository;
 use App\Repository\PhotosRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Entity\Users;
 use Symfony\Component\Security\Core\Security;
 use App\Repository\UsersRepository;
 use App\Repository\RessourcesRepository;
@@ -100,14 +100,19 @@ class PhotosController extends AbstractController
     /**
      * @Route("/{id}", name="photos_show", methods={"GET"})
      */
-    public function show($id, Photos $photo, RessourcesRepository $ressourcesRepository): Response
+    public function show($id, Photos $photo, RessourcesRepository $ressourcesRepository, Security $security, FavorisRepository $favorisRepository): Response
     {
 
         $ressource = $ressourcesRepository->findOneBy(["photo" => $id]);
 
+        $userCo = $security->getUser();
+        $favoList = $favorisRepository->findByUser($userCo);
+
+
         return $this->render('photos/show.html.twig', [
             'photo' => $photo,
-            'ressourceId' => $ressource->getId()
+            'ressourceId' => $ressource->getId(),
+            'favoList' => $favoList,
         ]);
     }
 
