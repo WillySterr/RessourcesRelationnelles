@@ -67,15 +67,23 @@ class Users implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Regex(
+     *      pattern="/^((\+)33|0|0033)[1-9](\d{2}){4}$/",
+     *      message="Veuillez renseigner un numéto de téléphone valide."
+     * )
      * @Assert\NotNull
-	 * @Assert\NotBlank
+	   * @Assert\NotBlank
      */
     private $phone;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\Regex(
+     *      pattern="/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$/",
+     *      message="Votre mot de passe doit contenir au moins 10 caractères, une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial. "
+     * )
      * @Assert\NotNull
-	 * @Assert\NotBlank
+	  * @Assert\NotBlank
      */
     private $password;
 
