@@ -1,14 +1,16 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}evenement{% endblock %}
-
+{% block stylesheets %}
+  <link rel="stylesheet" href="{{ asset('css/show.css') }}">
+{% endblock %}
 {% block body %}
-
+<div class="container py-5">
   {% if app.user.id is same as (evenement.user.id) or evenement.published == true %}
 
   <input id="ressource-id" type="hidden" value="{{ ressourceId }}">
 
-    <div class="col-sm-12 col-md-6 mb-2">
+    <div class="col-sm-12 col-md-6 mb-2 m-auto">
       <div class="card">
         <div class="card-header">
           <div class="d-flex justify-content-between align-items-center">
@@ -43,7 +45,7 @@
         </div>
         <div class="card-footer">
 
-          <button id="button-comments-{{ ressourceId }}" class="btn btn-primary comments-link"><i class="far fa-comment"></i> Comment</button>
+          <button id="button-comments-{{ ressourceId }}" class="btn comments-link" style="background-color: #1b2838"><i class="far fa-comment"></i> Comment</button>
 
           <div id="block-comments-{{ ressourceId }}" style="display: none; color:#FFF;">
             <div class="d-flex justify-content-between">
@@ -56,13 +58,16 @@
             </div>
           </div>
         </div>
+        <div class="d-flex flex-column flex-lg-row">
+          <a class="btn btn-indigo mr-0 ml-0 mt-1 mb-1 w-100" href="{{ path('evenements_index') }}">Retour</a>
+          <a class="btn btn-warning mr-lg-1 ml-lg-1 mr-0 ml-0 mt-1 mb-1 w-100" href="{{ path('evenements_edit', {'id': evenement.id}) }}">Modifier</a>
+          {{ include('evenements/_delete_form.html.twig') }}
+        </div>
       </div>
+
     </div>
-    <div class="d-flex">
-      <a class="btn btn-indigo" href="{{ path('evenements_index') }}">Retour</a><br/>
-      <a class="btn btn-deep-orange" href="{{ path('evenements_edit', {'id': evenement.id}) }}">Modifier</a>
-      {{ include('evenements/_delete_form.html.twig') }}
-    </div>
+
+</div>
     <script>
       let buttonComment = document.querySelector('.comments-link');
       let blockCommentFav = document.querySelector('.block-comments-fav');

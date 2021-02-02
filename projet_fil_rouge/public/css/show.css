@@ -1,0 +1,9 @@
+.card-body{
+    height: 40rem;
+}
+
+@media screen and (min-width:769px){
+    .flex-lg-row{
+        flex-direction:row!important
+    }
+}
