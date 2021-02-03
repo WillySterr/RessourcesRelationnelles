@@ -627,6 +627,114 @@
 
                 let eachArticle = document.createElement("div");
                 eachArticle.setAttribute('class', 'col-sm-12 col-md-6 mb-2');
+
+
+                if(data[i].article.photo && !data[i].article.video){
+                    eachArticle.innerHTML = `<div class="card">
+                        <div class="card-header">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="mr-2">
+                                        <img class="rounded-circle" width="45" src="/images/vichFiles/${data[i].user.avatarIcon}" alt="">
+                                    </div>
+                                    <div class="ml-2">
+                                        <div class="h5 m-0">${data[i].user.firstName} ${data[i].user.lastName}</div>
+                                        <div id="Created" class="text-muted h7"> <i class="far fa-clock mr-1"></i>${date}</div>
+                                    </div>
+                                </div>
+                                <div>
+                                    ${checkFav}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body d-flex flex-column justify-content-between">
+                            <div class="title-description">
+                                <a class="card-link" href="#">
+                                    <h5 class="card-title">${data[i].article.titre}</h5>
+                                </a>
+                                <p class="card-text">
+                                    ${data[i].article.description}
+                                </p>
+                            </div>
+                            <div class="img-video">
+                                <img src="/images/vichFiles/${data[i].article.photo}" class="card-img img-fluid" alt="test">
+                            </div>
+
+                                ${categoryOfRessource}
+
+                        </div>
+                        <div class="card-footer">
+
+                            <button class="btn btn-primary comments-link" id="1" onclick="getRessourceComment(${data[i].id});"><i class="far fa-comment"></i> Comment</button>
+
+                            <div id="block-comments-${data[i].id}" style="display: none; color:#FFF;">
+                                <div class="d-flex justify-content-between">
+                                     <input type="text" class="form-control" onkeypress="sendComments(event, ${data[i].id})" id="textarea-comments-${data[i].id}" placeholder="Tapez votre commentaire..."/>
+                                </div>
+                                <div class="commentaires">
+                                    <div class="commentaire" id="list-comments-${data[i].id}">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`
+                }
+                else if(!data[i].article.photo && data[i].article.video){
+                    eachArticle.innerHTML = `<div class="card">
+                        <div class="card-header">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="mr-2">
+                                        <img class="rounded-circle" width="45" src="/images/vichFiles/${data[i].user.avatarIcon}" alt="">
+                                    </div>
+                                    <div class="ml-2">
+                                        <div class="h5 m-0">${data[i].user.firstName} ${data[i].user.lastName}</div>
+                                        <div id="Created" class="text-muted h7"> <i class="far fa-clock mr-1"></i>${date}</div>
+                                    </div>
+                                </div>
+                                <div>
+                                    ${checkFav}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body d-flex flex-column justify-content-between">
+                            <div class="title-description">
+                                <a class="card-link" href="#">
+                                    <h5 class="card-title">${data[i].article.titre}</h5>
+                                </a>
+                                <p class="card-text">
+                                    ${data[i].article.description}
+                                </p>
+                            </div>
+                            <div class="img-video">
+                                <video class="card-img img-fluid" width="500" height="360" controls>
+                                    <source src="/images/vichFiles/${data[i].article.video}" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                            </div>
+
+                                ${categoryOfRessource}
+
+                        </div>
+                        <div class="card-footer">
+
+                            <button class="btn btn-primary comments-link" id="1" onclick="getRessourceComment(${data[i].id});"><i class="far fa-comment"></i> Comment</button>
+
+                            <div id="block-comments-${data[i].id}" style="display: none; color:#FFF;">
+                                <div class="d-flex justify-content-between">
+                                     <input type="text" class="form-control" onkeypress="sendComments(event, ${data[i].id})" id="textarea-comments-${data[i].id}" placeholder="Tapez votre commentaire..."/>
+                                </div>
+                                <div class="commentaires">
+                                    <div class="commentaire" id="list-comments-${data[i].id}">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`
+                }
+                else if(data[i].article.photo && data[i].article.video){
                     eachArticle.innerHTML = `<div class="card">
                         <div class="card-header">
                             <div class="d-flex justify-content-between align-items-center">
@@ -680,6 +788,58 @@
                             </div>
                         </div>
                     </div>`
+                }
+                else{
+                    eachArticle.innerHTML = `<div class="card">
+                        <div class="card-header">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="mr-2">
+                                        <img class="rounded-circle" width="45" src="/images/vichFiles/${data[i].user.avatarIcon}" alt="">
+                                    </div>
+                                    <div class="ml-2">
+                                        <div class="h5 m-0">${data[i].user.firstName} ${data[i].user.lastName}</div>
+                                        <div id="Created" class="text-muted h7"> <i class="far fa-clock mr-1"></i>${date}</div>
+                                    </div>
+                                </div>
+                                <div>
+                                    ${checkFav}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body d-flex flex-column justify-content-between">
+                            <div class="title-description">
+                                <a class="card-link" href="#">
+                                    <h5 class="card-title">${data[i].article.titre}</h5>
+                                </a>
+                                <p class="card-text">
+                                    ${data[i].article.description}
+                                </p>
+                            </div>
+
+                                ${categoryOfRessource}
+
+                        </div>
+                        <div class="card-footer">
+
+                            <button class="btn btn-primary comments-link" id="1" onclick="getRessourceComment(${data[i].id});"><i class="far fa-comment"></i> Comment</button>
+
+                            <div id="block-comments-${data[i].id}" style="display: none; color:#FFF;">
+                                <div class="d-flex justify-content-between">
+                                     <input type="text" class="form-control" onkeypress="sendComments(event, ${data[i].id})" id="textarea-comments-${data[i].id}" placeholder="Tapez votre commentaire..."/>
+                                </div>
+                                <div class="commentaires">
+                                    <div class="commentaire" id="list-comments-${data[i].id}">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`
+                }
+
+
+
              ressourcesBox.appendChild(eachArticle);
             }
             }
