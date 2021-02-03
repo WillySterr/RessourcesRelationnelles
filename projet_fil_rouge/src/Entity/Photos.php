@@ -68,7 +68,6 @@ class Photos
     /**
      * @var Datetime
      * @ORM\Column(type="datetime")
-     * @Assert\DateTime
      */
     private $createdAt;
 

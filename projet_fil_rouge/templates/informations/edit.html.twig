@@ -18,5 +18,28 @@
 
     {% endif %}
 
+    <script>
+        let btnDelete = document.querySelector('#btn-delete-form');
+
+        if(document.body.clientWidth < 769){
+            btnDelete.classList.add('w-100');
+        }
+        else{
+            btnDelete.classList.remove('w-100');
+        }
+
+
+        window.addEventListener('resize', function(){
+
+            if(document.body.clientWidth < 769){
+                btnDelete.classList.add('w-100');
+            }
+            else{
+                btnDelete.classList.remove('w-100');
+            }
+        })
+
+    </script>
+
     {% endblock %}
 
