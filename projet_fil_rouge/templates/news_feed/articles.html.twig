@@ -60,6 +60,22 @@
                 {{ new.ressource.article.description }}
             </p>
         </div>
+
+
+            {% if new.ressource.article.photo and new.ressource.article.video is null %}
+        <div class="img-video">
+            <img src="{{ asset('/images/vichFiles/'~new.ressource.article.photo) }}" class="card-img img-fluid" alt="test">
+        </div>
+            {% elseif (new.ressource.article.photo is null and new.ressource.article.video) %}
+        <div class="img-video">
+            <video class="card-img img-fluid" width="500" height="360" controls>
+                <source src="{{ asset('/images/vichFiles/'~new.ressource.article.video) }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+            {% elseif (new.ressource.article.photo is null and new.ressource.article.video is null) %}
+
+            {% else %}
         <div class="img-video">
             <img src="{{ asset('/images/vichFiles/'~new.ressource.article.photo) }}" class="card-img img-fluid" alt="test">
             <video class="card-img img-fluid" width="500" height="360" controls>
@@ -67,6 +83,9 @@
                 Your browser does not support the video tag.
             </video>
         </div>
+            {% endif %}
+
+
 
         <div class="category">
             {% for category in new.ressource.category %}

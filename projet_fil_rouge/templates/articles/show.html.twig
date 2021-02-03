@@ -76,13 +76,30 @@
             {{ article.description }}
           </p>
         </div>
-        <div class="img-video">
-          <img src="{{ asset('/images/vichFiles/'~article.photo) }}" class="card-img img-fluid" alt="test">
-          <video class="card-img img-fluid" width="500" height="360" controls>
-            <source src="{{ asset('/images/vichFiles/'~article.video) }}" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-        </div>
+
+
+        {% if article.photo and article.video is null %}
+          <div class="img-video">
+            <img src="{{ asset('/images/vichFiles/'~article.photo) }}" class="card-img img-fluid" alt="test">
+          </div>
+        {% elseif (article.photo is null and article.video) %}
+          <div class="img-video">
+            <video class="card-img img-fluid" width="500" height="360" controls>
+              <source src="{{ asset('/images/vichFiles/'~article.video) }}" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        {% elseif (article.photo is null and article.video is null) %}
+
+        {% else %}
+          <div class="img-video">
+            <img src="{{ asset('/images/vichFiles/'~article.photo) }}" class="card-img img-fluid" alt="test">
+            <video class="card-img img-fluid" width="500" height="360" controls>
+              <source src="{{ asset('/images/vichFiles/'~article.video) }}" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        {% endif %}
 
         <div class="category">
           {% for category in article.category %}
