@@ -210,7 +210,7 @@ class UsersController extends AbstractController
             if ($responseData->success && filter_var($mailSup, FILTER_VALIDATE_EMAIL) && isset($mailSup) && isset($message) && strlen($message) > 10) {
                 $email = (new Email())
                     ->sender($mailSup)
-                    ->to('arnaudpadula5@gmail.com')
+                    ->to('girard.paul39@gmail.com')
                     ->subject('Demande de support Resources Relationnelles')
                     ->html('Email : ' . $mailSup . '<br/>' . 'Message : ' . $message);
                 $mailer->send($email);

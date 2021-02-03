@@ -384,16 +384,16 @@
             }else if(data[i].photo !== null){
 
                 let categoryOfRessource = '<div class="category">';
-                let checkFav = '<i ';
+                    let checkFav = '<i ';
                     if(checkUserCo){
                         if(data[i].favoriId){
                             checkFav += 'class="fas fa-star icone-link" onclick="removeFav('+data[i].favoriId+')">'
                         }
                         else{
-                            checkFav += 'class="far fa-sta icone-link" onclick="addFav('+data[i].id+')">'
+                            checkFav += 'class="far fa-star icone-link" onclick="addFav('+data[i].id+')">'
                         }
                     }
-                checkFav += '</i>';
+                    checkFav += '</i>';
                 let date = new Date(data[i].datePubli.date)
                 date = date.toISOString().replace(/T/, ' ').replace(/\..+/, '');
 
