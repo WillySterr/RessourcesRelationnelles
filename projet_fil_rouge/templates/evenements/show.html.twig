@@ -66,10 +66,8 @@
         </div>
         <div class="card-body d-flex flex-column justify-content-between">
           <div class="title-description">
-            <div id="DateEvent" class="text-muted h7 mb-2"> <i class="far fa-clock"></i>l'Evenement se déroulera du {{ evenement.dateDebut|format_datetime('short', 'none', locale='fr') }} à {{ evenement.heureDebut|format_datetime('none', 'short', locale='fr') }} et se terminera le {{ evenement.dateFin|format_datetime('short', 'none', locale='fr') }} à {{ evenement.heureFin|format_datetime('none', 'short', locale='fr') }}</div>
-            <a class="card-link" href="#">
+            <div id="DateEvent" class="text-muted h7 mb-2"> <i class="far fa-clock mr-1"></i>L'évènement se déroulera du {{ evenement.dateDebut|format_datetime('short', 'none', locale='fr') }} à {{ evenement.heureDebut|format_datetime('none', 'short', locale='fr') }} et se terminera le {{ evenement.dateFin|format_datetime('short', 'none', locale='fr') }} à {{ evenement.heureFin|format_datetime('none', 'short', locale='fr') }}</div>
               <h5 style="color: #007bff !important;" class="card-title">{{ evenement.titre }}</h5>
-            </a>
           </div>
           <div class="text">
             <p class="card-text">
