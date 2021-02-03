@@ -6,6 +6,7 @@ use App\Entity\Photos;
 use App\Form\PhotosType;
 use App\Repository\FavorisRepository;
 use App\Repository\PhotosRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -119,10 +120,11 @@ class PhotosController extends AbstractController
     /**
      * @Route("/{id}/edit", name="photos_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Photos $photo, RessourcesRepository $ressourcesRepository): Response
+    public function edit(Request $request, Photos $photo, RessourcesRepository $ressourcesRepository, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(PhotosType::class, $photo);
         $form->handleRequest($request);
+
 
         if ($form->isSubmitted() && $form->isValid()) {
 
@@ -164,7 +166,9 @@ class PhotosController extends AbstractController
             foreach ($photo->getCategory() as $cat) {
                 $ressource->addCategory($cat);
             };
-            $this->getDoctrine()->getManager()->flush();
+           $entityManager->persist($photo);
+           $entityManager->persist($ressource);
+           $entityManager->flush();
 
             return $this->redirectToRoute('photos_index');
         }
