@@ -67,7 +67,6 @@ class Evenements
      * @Assert\GreaterThan("today", message="La date demandée est antérieure à celle du jour")
      * @Assert\NotNull
 	 * @Assert\NotBlank
-     * @Assert\Date
      */
     private $dateDebut;
 
@@ -78,7 +77,6 @@ class Evenements
 	 *     "this.getDateDebut() < this.getDateFin()",
 	 *     message="La date fin ne doit pas être antérieure à la date début"
 	 * )
-     * @Assert\Date
      * @Assert\NotNull
 	 * @Assert\NotBlank
      */
@@ -87,7 +85,6 @@ class Evenements
     /**
      * @ORM\Column(type="time")
      * @Groups("fil_actu")
-     * @Assert\Time
      * @Assert\NotNull
 	 * @Assert\NotBlank
      */
@@ -96,7 +93,6 @@ class Evenements
     /**
      * @ORM\Column(type="time")
      * @Groups("fil_actu")
-     * @Assert\Time
      * @Assert\NotNull
 	 * @Assert\NotBlank
      */

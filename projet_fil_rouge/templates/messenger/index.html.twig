@@ -15,7 +15,7 @@
 
 
     <div class="container py-5 px-4">
-        <div class="row rounded-lg overflow-hidden shadow">
+        <div class="row rounded-lg overflow-hidden shadow" style="max-height: 40rem !important;">
             <input id="currentUserId" type="hidden" name="conversationId" value="{{ app.user.id }}">
             <!-- Users box-->
             <div class="col-12 col-lg-5 px-0">
@@ -35,8 +35,8 @@
                 </div>
             </div>
             <!-- Chat Box-->
-            <div class="col-12 col-lg-7 px-0">
-                <div id="blocMessages" class="px-4 py-5 chat-box bg-white">
+            <div class="col-12 col-lg-7 px-0 d-flex flex-column justify-content-between">
+                <div id="blocMessages" style="max-height: 30rem !important;" class="px-4 py-5 chat-box bg-white">
 
 
 
@@ -106,9 +106,9 @@
                     let data = xhr.response;
                     getConversations(data, date, blocConversations, blocMessages, formMessageId, xhr, currentUserId);
 
-                    /*  getConversationMessages(data, date, blocMessages, currentUserId);
-                      blocMessages.scroll(0,3000000);*/
-
+        /*              getConversationMessages(data, date, blocMessages, currentUserId);
+                      blocMessages.scroll(0,3000000);
+*/
 
                 }
             }
@@ -141,7 +141,9 @@
                                 getConversationMessages(data, date, blocMessages, currentUserId);
                                 messageText.value = "";
                                 blocMessages.scroll(0, 3000000);
+
                                 callConversation();
+
 
 
                             }
@@ -209,11 +211,29 @@
 
                 blocMessages.innerHTML = "";
                 // effacer la conversation
-                let conversationId = this.id.split('-');
-                let id = parseInt(conversationId[1]);
+                const conversationId = this.id.split('-');
+                const id = parseInt(conversationId[1]);
 
 
                 formMessageId.value = id;
+
+                function Interval(fn, time) {
+                    var timer = false;
+                    this.start = function () {
+                        if (!this.isRunning())
+                            timer = setInterval(fn, time);
+                    };
+                    this.stop = function () {
+                        clearInterval(timer);
+                        timer = false;
+                    };
+                    this.isRunning = function () {
+                        return timer !== false;
+                    };
+                }
+
+                var i = new Interval(refreshMessages, 3000);
+
 
 
                 xhr.open('POST', '{{ path('get_conversation_messages') }}', true);
@@ -222,9 +242,12 @@
                     if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
 
                         let data = xhr.response;
-
                         getConversationMessages(data, date, blocMessages, currentUserId);
                         blocMessages.scroll(0,3000000);
+                        if (i.isRunning()) {
+                            i.stop();
+                        }
+                        i.start();
 
 
                     }
@@ -233,34 +256,34 @@
                 xhr.send(id);
 
 
+
+
+
                 function refreshMessages(id, blocMessages, currentUserId, date){
 
-                    setInterval(function (){
                         xhr.open('POST', '{{ path('get_conversation_messages') }}', true);
                         xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-                        xhr.onreadystatechange = function() { //Appelle une fonction au changement d'état.
+                        xhr.onreadystatechange = function () {
                             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                                 blocMessages.innerHTML = "";
                                 let data = xhr.response;
 
                                 getConversationMessages(data, date, blocMessages, currentUserId);
-                                blocMessages.scroll(0,3000000);
 
 
                             }
+                            xhr.responseType = 'json';
+                            xhr.send(id);
                         }
-                        xhr.responseType = 'json';
-                        xhr.send(id);
-                    }, 2000)
 
                 }
 
-                refreshMessages(id, blocMessages, currentUserId, date);
             }))
         }
 
         function getConversationMessages(data, date, blocMessages, currentUserId){
             blocMessages.innerHTML = "";
+
 
             for (let i = 0; i < data.length; i++){
                 if(data[i].user.id === currentUserId){
