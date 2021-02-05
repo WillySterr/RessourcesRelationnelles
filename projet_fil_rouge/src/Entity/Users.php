@@ -82,6 +82,11 @@ class Users implements UserInterface
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\Regex(
+     *      pattern="/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$/",
+     *      message="Votre mot de passe doit contenir au moins 10 caractères, une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial. "
+     * )
+     *
      */
     private $password;
 
